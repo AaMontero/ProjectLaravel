@@ -11,14 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('paquetes', function (Blueprint $table) {
+        Schema::create('caracteristica_paquetes', function (Blueprint $table) {
             $table->id();
-            $table->string('message'); 
-            $table->string('nombre_paquete'); 
-            $table->unsignedInteger('num_dias');
-            $table->unsignedInteger('num_noches'); 
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete(); 
             $table->timestamps();
+            $table->foreignId('paquete_id')->constrained()->cascadeOnDelete(); 
+            $table->string('descripción'); 
         });
     }
 
@@ -27,7 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('paquetes');
+        Schema::dropIfExists('caracteristica_paquetes');
     }
-    
 };
