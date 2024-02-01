@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ControllerCalendar;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PaqueteController;
@@ -15,9 +16,9 @@ use App\Http\Controllers\PaqueteController;
 */
 
 
-//Route::post(); 
-//Route::put(); 
-//Route::delete(); 
+//Route::post();
+//Route::put();
+//Route::delete();
 
 
 //Middleware - Bloque de código que se ejecuta en el medio del enrutamiento
@@ -32,30 +33,33 @@ Route::middleware('auth')->group(function () {
         return view('welcome');
     });
     Route::get('/paquetes/{paquete}', function($paquete){
-        return ('Este es el paquete: '. $paquete); 
+        return ('Este es el paquete: '. $paquete);
     });
 
-    Route::get('/paquetes/{paquete}/edit', 
+    Route::get('/paquetes/{paquete}/edit',
     [PaqueteController::class, 'edit'])
     ->name('paquetes.edit');
 
     //Ruta a listar los paquetes
-    Route::get('/paquetes', 
+    Route::get('/paquetes',
     [PaqueteController::class,  'index'])
     ->name('paquetes.paquetes');
-    
-    //Ruta a agregar un paquete 
-    Route::post('/paquetes', 
+
+    //Ruta a agregar un paquete
+    Route::post('/paquetes',
     [PaqueteController::class , 'store'])
     ->name('paquetes.store');
 
     //Ruta a actualizar un paquete
     Route::put('paquetes/{paquete}',  [PaqueteController::class, 'update']  )
-    ->name("paquetes.update"); 
+    ->name("paquetes.update");
 
     // Ruta a eliminar un paquete
     Route::delete('paquetes/{paquete}',[PaqueteController::class, 'destroy'])
-    ->name('paquetes.destroy'); 
+    ->name('paquetes.destroy');
+
+    //Ruta para el calendario
+    Route::get('calendario/event',[ControllerCalendar::class, 'calendar']);
 });
 
 require __DIR__.'/auth.php';

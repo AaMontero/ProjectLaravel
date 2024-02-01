@@ -44,34 +44,46 @@
         <div class="mt-6 mr-6 ml-6 bg-white dark:bg-gray-800 shadow-sm rounded-lg divide-y dark:divide-gray-900">
             @foreach ($paquetes as $paquete)
                 <div class=" p-6 bg-transparent flex justify-between items-center bg-transparent">
-                    <div>
-                        <!-- Nombre del usuario -->
-                        <span class="font-semibold">{{ $paquete->user->name }}</span>
+                    <div class="p-6 flex space-x-2">
+                        <svg class="h-6 w-6 text-gray-600 dark:text-gray-400 -scale-x-100" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z"></path>
+                        </svg>
+                        <div class="flex-1">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <!-- Nombre del usuario -->
+                                    <span class="font-semibold">{{ $paquete->user->name }}</span>
 
-                        <!-- Indicador de edición si ha sido editado -->
-                        @if ($paquete->created_at != $paquete->updated_at)
-                            <small class="text-gray-500 dark:text-gray-400">{{ __('edited') }}</small>
-                        @endif
+                                    <!-- Indicador de edición si ha sido editado -->
+                                    @if ($paquete->created_at != $paquete->updated_at)
+                                        <small class="text-gray-500 dark:text-gray-400">{{ __('edited') }}</small>
+                                    @endif
 
-                        <!-- ID del usuario -->
-                        <p class="text-gray-600 dark:text-gray-300">User ID: {{ $paquete->user_id }}</p>
+                                    <!-- ID del usuario -->
+                                    <p class="text-gray-600 dark:text-gray-300">User ID: {{ $paquete->user_id }}</p>
 
-                        <p class="text-gray-800 dark:text-gray-200">Nombre del paquete: {{ $paquete->nombre_paquete }}</p>
-                        <!-- Mensaje del paquete -->
-                        <p class="text-gray-800 dark:text-gray-200">Descripcion: {{ $paquete->message }}</p>
-                        
-                        <p class="text-gray-800 dark:text-gray-200"> Numero de días: {{ $paquete->num_dias }}</p>
-                        
-                        <p class="text-gray-800 dark:text-gray-200"> Número de Noches: {{ $paquete->num_noches }}</p>
-                         
-                        
+                                    <p class="text-gray-800 dark:text-gray-200">Nombre del paquete: {{ $paquete->nombre_paquete }}</p>
+                                    <!-- Mensaje del paquete -->
+                                    <p class="text-gray-800 dark:text-gray-200">Descripcion: {{ $paquete->message }}</p>
 
-                        <!-- Fechas de creación y actualización -->
-                        <p class="text-gray-600 dark:text-gray-300">Created:
-                            {{ $paquete->created_at->format('Y-m-d') }}
-                        </p>
-                        <p class="text-gray-600 dark:text-gray-300">Updated:
-                            {{ $paquete->updated_at->format('Y-m-d') }}</p>
+                                    <p class="text-gray-800 dark:text-gray-200"> Numero de días: {{ $paquete->num_dias }}</p>
+
+                                    <p class="text-gray-800 dark:text-gray-200"> Número de Noches: {{ $paquete->num_noches }}</p>
+
+
+
+                                    <!-- Fechas de creación y actualización -->
+                                    <p class="text-gray-600 dark:text-gray-300">Created:
+                                        {{ $paquete->created_at->format('Y-m-d') }}
+                                    </p>
+                                    <p class="text-gray-600 dark:text-gray-300">Updated:
+                                        {{ $paquete->updated_at->format('Y-m-d') }}</p>
+                                </div>
+                            </div>
+
+                        </div>
+
+
                     </div>
 
                     <!-- Dropdown para acciones -->
