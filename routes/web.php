@@ -59,7 +59,8 @@ Route::middleware('auth')->group(function () {
     ->name('paquetes.destroy');
 
     //Ruta para el calendario
-    Route::get('calendario/event',[ControllerCalendar::class, 'calendar']);
+    Route::get('calendar',[ControllerCalendar::class, 'calendar']);
+    Route::get('Calendar/{mes}',[ControllerCalendar::class,'month']);
 });
 
 require __DIR__.'/auth.php';
