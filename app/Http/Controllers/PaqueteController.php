@@ -29,8 +29,11 @@ class PaqueteController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'message' =>['required', 'min:3', 'max:255'], 
-        ]); 
+            'message' => ['required', 'min:3', 'max:255'],
+            'nombre_paquete' => ['required', 'min:5', 'max:255'],
+            'num_dias' => ['required', 'integer', 'min:1'], 
+            'num_noches' => ['required', 'integer', 'min:1'],
+        ]);
 
         $request->user()->paquetes()->create($validated); 
         
