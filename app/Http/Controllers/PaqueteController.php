@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Paquete;
+use App\Models\CaracteristicaPaquete; 
 use Illuminate\Http\Request;
 
 class PaqueteController extends Controller
@@ -12,7 +13,9 @@ class PaqueteController extends Controller
      */
     public function index()
     {
-        return view('paquetes.paquetes', ["paquetes" => Paquete::with('user')->latest()->get()]);
+        return view('paquetes.paquetes', [
+            "paquetes" => Paquete::with('user', 'incluye')->latest()->get()
+        ]);
     }
 
     /**
@@ -33,6 +36,8 @@ class PaqueteController extends Controller
             'nombre_paquete' => ['required', 'min:5', 'max:255'],
             'num_dias' => ['required', 'integer', 'min:1'], 
             'num_noches' => ['required', 'integer', 'min:1'],
+            'precio_afiliado' => ['required', 'numeric', 'min:0.01', 'max:9999.99'],
+            'precio_no_afiliado' => ['required', 'numeric', 'min:0.01', 'max:9999.99'],
         ]);
 
         $request->user()->paquetes()->create($validated); 
@@ -63,7 +68,12 @@ class PaqueteController extends Controller
     public function update(Request $request, Paquete $paquete)
     {
         $validated = $request->validate([
-            'message' =>['required', 'min:3', 'max:255'], 
+            'message' => ['required', 'min:3', 'max:255'],
+            'nombre_paquete' => ['required', 'min:5', 'max:255'],
+            'num_dias' => ['required', 'integer', 'min:1'], 
+            'num_noches' => ['required', 'integer', 'min:1'], 
+            'precio_afiliado' => ['required', 'numeric', 'min:0.01', 'max:9999.99'],
+            'precio_no_afiliado' => ['required', 'numeric', 'min:0.01', 'max:9999.99'],
         ]);
         $paquete ->update($validated); 
         return to_route('paquetes.paquetes')

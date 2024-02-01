@@ -11,7 +11,7 @@ class Paquete extends Model
     use HasFactory;
 
     protected $fillable = [
-        'message', 'user_id', 'nombre_paquete', 'num_dias', 'num_noches'
+        'message', 'user_id', 'nombre_paquete', 'num_dias', 'num_noches', 'precio_afiliado' , 'precio_no_afiliado'
     ]; 
     public function user(): BelongsTo{
         return $this ->belongsTo(User::class); 

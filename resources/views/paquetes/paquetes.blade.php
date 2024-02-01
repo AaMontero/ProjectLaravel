@@ -12,28 +12,39 @@
                 <div id = " "class="p-6 text-gray-900 dark:text-gray-100">
                     <form method="POST" action = "{{ route('paquetes.store') }}">
                         @csrf
-                    <p class="mt-1 p-1 ml-4">Nombre del paquete:</p>
-                    <input type="text" name="nombre_paquete"
-                        class="block w-full rounded-md border-gray-300 bg-white shadow-sm transition-colors duration-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:focus:border-indigo-300 dark:focus:ring dark:focus:ring-indigo-200 dark:focus:ring-opacity-50"
-                        placeholder="{{ __('Put your message here') }}" value="{{ old('message') }}">
+                        <p class="mt-1 p-1 ml-4">Nombre del paquete:</p>
+                        <input type="text" name="nombre_paquete"
+                            class="block w-full rounded-md border-gray-300 bg-white shadow-sm transition-colors duration-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:focus:border-indigo-300 dark:focus:ring dark:focus:ring-indigo-200 dark:focus:ring-opacity-50"
+                            placeholder="{{ __('Put your message here') }}" value="{{ old('nombre_paquete') }}">
                         <br>
                         {{-- message --}}
-                    <p class="mt-1 p-1 ml-4">Descripción del paquete</p>
-                    <input type="text" name="message"
-                        class="block w-full rounded-md border-gray-300 bg-white shadow-sm transition-colors duration-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:focus:border-indigo-300 dark:focus:ring dark:focus:ring-indigo-200 dark:focus:ring-opacity-50"
-                        placeholder="{{ __('Put your message here') }}" value="{{ old('message') }}">
-                        <br>
-                    <p class="mt-1 p-1 ml-4">Número de días: </p>
-                    <input type="number" name="num_dias"
-                        class="block w-full rounded-md border-gray-300 bg-white shadow-sm transition-colors duration-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:focus:border-indigo-300 dark:focus:ring dark:focus:ring-indigo-200 dark:focus:ring-opacity-50"
-                        placeholder="{{ __('Put your message here') }}" value="{{ old('num_dias') }}">
-                        <br>
-                   <p class="mt-1 p-1 ml-4">Número de noches:</p>
-                    <input type="number" name="num_noches"
-                        class="block w-full rounded-md border-gray-300 bg-white shadow-sm transition-colors duration-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:focus:border-indigo-300 dark:focus:ring dark:focus:ring-indigo-200 dark:focus:ring-opacity-50"
-                        placeholder="{{ __('Put your message here') }}" value="{{ old('num_noches') }}">
-                    <p>Listado de caracteristicas</p>
+                        <p class="mt-1 p-1 ml-4">Descripción del paquete</p>
+                        <input type="text" name="message"
+                            class="block w-full rounded-md border-gray-300 bg-white shadow-sm transition-colors duration-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:focus:border-indigo-300 dark:focus:ring dark:focus:ring-indigo-200 dark:focus:ring-opacity-50"
+                            placeholder="{{ __('Put your message here') }}" value="{{ old('message') }}">
 
+                        <br>
+                        <p class="mt-1 p-1 ml-4">Número de días: </p>
+                        <input type="number" name="num_dias"
+                            class="block w-full rounded-md border-gray-300 bg-white shadow-sm transition-colors duration-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:focus:border-indigo-300 dark:focus:ring dark:focus:ring-indigo-200 dark:focus:ring-opacity-50"
+                            placeholder="{{ __('Put your message here') }}" value="{{ old('num_dias') }}">
+
+                        <br>
+                        <p class="mt-1 p-1 ml-4">Número de noches:</p>
+                        <input type="number" name="num_noches"
+                            class="block w-full rounded-md border-gray-300 bg-white shadow-sm transition-colors duration-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:focus:border-indigo-300 dark:focus:ring dark:focus:ring-indigo-200 dark:focus:ring-opacity-50"
+                            placeholder="{{ __('Put your message here') }}" value="{{ old('num_noches') }}">
+
+                        <p class="mt-1 p-1 ml-4">Precio Afiliados:</p>
+                        <input type="number" name="precio_afiliado" step="0.01"
+                            class="block w-full rounded-md border-gray-300 bg-white shadow-sm transition-colors duration-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:focus:border-indigo-300 dark:focus:ring dark:focus:ring-indigo-200 dark:focus:ring-opacity-50"
+                            placeholder="{{ __('Put your message here') }}" value="{{ old('precio_afiliado') }}">
+
+                        <p class="mt-1 p-1 ml-4">Precio no afiliados:</p>
+                        <input type="number" name="precio_no_afiliado" step="0.01"
+                            class="block w-full rounded-md border-gray-300 bg-white shadow-sm transition-colors duration-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:focus:border-indigo-300 dark:focus:ring dark:focus:ring-indigo-200 dark:focus:ring-opacity-50"
+                            placeholder="{{ __('Put your message here') }}" value="{{ old('predio_no_afiliado') }}">
+                        <p>Listado de caracteristicas</p>
                         <x-input-error :messages="$errors->get('message')" />
                         <x-primary-button class='mt-4'>Agregar</x-primary-button>
 
@@ -56,15 +67,27 @@
                         <!-- ID del usuario -->
                         <p class="text-gray-600 dark:text-gray-300">User ID: {{ $paquete->user_id }}</p>
 
-                        <p class="text-gray-800 dark:text-gray-200">Nombre del paquete: {{ $paquete->nombre_paquete }}</p>
+                        <p class="text-gray-800 dark:text-gray-200">Nombre del paquete: {{ $paquete->nombre_paquete }}
+                        </p>
                         <!-- Mensaje del paquete -->
                         <p class="text-gray-800 dark:text-gray-200">Descripcion: {{ $paquete->message }}</p>
-                        
+
                         <p class="text-gray-800 dark:text-gray-200"> Numero de días: {{ $paquete->num_dias }}</p>
-                        
+
                         <p class="text-gray-800 dark:text-gray-200"> Número de Noches: {{ $paquete->num_noches }}</p>
-                         
-                        
+                        <p class="text-gray-800 dark:text-gray-200"> Precio para afiliados:
+                            {{ $paquete->precio_afiliado }}
+                        </p>
+                        <p class="text-gray-800 dark:text-gray-200"> Predio para no Afiliados:
+                            {{ $paquete->precio_no_afiliado }}</p>
+
+                        <!-- Mostrar las características del paquete -->
+                        <p class="text-gray-800 dark:text-gray-200">Características del paquete:</p>
+                        <ul>
+                            @foreach ($paquete->incluye as $caracteristica)
+                                <li>{{ $caracteristica->descripción }}</li>
+                            @endforeach
+                        </ul>
 
                         <!-- Fechas de creación y actualización -->
                         <p class="text-gray-600 dark:text-gray-300">Created:
