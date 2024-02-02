@@ -2,10 +2,42 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Event;
+use Illuminate\Http\Request;
 
-class ControllerCalendar extends Controller
+class ControllerEvents extends Controller
 {
-    public function calendar()
+    //formulario
+    public function form(){
+        return view("calendario.form");
+    }
+
+      //guardar evento
+    public function create(Request $request){
+        //validacion
+        $this->validate($request, [
+        'Titular'     =>  'required',
+        'Fecha Inicio'  =>  'required',
+        'Fecha Salida' =>  'required',
+        'Estado' =>  'required',
+        'Comentario' =>  'required'
+
+       ]);
+       //guardar la base de datos
+        Event::insert([
+          'title'       => $request->input("Titular"),
+          'start_datetime'  => $request->input("Fecha inicio"),
+          'end_datetime'        => $request->input("Fecha salida"),
+          'status'        => $request->input("Estado"),
+          'comment'        => $request->input("Comentario")
+
+        ]);
+
+        return back()->with('success', 'Enviado exitosamente!');
+
+      }
+
+      public function calendar()
     {
         $month = date("Y-m");
       $data = $this->calendar_month($month);
@@ -38,7 +70,6 @@ class ControllerCalendar extends Controller
         ]);
 
     }
-
     public static function calendar_month($month)
     {
         //$mes = date("Y-m");
@@ -106,7 +137,6 @@ class ControllerCalendar extends Controller
         );
         return $data;
     }
-
     public static function spanish_month($month)
     {
 

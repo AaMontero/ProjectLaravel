@@ -6,7 +6,7 @@
         <link rel="stylesheet" href="{{ asset('../resources/css/estilosProductos.css') }}" />
         <x-slot name="header">
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                {{ __('Packages') }}
+                {{ __('Calendar') }}
             </h2>
         </x-slot>
     <style>
@@ -83,7 +83,26 @@
         </div>
       @endforeach
 
-    </div> <!-- /container -->
+    </div><!-- /container -->
+
+        <footer class="footer py-4  ">
+            <div class="container-fluid">
+              <div class="row align-items-center justify-content-lg-between">
+                <div class="col-lg-6 mb-lg-0 mb-4">
+                  <div class="copyright text-center text-sm text-muted text-lg-start">
+                    © <script>
+                      document.write(new Date().getFullYear())
+                    </script>,
+                    made with <i class="fa fa-heart"></i> by
+                    <a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">QORI TRAVEL</a>
+                    for a better web.
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </footer>
+
 </body>
 </x-app-layout>
 
