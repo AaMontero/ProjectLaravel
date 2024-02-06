@@ -9,7 +9,7 @@ class CaracteristicaPaquete extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'descripción',
+        'paquete_id','descripcion',
     ];
     public function Paquete(){
         return $this->belongsTo(Paquete::class); 

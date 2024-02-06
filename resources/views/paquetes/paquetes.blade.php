@@ -1,88 +1,144 @@
 <x-app-layout>
-    
+
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Packages') }}
-        </h2>
+        <div class="flex justify-between items-center">
+            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+                {{ __('Packages') }}
+            </h2>
+            <div onclick="abrirVentanaAgregarPaquete()" class="cursor-pointer flex items-center">
+                <span class="mr-2">Agregar un nuevo paquete</span>
+                <svg class="h-6 w-6 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" stroke-width="2"
+                    viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16m-7 6h7"></path>
+                </svg>
+            </div>
+        </div>
     </x-slot>
 
+
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div id="idAgregarPaquete" class="max-w-7xl mx-auto sm:px lg:px-8" style="display: none;">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div id = " "class="p-6 text-gray-900 dark:text-gray-100">
-                    <form method="POST" action = "{{ route('paquetes.store') }}">
+                    <form method="POST" action = "{{ route('paquetes.store') }} " enctype="multipart/form-data">
                         @csrf
                         <p class="mt-1 p-1 ml-4">Nombre del paquete:</p>
                         <input type="text" name="nombre_paquete"
-                            class="mb-4 block w-full rounded-md border-gray-300 bg-white shadow-sm transition-colors duration-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:focus:border-indigo-300 dark:focus:ring dark:focus:ring-indigo-200 dark:focus:ring-opacity-50"
+                            class="mb-2 block w-full rounded-md border-gray-300 bg-white shadow-sm transition-colors duration-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:focus:border-indigo-300 dark:focus:ring dark:focus:ring-indigo-200 dark:focus:ring-opacity-50"
                             placeholder="{{ __('Put your message here') }}" value="{{ old('nombre_paquete') }}">
 
                         {{-- message --}}
                         <p class="mt-1 p-1 ml-4">Descripción del paquete</p>
                         <input type="text" name="message"
-                            class="mb-4 block w-full rounded-md border-gray-300 bg-white shadow-sm transition-colors duration-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:focus:border-indigo-300 dark:focus:ring dark:focus:ring-indigo-200 dark:focus:ring-opacity-50"
+                            class="mb-2 block w-full rounded-md border-gray-300 bg-white shadow-sm transition-colors duration-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:focus:border-indigo-300 dark:focus:ring dark:focus:ring-indigo-200 dark:focus:ring-opacity-50"
                             placeholder="{{ __('Put your message here') }}" value="{{ old('message') }}">
 
                         <p class="mt-1 p-1 ml-4">Número de días: </p>
                         <input type="number" name="num_dias"
-                            class="mb-4 block w-full rounded-md border-gray-300 bg-white shadow-sm transition-colors duration-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:focus:border-indigo-300 dark:focus:ring dark:focus:ring-indigo-200 dark:focus:ring-opacity-50"
+                            class="mb-2 block w-full rounded-md border-gray-300 bg-white shadow-sm transition-colors duration-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:focus:border-indigo-300 dark:focus:ring dark:focus:ring-indigo-200 dark:focus:ring-opacity-50"
                             placeholder="{{ __('Put your message here') }}" value="{{ old('num_dias') }}">
 
 
                         <p class="mt-1 p-1 ml-4">Número de noches:</p>
                         <input type="number" name="num_noches"
-                            class="mb-4 block w-full rounded-md border-gray-300 bg-white shadow-sm transition-colors duration-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:focus:border-indigo-300 dark:focus:ring dark:focus:ring-indigo-200 dark:focus:ring-opacity-50"
+                            class="mb-2 block w-full rounded-md border-gray-300 bg-white shadow-sm transition-colors duration-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:focus:border-indigo-300 dark:focus:ring dark:focus:ring-indigo-200 dark:focus:ring-opacity-50"
                             placeholder="{{ __('Put your message here') }}" value="{{ old('num_noches') }}">
 
                         <p class="mt-1 p-1 ml-4">Precio Afiliados:</p>
                         <input type="number" name="precio_afiliado" step="0.01"
-                            class="mb-4 block w-full rounded-md border-gray-300 bg-white shadow-sm transition-colors duration-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:focus:border-indigo-300 dark:focus:ring dark:focus:ring-indigo-200 dark:focus:ring-opacity-50"
+                            class="mb-2 block w-full rounded-md border-gray-300 bg-white shadow-sm transition-colors duration-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:focus:border-indigo-300 dark:focus:ring dark:focus:ring-indigo-200 dark:focus:ring-opacity-50"
                             placeholder="{{ __('Put your message here') }}" value="{{ old('precio_afiliado') }}">
 
                         <p class="mt-1 p-1 ml-4">Precio no afiliados:</p>
                         <input type="number" name="precio_no_afiliado" step="0.01"
-                            class="mb-4 block w-full rounded-md border-gray-300 bg-white shadow-sm transition-colors duration-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:focus:border-indigo-300 dark:focus:ring dark:focus:ring-indigo-200 dark:focus:ring-opacity-50"
+                            class="mb-2 block w-full rounded-md border-gray-300 bg-white shadow-sm transition-colors duration-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:focus:border-indigo-300 dark:focus:ring dark:focus:ring-indigo-200 dark:focus:ring-opacity-50"
                             placeholder="{{ __('Put your message here') }}" value="{{ old('predio_no_afiliado') }}">
+                        <p class="mt-1 p-1 ml-4">Imagen del paquete:</p>
+                        <input type="file" name="imagen_paquete" class ="form-control mb-2">
+                        <input type="hidden" id = "lista_caracteristicas" name = "lista_caracteristicas">
                         <div>
-                            <p>Agregar Característica</p>
-                            <input type="text" name="caracteristica" id="caracteristica"
-                                class="mb-4 block w-full rounded-md border-gray-300 bg-white shadow-sm transition-colors duration-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:focus:border-indigo-300 dark:focus:ring dark:focus:ring-indigo-200 dark:focus:ring-opacity-50"
-                                placeholder="{{ __('Ingrese su característica aquí') }}"
-                                value="{{ old('caracteristica') }}">
-                            <button type="button" onclick="agregarCaracteristica()">Agregar Característica</button>
+                            <p class="mt-1 p-1 ml-4">Agregar Característica</p>
+                            <div class="flex">
+                                <input type="text" name="caracteristica" id="caracteristica"
+                                    class="mb-2 block w-full rounded-md border-gray-300 bg-white shadow-sm transition-colors duration-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:focus:border-indigo-300 dark:focus:ring dark:focus:ring-indigo-200 dark:focus:ring-opacity-50"
+                                    placeholder="{{ __('Ingrese su característica aquí') }}"
+                                    value="{{ old('caracteristica') }}">
+                                <button type="button" onclick="agregarCaracteristica()"
+                                    class="ml-2 h-full bg-blue-500 text-white font-bold py-2 px-4 rounded">
+                                    Agregar
+                                </button>
+                            </div>
+
+
                         </div>
                         <script>
+                            function abrirVentanaAgregarPaquete() {
+
+                                var ventanaAgregarPaquete = document.getElementById("idAgregarPaquete");
+                                console.log(ventanaAgregarPaquete.style.display);
+                                if (ventanaAgregarPaquete.style.display === 'none') {
+                                    ventanaAgregarPaquete.style.display = 'block';
+                                } else {
+                                    ventanaAgregarPaquete.style.display = 'none';
+                                }
+
+                                console.log("esta dando click en el boton para ocultar");
+
+                            }
                             let listaCaracteristicas = [];
 
                             function agregarCaracteristica() {
-                            
+
                                 const caracteristicaInput = document.getElementById("caracteristica");
                                 const caracteristicaTexto = caracteristicaInput.value.trim();
                                 if (caracteristicaTexto !== "") {
                                     listaCaracteristicas.push(caracteristicaTexto);
                                     caracteristicaInput.value = "";
+                                    document.getElementById("lista_caracteristicas").value = JSON.stringify(listaCaracteristicas);
+                                    alert("Se ha agregado la caracteristica: " + caracteristicaTexto)
                                 } else {
                                     alert("Por favor, ingresa una característica válida.");
                                 }
                                 console.log(listaCaracteristicas);
                             }
                         </script>
-
-                        <p>Listado de caracteristicas</p>
-
-
                         <x-input-error :messages="$errors->get('message')" />
-                        <x-primary-button class='mt-4'>Agregar</x-primary-button>
+                        <x-primary-button class='mt-4'>Agregar nuevo paquete</x-primary-button>
 
                     </form>
                 </div>
             </div>
         </div>
-        <div class="mt-6 mr-20 ml-20 bg-white dark:bg-gray-800 shadow-sm rounded-lg divide-y dark:divide-gray-900">
+        <style>
+            .spaninfo {
+                color: black;
+            }
+
+            .spanTitulo {
+                font-weight: bold;
+                color: red;
+                font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            }
+
+            .spanTituloPaquete {
+                font-weight: bold;
+                color: blue;
+                font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+                font-size: 2rem;
+                text-align: center;
+            }
+        </style>
+        <div class="mt-5 mr-20 ml-20 bg-white dark:bg-gray-800 shadow-sm rounded-lg divide-y dark:divide-gray-900">
             @foreach ($paquetes as $paquete)
-                <div class=" p-6 bg-transparent flex justify-between items-center bg-transparent">
-                    <div class="p-6 flex space-x-2">
-                        <svg class="h-6 w-6 text-gray-600 dark:text-gray-400 -scale-x-100" fill="none"
+                <div>
+                    <span class = "spanTituloPaquete ml-5">{{ $paquete->nombre_paquete }}</span></p>
+                </div>
+
+                <div
+                    class="p-6 bg-transparent flex justify-between items-center border-b border-gray-300 dark:border-gray-700">
+
+                    <div class="w-3/5 h-3/5 text-gray-800 dark:text-gray-200">
+                        <svg class="h-6 w-6 text-gray-600 dark:text-gray-400 transform -scale-x-100" fill="none"
                             stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"
                             xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -90,37 +146,56 @@
                             </path>
                         </svg>
 
-                        <p class="text-gray-800 dark:text-gray-200">Nombre del paquete: {{ $paquete->nombre_paquete }}
-                        </p>
-                        <!-- Mensaje del paquete -->
-                        <p class="text-gray-800 dark:text-gray-200">Descripcion: {{ $paquete->message }}</p>
+                        <div class=" w-90 text-gray-800 dark:text-gray-200">
 
-                        <p class="text-gray-800 dark:text-gray-200"> Numero de días: {{ $paquete->num_dias }}</p>
+                            <!-- Mensaje del paquete -->
+                            <p><span class="spanTitulo">Descripcion:</span> <span
+                                    class="spaninfo">{{ $paquete->message }}</span></p>
 
-                        <p class="text-gray-800 dark:text-gray-200"> Número de Noches: {{ $paquete->num_noches }}</p>
-                        <p class="text-gray-800 dark:text-gray-200"> Precio para afiliados:
-                            {{ $paquete->precio_afiliado }}
-                        </p>
-                        <p class="text-gray-800 dark:text-gray-200"> Predio para no Afiliados:
-                            {{ $paquete->precio_no_afiliado }}</p>
+                            <!-- Número de días y Número de Noches en la misma fila -->
+                            <div class="flex space-x-4">
+                                <p><span class="spanTitulo">N. días:</span> <span
+                                        class="spaninfo">{{ $paquete->num_dias }}</span></p>
+                                <p><span class="spanTitulo">N. Noches:</span> <span
+                                        class="spaninfo">{{ $paquete->num_noches }}</span></p>
+                            </div>
 
-                        <!-- Mostrar las características del paquete -->
-                        <p class="text-gray-800 dark:text-gray-200">Características del paquete:</p>
-                        <ul>
-                            @foreach ($paquete->incluye as $caracteristica)
-                                <li>{{ $caracteristica->descripción }}</li>
-                            @endforeach
-                        </ul>
+                            <!-- Precio para afiliados y Precio para no Afiliados en la misma fila -->
+                            <div class="flex space-x-4">
+                                <p><span class="spanTitulo">Precio Afiliados:</span> <span
+                                        class="spaninfo">${{ $paquete->precio_afiliado }}</span></p>
+                                <p><span class="spanTitulo">Precio No Afiliados:</span> <span
+                                        class="spaninfo">${{ $paquete->precio_no_afiliado }}</span></p>
+                            </div>
 
+                            <!-- Mostrar las características del paquete -->
+                            <p class="spanTitulo">Características del paquete</p>
+                            <ul class="list-decimal pl-8">
+                                @foreach ($paquete->incluye as $caracteristica)
+                                    <li class="spaninfo flex items-center">
+                                        <img src="{{ asset('images/iconoEtiqueta.png') }}" class="w-4 h-4 mr-2"
+                                            alt="Check Circle Icon">
+                                        {{ $caracteristica->descripcion }}
+                                    </li>
+                                @endforeach
+                            </ul>
+
+                        </div>
 
                     </div>
+                    <div class="w-2/5 h-3/5">
+                        <img class="w-full h-full rounded-lg" src='uploads/paquetes/{{ $paquete->imagen_paquete }}'
+                            alt="Imagen del paquete">
+                    </div>
+
 
                     <!-- Dropdown para acciones -->
                     <x-dropdown>
                         <x-slot name="trigger">
                             <button>
-                                <svg class="w-5 h-5 text-gray-400 dark:text-gray-200" xmlns="http://www.w3.org/2000/svg"
-                                    fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <svg class="ml-5 w-5 h-5 text-gray-400 dark:text-gray-200"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="1.5" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
                                 </svg>
@@ -130,7 +205,7 @@
                         <x-slot name="content">
                             <!-- Enlace para editar el paquete -->
                             <x-dropdown-link :href="route('paquetes.edit', $paquete)">
-                                {{ __('Edit Package') }}
+                                {{ __('Editar Paquete') }}
                             </x-dropdown-link>
 
                             <!-- Formulario para eliminar el paquete -->
@@ -138,12 +213,17 @@
                                 @csrf @method('DELETE')
                                 <x-dropdown-link :href="route('paquetes.destroy', $paquete)"
                                     onclick="event.preventDefault(); this.closest('form').submit()">
-                                    {{ __('Delete Package') }}
+                                    {{ __('Eliminar Paquete') }}
                                 </x-dropdown-link>
                             </form>
                         </x-slot>
                     </x-dropdown>
                 </div>
+
+
+
+
+
 
                 <!-- Separador entre paquetes -->
                 <hr class="my-4 border-gray-300 dark:border-gray-700">

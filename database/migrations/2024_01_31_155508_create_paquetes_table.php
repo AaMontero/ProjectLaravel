@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('nombre_paquete'); 
             $table->unsignedInteger('num_dias');
             $table->unsignedInteger('num_noches'); 
+            $table->string('imagen_paquete'); 
             $table->double('precio_afiliado',6,2); 
             $table->double('precio_no_afiliado',6,2); 
             $table->foreignId('user_id')->constrained()->cascadeOnDelete(); 

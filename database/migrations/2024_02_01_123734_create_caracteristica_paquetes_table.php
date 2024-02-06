@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->foreignId('paquete_id')->constrained()->cascadeOnDelete(); 
-            $table->string('descripción'); 
+            $table->string('descripcion'); 
         });
     }
 
