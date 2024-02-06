@@ -11,24 +11,23 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('events', function (Blueprint $table) {
+        Schema::create('eventos', function (Blueprint $table) {
             $table->id();
-            $table->string('title'); // Titular o persona que reserva
-            $table->dateTime('start_datetime'); // Fecha y hora de inicio
-            $table->dateTime('end_datetime'); // Fecha y hora de fin
-            $table->enum('status', ['prereservado', 'reservado', 'disponible']); // Estado del evento
-            $table->text('comment')->nullable(); // Comentario
+            $table->string('titular'); // Titular o persona que reserva
+            $table->dateTime('fecha_inicio'); // Fecha y hora de inicio
+            $table->dateTime('fecha_salida'); // Fecha y hora de fin
+            $table->enum('estado', ['prereservado', 'reservado', 'disponible']); // Estado del evento
+            $table->text('descripcion')->nullable(); // Comentario
             $table->unsignedBigInteger('user_id'); // ID del usuario que registra la reserva
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
-
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('events');
+        Schema::dropIfExists('eventos');
     }
 };

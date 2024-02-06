@@ -1,7 +1,6 @@
 <?php
 
-use App\Http\Controllers\ControllerCalendar;
-use App\Http\Controllers\ControllerEvents;
+use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PaqueteController;
@@ -61,14 +60,18 @@ Route::middleware('auth')->group(function () {
     Route::delete('paquetes/{paquete}',[PaqueteController::class, 'destroy'])
     ->name('paquetes.destroy');
 
-    //Ruta para el calendario
-    Route::get('Calendar',[ControllerCalendar::class, 'calendar']);
-    Route::get('Calendar/{mes}',[ControllerCalendar::class,'month']);
-    Route::get('Events/{form}',[ControllerEvents::class, 'form']);
-    Route::post('Events',[ControllerEvents::class,'create'])
-    ->name('Events.create');
-    Route::get('Calendar',[ControllerEvents::class, 'calendar']);
-    Route::get('Calendar/{mes}',[ControllerEvents::class,'month']);
+    // //Ruta para el calendario
+    Route::get('/calendar', [CalendarController::class, 'calendario'])->name('calendario');
+    // Route::get('Calendar/event',[ControllerCalendar::class, 'calendar'])->name('Calendar.event');
+    // Route::get('Calendar/event/{mes}',[ControllerCalendar::class,'month']);
+
+    // //Rutas para los eventos
+
+    // Route::get('Events/{form}',[ControllerEvents::class, 'form'])->name('Events.form');
+    // Route::post('/Events', [ControllerEvents::class, 'store'])->name('Events.store');
+    // Route::get('Events/details/{id}',[ControllerEvents::class, 'details'])->name('Events.details');
+    // Route::get('Events/Calendar', [ControllerEvents::class, 'calendar'])->name('Events.Calendar');
+    // Route::get('Events/Calendar/{mes}',[ControllerEvents::class,'month']);
 
 
 });
