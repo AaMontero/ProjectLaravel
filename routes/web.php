@@ -61,17 +61,9 @@ Route::middleware('auth')->group(function () {
     ->name('paquetes.destroy');
 
     // //Ruta para el calendario
-    Route::get('/calendar', [CalendarController::class, 'calendario'])->name('calendario');
-    // Route::get('Calendar/event',[ControllerCalendar::class, 'calendar'])->name('Calendar.event');
-    // Route::get('Calendar/event/{mes}',[ControllerCalendar::class,'month']);
+    Route::get('calendar/index', [CalendarController::class, 'index'])->name('calendar.index');
+    Route::post('/calendar', [CalendarController::class, 'store'])->name('calendar.store');
 
-    // //Rutas para los eventos
-
-    // Route::get('Events/{form}',[ControllerEvents::class, 'form'])->name('Events.form');
-    // Route::post('/Events', [ControllerEvents::class, 'store'])->name('Events.store');
-    // Route::get('Events/details/{id}',[ControllerEvents::class, 'details'])->name('Events.details');
-    // Route::get('Events/Calendar', [ControllerEvents::class, 'calendar'])->name('Events.Calendar');
-    // Route::get('Events/Calendar/{mes}',[ControllerEvents::class,'month']);
 
 
 });

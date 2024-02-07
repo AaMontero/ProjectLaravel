@@ -13,16 +13,17 @@ return new class extends Migration
     {
         Schema::create('eventos', function (Blueprint $table) {
             $table->id();
-            $table->string('titular'); // Titular o persona que reserva
-            $table->dateTime('fecha_inicio'); // Fecha y hora de inicio
-            $table->dateTime('fecha_salida'); // Fecha y hora de fin
-            $table->enum('estado', ['prereservado', 'reservado', 'disponible']); // Estado del evento
-            $table->text('descripcion')->nullable(); // Comentario
+            $table->enum('title', ['prereservado', 'reservado', 'disponible']);// Titular o persona que reserva
+            $table->dateTime('start_date'); // Fecha y hora de inicio
+            $table->dateTime('end_date'); // Fecha y hora de fin
+            $table->string('author'); // Estado del evento
+            $table->text('note')->nullable(); // Comentario
             $table->unsignedBigInteger('user_id'); // ID del usuario que registra la reserva
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
+
     /**
      * Reverse the migrations.
      */
