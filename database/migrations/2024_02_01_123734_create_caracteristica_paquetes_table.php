@@ -16,6 +16,7 @@ return new class extends Migration
             $table->timestamps();
             $table->foreignId('paquete_id')->constrained()->cascadeOnDelete(); 
             $table->string('descripcion'); 
+            $table->string('lugar')->default("Incluye"); 
         });
     }
 

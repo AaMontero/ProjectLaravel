@@ -59,6 +59,9 @@
                         <div>
                             <p class="mt-1 p-1 ml-4">Agregar Característica</p>
                             <div class="flex">
+                                <input type = "text" name="ciudad_caracteristica" id ="ciudad_caracteristica"
+                                    class="mb-2 block w-full rounded-md border-gray-300 bg-white shadow-sm transition-colors duration-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:focus:border-indigo-300 dark:focus:ring dark:focus:ring-indigo-200 dark:focus:ring-opacity-50"
+                                    placeholder="{{ __('Lugar') }}" value="{{ old('ciudad_caracteristica') }}">
                                 <input type="text" name="caracteristica" id="caracteristica"
                                     class="mb-2 block w-full rounded-md border-gray-300 bg-white shadow-sm transition-colors duration-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:focus:border-indigo-300 dark:focus:ring dark:focus:ring-indigo-200 dark:focus:ring-opacity-50"
                                     placeholder="{{ __('Ingrese su característica aquí') }}"
@@ -68,8 +71,6 @@
                                     Agregar
                                 </button>
                             </div>
-
-
                         </div>
                         <script>
                             function abrirVentanaAgregarPaquete() {
@@ -88,23 +89,33 @@
                             let listaCaracteristicas = [];
 
                             function agregarCaracteristica() {
-
+                                const caracteristicaCiudad = document.getElementById("lugar_caracteristica");
                                 const caracteristicaInput = document.getElementById("caracteristica");
                                 const caracteristicaTexto = caracteristicaInput.value.trim();
+                                const caracteristicaCiudadTexto = caracteristicaCiudad.value.trim();
                                 if (caracteristicaTexto !== "") {
-                                    listaCaracteristicas.push(caracteristicaTexto);
+                                    // Validación para asegurar que caracteristicaCiudadTexto no esté vacía
+                                    const caracteristicaCiudadValidada = caracteristicaCiudadTexto !== "" ? caracteristicaCiudadTexto :
+                                        "";
+
+                                    const caracteristica = [
+                                        caracteristicaTexto, caracteristicaCiudadValidada
+                                    ];
+
+                                    listaCaracteristicas.push(caracteristica);
                                     caracteristicaInput.value = "";
-                                    document.getElementById("lista_caracteristicas").value = JSON.stringify(listaCaracteristicas);
-                                    alert("Se ha agregado la caracteristica: " + caracteristicaTexto)
+                                    // Cambiado a innerHTML para mostrar la lista en un elemento div
+                                    document.getElementById("lista_caracteristicas").innerHTML = JSON.stringify(listaCaracteristicas);
+                                    alert("Se ha agregado la característica: " + caracteristicaTexto);
                                 } else {
                                     alert("Por favor, ingresa una característica válida.");
                                 }
+
                                 console.log(listaCaracteristicas);
                             }
                         </script>
                         <x-input-error :messages="$errors->get('message')" />
                         <x-primary-button class='mt-4'>Agregar nuevo paquete</x-primary-button>
-
                     </form>
                 </div>
             </div>
@@ -130,43 +141,43 @@
         </style>
         <div class="mt-5 mr-20 ml-20 bg-white dark:bg-gray-800 shadow-sm rounded-lg divide-y dark:divide-gray-900">
             @foreach ($paquetes as $paquete)
-                <div>
-                    <span class = "spanTituloPaquete ml-5">{{ $paquete->nombre_paquete }}</span></p>
+                <div class = "text-center">
+                    <span class = "spanTituloPaquete ml-5 ">{{ $paquete->nombre_paquete }}</span></p>
                 </div>
 
                 <div
                     class="p-6 bg-transparent flex justify-between items-center border-b border-gray-300 dark:border-gray-700">
 
                     <div class="w-3/5 h-3/5 text-gray-800 dark:text-gray-200">
-                        <svg class="h-6 w-6 text-gray-600 dark:text-gray-400 transform -scale-x-100" fill="none"
-                            stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z">
-                            </path>
-                        </svg>
+
 
                         <div class=" w-90 text-gray-800 dark:text-gray-200">
 
                             <!-- Mensaje del paquete -->
                             <p><span class="spanTitulo">Descripcion:</span> <span
                                     class="spaninfo">{{ $paquete->message }}</span></p>
-
                             <!-- Número de días y Número de Noches en la misma fila -->
-                            <div class="flex space-x-4">
-                                <p><span class="spanTitulo">N. días:</span> <span
-                                        class="spaninfo">{{ $paquete->num_dias }}</span></p>
-                                <p><span class="spanTitulo">N. Noches:</span> <span
-                                        class="spaninfo">{{ $paquete->num_noches }}</span></p>
-                            </div>
+                            <table width="100%">
+                                <tr>
+                                    <td style="width: 25%;">
+                                        <p><span class="spanTitulo">Número de días:</span> </p>
+                                        <p><span class="spanTitulo">Número de Noches:</span> </p>
+                                    </td>
+                                    <td style="width: 25%;">
+                                        <p><span class="spaninfo">{{ $paquete->num_dias }}</span></p>
+                                        <p><span class="spaninfo">{{ $paquete->num_noches }}</span></p>
+                                    </td>
+                                    <td style="width: 25%;">
+                                        <p><span class="spanTitulo">Precio Afiliados:</span></p>
+                                        <p><span class="spanTitulo">Precio No Afiliados:</span> </p>
+                                    </td>
+                                    <td style="width: 25%;">
+                                        <p><span class="spaninfo">${{ $paquete->precio_afiliado }}</span></p>
+                                        <p><span class="spaninfo">${{ $paquete->precio_no_afiliado }}</span></p>
+                                    </td>
+                                </tr>
+                            </table>
 
-                            <!-- Precio para afiliados y Precio para no Afiliados en la misma fila -->
-                            <div class="flex space-x-4">
-                                <p><span class="spanTitulo">Precio Afiliados:</span> <span
-                                        class="spaninfo">${{ $paquete->precio_afiliado }}</span></p>
-                                <p><span class="spanTitulo">Precio No Afiliados:</span> <span
-                                        class="spaninfo">${{ $paquete->precio_no_afiliado }}</span></p>
-                            </div>
 
                             <!-- Mostrar las características del paquete -->
                             <p class="spanTitulo">Características del paquete</p>
@@ -175,7 +186,7 @@
                                     <li class="spaninfo flex items-center">
                                         <img src="{{ asset('images/iconoEtiqueta.png') }}" class="w-4 h-4 mr-2"
                                             alt="Check Circle Icon">
-                                        {{ $caracteristica->descripcion }}
+                                            {{ $caracteristica->lugar }} - {{ $caracteristica->descripcion }}
                                     </li>
                                 @endforeach
                             </ul>
