@@ -5,23 +5,28 @@
         </h2>
     </x-slot>
     <script>
-        function cambiarCaracteristica(lugarCambio, descripcionCambio, caracteristicaId) {
+        //Toca cambiar para que si no se da click en uno de los botones regrese la lista sin modificar
+        function cambiarCaracteristica(caracteristicaId) {
             event.preventDefault();
             console.log("ID del elemento presionado:", caracteristicaId);
+            const caracteristicaElemento = document.getElementById("descripcion" + caracteristicaId).value;
+            const lugarElemento = document.getElementById("lugar" + caracteristicaId).value;
             const listaCaracteristicasJson = document.getElementById("lista_caracteristicas").value;
             let listaCaracteristicasObj = JSON.parse(listaCaracteristicasJson);
+            let listaCambios = [];
             for (let i = 0; i < listaCaracteristicasObj.length; i++) {
                 if (listaCaracteristicasObj[i].id == caracteristicaId) {
-                    listaCaracteristicasObj[i].lugar = lugarCambio;
-                    listaCaracteristicasObj[i].descripcion = descripcionCambio;
+                    console.log(listaCaracteristicasObj[i]);
+                    listaCaracteristicasObj[i].lugar = lugarElemento;
+                    listaCaracteristicasObj[i].descripcion = caracteristicaElemento;
+                    listaCambios.push(listaCaracteristicasObj[i]);
                     alert("Los cambios se realizaron");
                     break;
                 }
             }
-            var listaModificadaTxt = JSON.stringify(listaCaracteristicasJson); 
-            var listaMod = document.getElementById("lista_caracteristicas_mod").value; 
-            listaMod = listaModificadaTxt
-            console.log("Lista: " + listaMod); 
+            listaTextoModificada = JSON.stringify(listaCambios);
+            document.getElementById("lista_caracteristicas_mod").value = listaTextoModificada;
+            //console.log(document.getElementById("lista_caracteristicas_mod").value);  
 
         }
     </script>
@@ -32,6 +37,11 @@
                     <form method="POST" action = "{{ route('paquetes.update', $paquete) }} "
                         enctype="multipart/form-data">
                         @csrf @method('PUT')
+                        <p class="mt-1 p-1 ml-4">Nombre del paquete:</p>
+                        <input type="text" name="nombre_paquete"
+                            class="mb-2 block w-full rounded-md border-gray-300 bg-white shadow-sm transition-colors duration-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:focus:border-indigo-300 dark:focus:ring dark:focus:ring-indigo-200 dark:focus:ring-opacity-50"
+                            placeholder="{{ __('Put your message here') }}"
+                            value="{{ old('nombre_paquete', $paquete->nombre_paquete) }}">
                         Descripción del paquete
                         <textarea name="message"
                             class="block w-full rounded-md border-gray-300 bg-white shadow-sm transition-colors duration-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:focus:border-indigo-300 dark:focus:ring dark:focus:ring-indigo-200 dark:focus:ring-opacity-50"
@@ -63,7 +73,15 @@
                             class="mb-2 block w-full rounded-md border-gray-300 bg-white shadow-sm transition-colors duration-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:focus:border-indigo-300 dark:focus:ring dark:focus:ring-indigo-200 dark:focus:ring-opacity-50"
                             placeholder="{{ __('Put your message here') }}"
                             value="{{ old('precio_no_afiliado', $paquete->precio_no_afiliado) }}">
-                        <p class="mt-1 p-1 ml-4">Imagen del paquete:</p>
+                        <div>
+                            <p>Imagen actual</p>
+                            @if ($paquete->imagen_paquete)
+                                <img src="{{ asset('uploads/paquetes/' . $paquete->imagen_paquete)}}"
+                                    alt="Imagen actual del paquete" class="mb-2 max-w-64 max-h-64">
+                            @endif
+                        </div>
+
+                        <p class="mt-1 p-1 ml-4">Cambiar Imagen:</p>
                         <input type="file" name="imagen_paquete" class ="form-control mb-2">
                         <input type="hidden" id = "lista_caracteristicas_mod" name = "lista_caracteristicas_mod">
                         <div>
@@ -72,14 +90,13 @@
                             <div class="ml-10 mb-15 space-y-4">
                                 @foreach ($paquete->incluye as $caracteristica)
                                     <div class ="flex">
-                                        <input type="text" id="lugar" name="lugar"
+                                        <input type="text" id="lugar{{ $caracteristica->id }}" name="lugar"
                                             class="w-1/6 mr-4 rounded-md border border-gray-300 p-2"
                                             value="{{ old('caracteristica_paquete', $caracteristica->lugar) }}">
-                                        <input type="text" id="descripcion" name="descripcion"
-                                            class="w-5/6 mr-4 rounded-md border border-gray-300 p-2"
+                                        <input type="text" id="descripcion{{ $caracteristica->id }}"
+                                            name="descripcion" class="w-5/6 mr-4 rounded-md border border-gray-300 p-2"
                                             value="{{ old('caracteristica_paquete', $caracteristica->descripcion) }}">
-                                        <button
-                                            onclick="cambiarCaracteristica('{{ $caracteristica->lugar }}','{{ $caracteristica->descripcion }}','{{ $caracteristica->id }}')"
+                                        <button onclick="cambiarCaracteristica('{{ $caracteristica->id }}')"
                                             class="w-10 p-2 bg-blue-500 text-white rounded-md">
                                             <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none"
                                                 xmlns="http://www.w3.org/2000/svg" class="text-black dark:text-white">
@@ -108,7 +125,7 @@
                                 Agregar
                             </button>
                         </div>
-                        <x-primary-button class='mt-4'>FInalizar Edición</x-primary-button>
+                        <x-primary-button class='mt-4'>Finalizar Edición</x-primary-button>
 
                     </form>
                 </div>
