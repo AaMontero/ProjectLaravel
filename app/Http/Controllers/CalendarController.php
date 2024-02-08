@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Evento;
+
 use App\Models\Eventos;
 use Illuminate\Http\Request;
+
 
 class CalendarController extends Controller
 {
@@ -42,6 +43,7 @@ class CalendarController extends Controller
                 // 'fecha_salida'=>$evento->fecha_salida,
                 // 'estado'=>$evento->estado,
                 // 'descripcion'=>$evento->descripcion,
+                'id' => $evento->id,
                 'title' => $evento->title,
                 'start' => $evento->start_date,
                 'end' => $evento->start_date
@@ -53,6 +55,7 @@ class CalendarController extends Controller
 
     public function store(Request $request){
         $request->validate([
+
             'title' => 'required|string',
             'start_date' => 'required|date',
             'end_date' => 'required|date',
@@ -72,4 +75,32 @@ class CalendarController extends Controller
         ]);
         return response()->json($eventos);
     }
+
+    public function update(Request $request ,$id){
+
+        $eventos = Eventos::find($id);
+            if(! $eventos){
+                return response()->json([
+                    'error'=>'unable to locate the event'
+                ],404);
+
+            }
+
+            $eventos->update([
+
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+
+            ]);
+            return response()->json('Event updated');
+    }
+    public function destroy($id){
+        $eventos = Eventos::find($id);
+        if(! $eventos){
+            return response()->json([
+                'error'=>'unable to locate the event'
+            ],404);}
+            $eventos->delete();
+            return $id;
+        }
 }

@@ -20,9 +20,7 @@
     </x-slot>
     <body>
         <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-    Launch demo modal
-  </button>
+
 
         <!-- Modal -->
         <div class="modal fade" id="eventoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -129,7 +127,7 @@
                     success:function(response)
                     {
                        $('#eventoModal').modal('hide')
-                       $('#calendar').fullCalendar('renderEvents',{
+                       $('#calendar').fullCalendar('renderEvent',{
                         'title':response.title,
                         'start':response.start_date,
                         'end'  :response.end_date,
@@ -147,7 +145,64 @@
             });
         },
         editable: true,
-    })
+        eventDrop: function(event){
+            var id = event.id;
+            var start_date = moment(event.start).format('YYYY-MM-DD');
+            var end_date = event.end ? moment(event.end).format('YYYY-MM-DD') : moment(event.start).format('YYYY-MM-DD');
+
+            $.ajax({
+                    url:"{{ route('calendar.update', '') }}" + '/' + id,
+                    type:"PATCH",
+                    dataType:'json',
+                    data: {
+                        start_date: start_date,
+                        end_date: end_date,
+
+
+                    },
+                    success:function(response)
+                    {
+                        swal("Good job!", "Event Updated!", "success");
+                    },
+                    error:function(error){
+
+                        console.log(error)
+                    },
+
+                });
+        },
+        eventClick: function(event){
+            var id = event.id;
+            if(confirm('are you sure want to remove it')){
+                $.ajax({
+                    url:"{{ route('calendar.destroy', '') }}" + '/' + id,
+                    type:"DELETE",
+                    dataType:'json',
+                    // data: {
+                    //     start_date: start_date,
+                    //     end_date: end_date,
+                    // },
+                    success:function(response)
+                    {
+                    $('#calendar').fullCalendar('removeEvents',response)
+                        swal("Good job!", "Event Deleted!", "success");
+                    },
+                    error:function(error){
+
+                        console.log(error)
+                    },
+
+                });
+            }
+        },
+        selectAllow: function(event){
+            return moment(event.start).utcOffset(false).isSame(moment(event.end).subtract(1, 'second').utcOffset(false), 'day');
+        },
+
+    });
+    $("#eventoModal").on("hidden.bs.modal", function(){
+        $("#saveBtn").unbind();
+    });
 
 });
 </script>
