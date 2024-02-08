@@ -17,6 +17,8 @@ class Paquete extends Model
         return $this ->belongsTo(User::class); 
     }
     public function incluye(){
-        return $this ->hasMany(CaracteristicaPaquete::class); 
+        return $this->hasMany(CaracteristicaPaquete::class)
+            ->orderByRaw("lugar = 'Incluye' DESC, lugar = 'No Incluye' DESC, lugar ASC");
     }
+
 }
