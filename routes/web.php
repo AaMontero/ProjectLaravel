@@ -63,6 +63,8 @@ Route::middleware('auth')->group(function () {
     // //Ruta para el calendario
     Route::get('calendar/index', [CalendarController::class, 'index'])->name('calendar.index');
     Route::post('/calendar', [CalendarController::class, 'store'])->name('calendar.store');
+    Route::patch('calendar/update/{id}', [CalendarController::class, 'update'])->name('calendar.update');
+    Route::delete('calendar/destroy/{id}', [CalendarController::class, 'destroy'])->name('calendar.destroy');
 
 
 

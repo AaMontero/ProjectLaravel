@@ -21,9 +21,9 @@
                     <x-nav-link :href="route('paquetes.paquetes')" :active="request()->routeIs('paquetes.*')">
                         {{ __('Paquetes') }}
                     </x-nav-link>
-                    {{-- <x-nav-link :href="route('Calendar.event')" :active="request()->routeIs('Calendar.*')">
+                    <x-nav-link :href="route('calendar.index')" :active="request()->routeIs('calendar.*')">
                         {{ __('Calendar') }}
-                    </x-nav-link> --}}
+                    </x-nav-link>
 
                 </div>
             </div>
@@ -91,9 +91,9 @@
             <x-responsive-nav-link :href="route('paquetes.paquetes')" :active="request()->routeIs('paquetes.*')">
                 {{ __('Paquetes') }}
             </x-responsive-nav-link>
-            {{-- <x-responsive-nav-link :href="route('Calendar.event')" :active="request()->routeIs('Calendar.*')">
+            <x-responsive-nav-link :href="route('calendar.index')" :active="request()->routeIs('Calendar.*')">
                 {{ __('Calendar') }}
-            </x-responsive-nav-link> --}}
+            </x-responsive-nav-link>
         </div>
 
         <!-- Responsive Settings Options -->
