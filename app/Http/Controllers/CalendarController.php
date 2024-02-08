@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Evento;
+use App\Models\Eventos;
+use Illuminate\Http\Request;
 
 class CalendarController extends Controller
 {
     //
-    public function calendario()
+    public function index()
     {
         // $eventosManual = [
         //     [
@@ -26,11 +28,13 @@ class CalendarController extends Controller
         //     ],
         // ];
         $events = array();
-        $eventos = Evento::all();
-        $estadoCalendario = "" ; 
+        $eventos = Eventos::all();
+        $estadoCalendario = "" ;
         foreach($eventos as $evento){
             if( ($evento->estado) === "reservado"){
-                $estadoCalendario = "Esta reservado"; 
+                $estadoCalendario = "Esta reservado";
+            }else{
+                $estadoCalendario = $evento->estado;
             }
             $events[] = [
                 // 'titular'=> $evento->titular,
@@ -38,12 +42,34 @@ class CalendarController extends Controller
                 // 'fecha_salida'=>$evento->fecha_salida,
                 // 'estado'=>$evento->estado,
                 // 'descripcion'=>$evento->descripcion,
-                'title' => $estadoCalendario,
-                'start' => $evento->fecha_inicio,
-                'end' => $evento->fecha_salida
+                'title' => $evento->title,
+                'start' => $evento->start_date,
+                'end' => $evento->start_date
             ];
         }
 
         return view ('calendar.calendar',['event' => $events]);
+    }
+
+    public function store(Request $request){
+        $request->validate([
+            'title' => 'required|string',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date',
+            'author' => 'required|string',
+            'note' => 'required|string',
+
+        ]);
+
+        $eventos = Eventos::create([
+            'title' => $request->title,
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+            'author' => $request->author,
+            'note' => $request->note,
+            'user_id' => auth()->id()
+
+        ]);
+        return response()->json($eventos);
     }
 }
