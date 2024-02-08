@@ -144,29 +144,51 @@
         </style>
         <div class="flex items-center w-full ml-4">
             <form action="{{ route('paquetes.paquetes') }}" method="GET" class="flex space-x-4 w-full">
-                <div class ="w-1/6">
-                    <label for="num_dias" class="block text-sm font-medium text-gray-700">Número de días:</label>
-                    <input type="text" name="num_dias" id="num_dias" class="mt-1 p-2 border rounded-md w-full">
+                <div class = "w-1/4 flex">
+                    <div class ="w-1/2 mr-4">
+                        <label for="num_dias" class="block text-sm font-medium text-gray-700">Número de días:</label>
+                        <input type="number" name="num_dias" id="num_dias" class="mt-1 p-2 border rounded-md w-full">
+                    </div>
+                    <div class ="w-1/2 ">
+                        <label for="num_noches" class="block text-sm font-medium text-gray-700 ">Número de
+                            noches:</label>
+                        <input type="number" name="num_noches" id="num_noches"
+                            class="mt-1 p-2 border rounded-md w-full">
+                    </div>
                 </div>
-                <div class ="w-1/6">
-                    <label for="num_noches" class="block text-sm font-medium text-gray-700 ">Número de noches:</label>
-                    <input type="text" name="num_noches" id="num_noches" class="mt-1 p-2 border rounded-md w-full">
+                <div class = "w-1/4 flex">
+                    <div class ="w-1/2 mr-4">
+                        <label for="precio_min" class="block text-sm font-medium text-gray-700">Precio Mínimo:</label>
+                        <input type="number" name="precio_min" id="precio_min"
+                            class="mt-1 p-2 border rounded-md w-full">
+                    </div>
+                    <div class ="w-1/2 mr-4">
+                        <label for="precio_max" class="block text-sm font-medium text-gray-700">Precio Máximo:</label>
+                        <input type="number" name="precio_max" id="precio_max"
+                            class="mt-1 p-2 border rounded-md w-full">
+                    </div>
                 </div>
-                <div class ="w-1/6">
-                    <label for="precio" class="block text-sm font-medium text-gray-700">Precio:</label>
-                    <input type="text" name="precio" id="precio" class="mt-1 p-2 border rounded-md w-full">
+                <div class = "w-1/4">
+                    <label for="caracteristica"
+                        class="block text-sm font-medium text-gray-700">Característica:</label>
+                    <input type="text" name="caracteristica" id="caracteristica"
+                        class="mt-1 p-2 border rounded-md w-full">
                 </div>
-                <div class ="w-1/6">
-                    <label for="socios" class="block text-sm font-medium text-gray-700">Socios:</label>
-                    <select name="socios" id="socios" class="mt-1 p-2 border rounded-md w-full">
-                        <option value="socios">Sí</option>
-                        <option value="no_socios">No</option>
-                    </select>
-                </div>  
-                <div>
-                    <input type="submit" value="Buscar"
-                        class="px-4 py-2 bg-blue-500 text-white rounded-md cursor-pointer">
+                <div class = "w-1/4 flex">
+                    <div class ="w-1/2 mr-4">
+                        <label for="socios" class="block text-sm font-medium text-gray-700">Socios:</label>
+                        <select name="socios" id="socios" class="mt-1 p-2 border rounded-md w-full">
+                            <option value="no_socios">No</option>
+                            <option value="socios">Sí</option>
+                        </select>
+                    </div>
+                    <div class = "w-1/2">
+                        <input type="submit" value="Buscar"
+                            class="mt-6 px-4 py-2 bg-blue-500 text-white rounded-md cursor-pointer">
+                    </div>
                 </div>
+
+
             </form>
         </div>
 

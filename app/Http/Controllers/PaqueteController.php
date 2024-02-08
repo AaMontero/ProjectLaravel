@@ -16,7 +16,8 @@ class PaqueteController extends Controller
         $busqueda = $request->busqueda;
         return view('paquetes.paquetes', [
             "paquetes" => Paquete::with('user', 'incluye')
-            ->where('num_dias', 'LIKE', '%' . $busqueda . '%')->latest()->paginate(2), 
+            ->where('num_dias', 'LIKE', '%' . $busqueda . '%')
+            ->where('num_noches','LIKE', '%' . $busqueda . '%')->latest()->paginate(2), 
             "busqueda" => $busqueda
         ]);
     }
