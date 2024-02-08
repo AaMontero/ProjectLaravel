@@ -16,6 +16,7 @@
     </x-slot>
 
 
+
     <div class="py-12">
         <div id="idAgregarPaquete" class="max-w-7xl mx-auto sm:px lg:px-8" style="display: none;">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
@@ -52,14 +53,15 @@
                         <p class="mt-1 p-1 ml-4">Precio no afiliados:</p>
                         <input type="number" name="precio_no_afiliado" step="0.01"
                             class="mb-2 block w-full rounded-md border-gray-300 bg-white shadow-sm transition-colors duration-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:focus:border-indigo-300 dark:focus:ring dark:focus:ring-indigo-200 dark:focus:ring-opacity-50"
-                            placeholder="{{ __('Put your message here') }}" value="{{ old('predio_no_afiliado') }}">
+                            placeholder="{{ __('Put your message here') }}" value="{{ old('precio_no_afiliado') }}">
                         <p class="mt-1 p-1 ml-4">Imagen del paquete:</p>
-                        <input type="file" name="imagen_paquete" class ="form-control mb-2">
+                        <input type="file" name="imagen_paquete" class ="form-control mb-2"
+                            value = "{{ old('imagen_paquete') }}">
                         <input type="hidden" id = "lista_caracteristicas" name = "lista_caracteristicas">
                         <div>
                             <p class="mt-1 p-1 ml-4">Agregar Característica</p>
                             <div class="flex">
-                                <input type = "text" name="ciudad_caracteristica" id ="ciudad_caracteristica"
+                                <input type = "text" name="lugar_caracteristica" id ="lugar_caracteristica"
                                     class="mb-2 block w-full rounded-md border-gray-300 bg-white shadow-sm transition-colors duration-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:focus:border-indigo-300 dark:focus:ring dark:focus:ring-indigo-200 dark:focus:ring-opacity-50"
                                     placeholder="{{ __('Lugar') }}" value="{{ old('ciudad_caracteristica') }}">
                                 <input type="text" name="caracteristica" id="caracteristica"
@@ -104,8 +106,9 @@
 
                                     listaCaracteristicas.push(caracteristica);
                                     caracteristicaInput.value = "";
+                                    caracteristicaCiudad.value = "";
                                     // Cambiado a innerHTML para mostrar la lista en un elemento div
-                                    document.getElementById("lista_caracteristicas").innerHTML = JSON.stringify(listaCaracteristicas);
+                                    document.getElementById("lista_caracteristicas").value = JSON.stringify(listaCaracteristicas);
                                     alert("Se ha agregado la característica: " + caracteristicaTexto);
                                 } else {
                                     alert("Por favor, ingresa una característica válida.");
@@ -139,6 +142,36 @@
                 text-align: center;
             }
         </style>
+        <div class="flex items-center w-full ml-4">
+            <form action="{{ route('paquetes.paquetes') }}" method="GET" class="flex space-x-4 w-full">
+                <div class ="w-1/6">
+                    <label for="num_dias" class="block text-sm font-medium text-gray-700">Número de días:</label>
+                    <input type="text" name="num_dias" id="num_dias" class="mt-1 p-2 border rounded-md w-full">
+                </div>
+                <div class ="w-1/6">
+                    <label for="num_noches" class="block text-sm font-medium text-gray-700 ">Número de noches:</label>
+                    <input type="text" name="num_noches" id="num_noches" class="mt-1 p-2 border rounded-md w-full">
+                </div>
+                <div class ="w-1/6">
+                    <label for="precio" class="block text-sm font-medium text-gray-700">Precio:</label>
+                    <input type="text" name="precio" id="precio" class="mt-1 p-2 border rounded-md w-full">
+                </div>
+                <div class ="w-1/6">
+                    <label for="socios" class="block text-sm font-medium text-gray-700">Socios:</label>
+                    <select name="socios" id="socios" class="mt-1 p-2 border rounded-md w-full">
+                        <option value="socios">Sí</option>
+                        <option value="no_socios">No</option>
+                    </select>
+                </div>  
+                <div>
+                    <input type="submit" value="Buscar"
+                        class="px-4 py-2 bg-blue-500 text-white rounded-md cursor-pointer">
+                </div>
+            </form>
+        </div>
+
+
+
         <div class="mt-5 mr-20 ml-20 bg-white dark:bg-gray-800 shadow-sm rounded-lg divide-y dark:divide-gray-900">
             @foreach ($paquetes as $paquete)
                 <div class = "text-center">
@@ -186,7 +219,7 @@
                                     <li class="spaninfo flex items-center">
                                         <img src="{{ asset('images/iconoEtiqueta.png') }}" class="w-4 h-4 mr-2"
                                             alt="Check Circle Icon">
-                                            {{ $caracteristica->lugar }} - {{ $caracteristica->descripcion }}
+                                        {{ $caracteristica->lugar }} - {{ $caracteristica->descripcion }}
                                     </li>
                                 @endforeach
                             </ul>
@@ -240,6 +273,12 @@
                 <hr class="my-4 border-gray-300 dark:border-gray-700">
             @endforeach
         </div>
+        <div class = "ml-20 mr-20">
+            <p class="ml-5 flex justify-center items-center list-none space-x-2">
+                {{ $paquetes->appends(['busqueda' => $busqueda]) }}
+            </p>
+        </div>
+
 
 
 
