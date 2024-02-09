@@ -56,6 +56,12 @@
     background-color: #0056b3;
     border-color: #0056b3;
 }
+#event-details {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-top: 20px;
+}
     </style>
     <body>
         <!-- Button trigger modal -->
@@ -66,7 +72,7 @@
             <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Evento</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Nuevo Evento</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -89,7 +95,7 @@
                 </div>
                 <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="saveBtn"></button>
+                <button type="button" class="btn btn-primary" id="saveBtn">Guardar</button>
                 </div>
             </div>
             </div>
@@ -130,18 +136,36 @@
             </div>
         </div>
 
-
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="col-md-11 offset-1 mt-5 mb-5">
-
-                        <div id="calendar" ></div>
-
+        <div class="flex justify-between">
+            <!-- Event Details -->
+            <div class="w-1/4 p-4">
+                <div id="event-details">
+                    <h3 class="text-lg font-bold mb-2">Detalles del Evento</h3>
+                    <hr class="mb-2">
+                    <div class="mb-1">
+                        <strong>Título:</strong> <span id="event-title"></span>
+                    </div>
+                    <div class="mb-1">
+                        <strong>Autor:</strong> <span id="event-author"></span>
+                    </div>
+                    <div class="mb-1">
+                        <strong>Fecha de Inicio:</strong> <span id="event-start"></span>
+                    </div>
+                    <div class="mb-1">
+                        <strong>Fecha de Fin:</strong> <span id="event-end"></span>
+                    </div>
+                    <div class="mb-1">
+                        <strong>Nota:</strong> <span id="event-note"></span>
                     </div>
                 </div>
             </div>
+
+            <!-- Calendar -->
+            <div class="w-3/4 p-4">
+                <div id="calendar"></div>
+            </div>
         </div>
+
 
 
         <footer class="footer py-4  ">
@@ -200,12 +224,12 @@
         selecetHelper: true,
         select: function(start, end, allDays){
             $('#eventoModal').modal('show');
-            $('#start_date').val(moment(start).format("Y-MM-DD HH:mm:ss"));
+            $('#start_date').val(moment(start).format('YYYY-MM-DD'));
 
             $('#saveBtn').unbind().click(function(){
                 var title = $('#title').val();
                 var start_date = $('#start_date').val();
-                var end_date = moment(end).format("Y-MM-DD HH:mm:ss");
+                var end_date = moment(end).format('YYYY-MM-DD');
                 var author = $('#author').val();
                 var note = $('#note').val();
 
@@ -231,7 +255,7 @@
                         'end'  :response.end_date,
                        });
                        swal("¡Evento Añadido!", "success");
-                       location.reload();
+
                     },
                     error:function(error)
                     {
@@ -246,35 +270,7 @@
         },
 
         editable: true,
-        eventDrop: function(event){
-            var id = event.id;
-            var start_date = moment(event.start).format('YYYY-MM-DD');
-            var end_date = event.end ? moment(event.end).format('YYYY-MM-DD') : moment(event.start).format('YYYY-MM-DD');
 
-            $.ajax({
-                    url:"{{ route('calendar.update', '') }}" + '/' + id,
-                    type:"PATCH",
-                    dataType:'json',
-                    data: {
-                        title: title,
-                        start_date: start_date,
-                        end_date: end_date,
-                        author: author,
-                        note: note,
-
-
-                    },
-                    success:function(response)
-                    {
-                        swal("Good job!", "Event Updated!", "success");
-                    },
-                    error:function(error){
-
-                        console.log(error)
-                    },
-
-                });
-        },
 
         eventClick: function(event){
             var id = event.id;
@@ -295,22 +291,66 @@
                     error:function(error){
 
                         console.log(error)
-                    },complete: function() {
-                        location.reload(); // Recargar la página después de editar el evento
-                    }
+                    },
 
                 });
             }
         },
+
         selectAllow: function(event){
             return moment(event.start).utcOffset(false).isSame(moment(event.end).subtract(1, 'second').utcOffset(false), 'day');
         },
 
+        eventData: function(event){
+    var id = event.id;
+    $('#editarModal').modal('show');
+
+    // Cargar datos en el modal
+    $('#title').val(event.title);
+    $('#author').val(event.author);
+    $('#note').val(event.note);
+    $('#start_date').val(moment(event.start).format('YYYY-MM-DD'));
+    $('#end_date').val(event.end ? moment(event.end).format('YYYY-MM-DD') : moment(event.start).format('YYYY-MM-DD'));
+
+    // Mostrar los detalles del evento en el panel lateral
+    showEventDetails(event);
+
+    $('#updateBtn').unbind().click(function(){
+        var start_date = $('#start_date').val();
+        var end_date = $('#end_date').val();
+        var title = $('#title').val();
+        var author = $('#author').val();
+        var note = $('#note').val();
+
+        $.ajax({
+            url: "{{ route('calendar.show', '') }}" + '/' + id,
+            type: "PATCH",
+            dataType: 'json',
+            data: {
+                title: title,
+                author: author,
+                note: note,
+                start_date: start_date,
+                end_date: end_date,
+            },
+            success: function(response) {
+                swal("¡Buen trabajo!", "¡Evento actualizado!", "success");
+                $('#editarModal').modal('hide');
+                location.reload();
+            },
+            error: function(error) {
+                console.log(error);
+            },
+        });
     });
+},
+
+
+    });
+
     $("#eventoModal").on("hidden.bs.modal", function(){
         $("#saveBtn").unbind();
     });
-
 
 });
 </script>

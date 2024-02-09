@@ -105,4 +105,7 @@ class CalendarController extends Controller
             $eventos->delete();
             return $id;
         }
+    public function show(){
+
+    }
 }
