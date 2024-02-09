@@ -81,15 +81,17 @@ class CalendarController extends Controller
         $eventos = Eventos::find($id);
             if(! $eventos){
                 return response()->json([
-                    'error'=>'unable to locate the event'
+                    'error'=>'No se pudo encontrar el evento'
                 ],404);
 
             }
 
             $eventos->update([
-
-            'start_date' => $request->start_date,
-            'end_date' => $request->end_date,
+                'title' => $request->title,
+                'author' => $request->author,
+                'note' => $request->note,
+                'start_date' => $request->start_date,
+                'end_date' => $request->end_date,
 
             ]);
             return response()->json('Event updated');
@@ -103,4 +105,7 @@ class CalendarController extends Controller
             $eventos->delete();
             return $id;
         }
+    public function show(){
+
+    }
 }

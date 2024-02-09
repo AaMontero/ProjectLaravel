@@ -4,7 +4,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Full Calendar js</title>
     <meta name="csrf-token" content="{{ csrf_token() }}" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css' rel='stylesheet'>
+<link href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
@@ -18,6 +19,50 @@
             {{ __('Calendar') }}
         </h2>
     </x-slot>
+    <style>
+        /* Estilo del contenedor del calendario */
+.fc {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+}
+
+/* Estilo del encabezado del calendario */
+.fc-header {
+    background-color: #333;
+    color: #fff;
+}
+
+/* Estilo de la barra de herramientas */
+.fc-toolbar {
+    background-color: #444;
+    color: #fff;
+}
+
+/* Estilo del área del calendario */
+.fc-view {
+    background-color: #fff;
+    border: 1px solid #ccc;
+}
+
+/* Estilo de los eventos del calendario */
+.fc-event {
+    background-color: #007bff;
+    color: #fff;
+    border: 1px solid #007bff;
+}
+
+/* Estilo para cuando se pasa el ratón por encima de un evento */
+.fc-event:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+#event-details {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-top: 20px;
+}
+    </style>
     <body>
         <!-- Button trigger modal -->
 
@@ -27,36 +72,97 @@
             <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Evento</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Nuevo Evento</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <label for="">Estado</label>
-                    <input type="text" class="form-control" id="title">
-                    <label for="">Autor</label>
+                    <label for="estado">Estado</label>
+                    <select class="form-select" id="title">
+                        <option value="prereservado">Pre-reservado</option>
+                        <option value="reservado">Reservado</option>
+                        <option value="disponible">Disponible</option>
+                    </select>
+                    <label for="">titular</label>
                     <input type="text" class="form-control" id="author">
-                    <label for="">Nota</label>
+                    <label for="">Descripcion</label>
                     <input type="text" class="form-control" id="note">
+                    <label for="">Fecha Inicio</label>
+                    <input type="date" class="form-control" id="start_date">
+                    <label for="">Fecha salida</label>
+                    <input type="date" class="form-control" id="end_date">
 
                     <span id="titleError" class="text-danger"></span>
                 </div>
                 <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="saveBtn">Save changes</button>
+                <button type="button" class="btn btn-primary" id="saveBtn">Guardar</button>
                 </div>
             </div>
             </div>
         </div>
 
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="col-md-11 offset-1 mt-5 mb-5">
+         <!-- editar Modal -->
+         <div class="modal fade" id="editarModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Editar Evento</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
 
-                        <div id="calendar"></div>
+                    <label for="estado">Estado</label>
+                    <select class="form-select" id="title">
+                        <option value="prereserva">Pre-reserva</option>
+                        <option value="reserva">Reserva</option>
+                        <option value="disponible">Disponible</option>
+                    </select>
+                    <label for="">Autor</label>
+                    <input type="text" class="form-control" id="author">
+                    <label for="">Descripcion</label>
+                    <input type="text" class="form-control" id="note">
+                    <label for="">Fecha Inicio</label>
+                    <input type="date" class="form-control" id="start_date">
+                    <label for="">Fecha salida</label>
+                    <input type="date" class="form-control" id="end_date">
 
+                    <span id="titleError" class="text-danger"></span>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="updateBtn">Actualizar</button>
+                </div>
+            </div>
+            </div>
+        </div>
+
+        <div class="flex justify-between">
+            <!-- Event Details -->
+            <div class="w-1/4 p-4">
+                <div id="event-details">
+                    <h3 class="text-lg font-bold mb-2">Detalles del Evento</h3>
+                    <hr class="mb-2">
+                    <div class="mb-1">
+                        <strong>Título:</strong> <span id="event-title"></span>
+                    </div>
+                    <div class="mb-1">
+                        <strong>Autor:</strong> <span id="event-author"></span>
+                    </div>
+                    <div class="mb-1">
+                        <strong>Fecha de Inicio:</strong> <span id="event-start"></span>
+                    </div>
+                    <div class="mb-1">
+                        <strong>Fecha de Fin:</strong> <span id="event-end"></span>
+                    </div>
+                    <div class="mb-1">
+                        <strong>Nota:</strong> <span id="event-note"></span>
                     </div>
                 </div>
+            </div>
+
+            <!-- Calendar -->
+            <div class="w-3/4 p-4">
+                <div id="calendar"></div>
             </div>
         </div>
 
@@ -79,6 +185,7 @@
               </div>
             </div>
           </footer>
+
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 <script>
 
@@ -93,20 +200,35 @@
 
         var evento = @json($event);
         $('#calendar').fullCalendar({
+
             header:{
             left:'prev, next today',
             center:'title',
             right:'month, agendaWeek, agendaDay'
         },
+        locale: 'es',
+		monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+		monthNamesShort: ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'],
+		dayNames: ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'],
+		dayNamesShort: ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'],
+        buttonText: {
+        today:    'Hoy',
+        month:    'Mes',
+        week:     'Semana',
+        day:      'Día',
+        list:     'list'
+      },
+
         events: evento,
         selectable: true,
         selecetHelper: true,
         select: function(start, end, allDays){
-            $('#eventoModal').modal('toggle');
+            $('#eventoModal').modal('show');
+            $('#start_date').val(moment(start).format('YYYY-MM-DD'));
 
-            $('#saveBtn').click(function(){
+            $('#saveBtn').unbind().click(function(){
                 var title = $('#title').val();
-                var start_date = moment(start).format('YYYY-MM-DD');
+                var start_date = $('#start_date').val();
                 var end_date = moment(end).format('YYYY-MM-DD');
                 var author = $('#author').val();
                 var note = $('#note').val();
@@ -132,6 +254,8 @@
                         'start':response.start_date,
                         'end'  :response.end_date,
                        });
+                       swal("¡Evento Añadido!", "success");
+
                     },
                     error:function(error)
                     {
@@ -144,33 +268,10 @@
 
             });
         },
+
         editable: true,
-        eventDrop: function(event){
-            var id = event.id;
-            var start_date = moment(event.start).format('YYYY-MM-DD');
-            var end_date = event.end ? moment(event.end).format('YYYY-MM-DD') : moment(event.start).format('YYYY-MM-DD');
-
-            $.ajax({
-                    url:"{{ route('calendar.update', '') }}" + '/' + id,
-                    type:"PATCH",
-                    dataType:'json',
-                    data: {
-                        start_date: start_date,
-                        end_date: end_date,
 
 
-                    },
-                    success:function(response)
-                    {
-                        swal("Good job!", "Event Updated!", "success");
-                    },
-                    error:function(error){
-
-                        console.log(error)
-                    },
-
-                });
-        },
         eventClick: function(event){
             var id = event.id;
             if(confirm('are you sure want to remove it')){
@@ -195,11 +296,58 @@
                 });
             }
         },
+
         selectAllow: function(event){
             return moment(event.start).utcOffset(false).isSame(moment(event.end).subtract(1, 'second').utcOffset(false), 'day');
         },
 
+        eventData: function(event){
+    var id = event.id;
+    $('#editarModal').modal('show');
+
+    // Cargar datos en el modal
+    $('#title').val(event.title);
+    $('#author').val(event.author);
+    $('#note').val(event.note);
+    $('#start_date').val(moment(event.start).format('YYYY-MM-DD'));
+    $('#end_date').val(event.end ? moment(event.end).format('YYYY-MM-DD') : moment(event.start).format('YYYY-MM-DD'));
+
+    // Mostrar los detalles del evento en el panel lateral
+    showEventDetails(event);
+
+    $('#updateBtn').unbind().click(function(){
+        var start_date = $('#start_date').val();
+        var end_date = $('#end_date').val();
+        var title = $('#title').val();
+        var author = $('#author').val();
+        var note = $('#note').val();
+
+        $.ajax({
+            url: "{{ route('calendar.show', '') }}" + '/' + id,
+            type: "PATCH",
+            dataType: 'json',
+            data: {
+                title: title,
+                author: author,
+                note: note,
+                start_date: start_date,
+                end_date: end_date,
+            },
+            success: function(response) {
+                swal("¡Buen trabajo!", "¡Evento actualizado!", "success");
+                $('#editarModal').modal('hide');
+                location.reload();
+            },
+            error: function(error) {
+                console.log(error);
+            },
+        });
     });
+},
+
+
+    });
+
     $("#eventoModal").on("hidden.bs.modal", function(){
         $("#saveBtn").unbind();
     });
