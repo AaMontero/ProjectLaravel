@@ -80,11 +80,11 @@
                     <div class="modal-body">
                         <label for="estado">Estado</label>
                         <select class="form-select" id="title">
-                            <option value="prereservado">Pre-reservado</option>
-                            <option value="reservado">Reservado</option>
-                            <option value="disponible">Disponible</option>
+                            <option value="Prereservado">Pre-reservado</option>
+                            <option value="Reservado">Reservado</option>
+                            <option value="Disponible">Disponible</option>
                         </select>
-                        <label for="">titular</label>
+                        <label for="">Titular</label>
                         <input type="text" class="form-control" id="author">
                         <label for="">Descripcion</label>
                         <input type="text" class="form-control" id="note">
@@ -114,25 +114,25 @@
                     <div class="modal-body">
 
                         <label for="estado">Estado</label>
-                        <select class="form-select" id="title">
-                            <option value="prereserva">Pre-reserva</option>
-                            <option value="reserva">Reserva</option>
-                            <option value="disponible">Disponible</option>
+                        <select class="form-select" id="title_edit">
+                            <option value="Prereservado">Pre-reservado</option>
+                            <option value="Reservado">Reservado</option>
+                            <option value="Disponible">Disponible</option>
                         </select>
                         <label for="">Autor</label>
-                        <input type="text" class="form-control" id="author">
+                        <input type="text" class="form-control" id="author_edit">
                         <label for="">Descripcion</label>
-                        <input type="text" class="form-control" id="note">
+                        <input type="text" class="form-control" id="note_edit">
                         <label for="">Fecha Inicio</label>
-                        <input type="date" class="form-control" id="start_date">
+                        <input type="date" class="form-control" id="start_date_edit">
                         <label for="">Fecha salida</label>
-                        <input type="date" class="form-control" id="end_date">
+                        <input type="date" class="form-control" id="end_date_edit">
 
                         <span id="titleError" class="text-danger"></span>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" id="updateBtn">Actualizar</button>
+                        <button type="button" class="btn btn-secondary" data-bsx-dismiss="modal">Editar</button>
+                        <button type="button" class="btn btn-primary" id="updateBtn">Eliminar</button>
                     </div>
                 </div>
             </div>
@@ -233,11 +233,14 @@
                     select: function(start, end, allDays) {
                         $('#eventoModal').modal('show');
                         $('#start_date').val(moment(start).format('YYYY-MM-DD'));
+                        $('#end_date').val(moment(end).format('YYYY-MM-DD'));
 
                         $('#saveBtn').unbind().click(function() {
                             var title = $('#title').val();
+                            console.log("El valor de end es: "+ end); 
                             var start_date = $('#start_date').val();
-                            var end_date = moment(end).format('YYYY-MM-DD');
+                            var end_date = $('#end_date').val();
+                            console.log("El valor de end_date es: " + end_date);
                             var author = $('#author').val();
                             var note = $('#note').val();
 
@@ -258,8 +261,8 @@
                                     $('#eventoModal').modal('hide')
                                     $('#calendar').fullCalendar('renderEvent', {
                                         'title': response.title,
-                                        'author' : response.author, 
-                                        'note' : response.note, 
+                                        'author': response.author,
+                                        'note': response.note,
                                         'start': response.start_date,
                                         'end': response.end_date,
                                     });
@@ -282,15 +285,7 @@
 
 
                     eventClick: function(event) {
-                        console.log(event.title);
-                        console.log(event.author);
-                        console.log(event.start);
-                        console.log(event.end);
-                        console.log(event.note);
-                        // $('#author').val(event.author);
-                        // $('#note').val(event.note);
-                        // $('#author').val(event.author);
-                        // $('#note').val(event.note);
+                        $('#editarModal').modal('show');
                         var id = event.id;
                         console.log("Esta apretando el boton");
                         var tituloSeleccionado = event.title;
@@ -298,11 +293,21 @@
                         var fechaInicioSeleccionado = event.start;
                         var fechaFinSeleccionado = event.end;
                         var notaSeleccionado = event.note;
+                        console.log(tituloSeleccionado); 
+                        var fechaInicioSeleccionado = new Date(fechaInicioSeleccionado);
+                        var formatoFechaInicio = fechaInicioSeleccionado.toISOString().split('T')[0];
+                        var fechaFinSeleccionado = new Date(fechaFinSeleccionado);
+                        var formatoFechaFin = fechaFinSeleccionado.toISOString().split('T')[0];
                         document.getElementById("tituloSpan").innerText = tituloSeleccionado;
                         document.getElementById("autorSpan").innerText = autorSeleccionado;
                         document.getElementById("fechaInicioSpan").innerText = fechaInicioSeleccionado;
                         document.getElementById("fechaFinSpan").innerText = fechaFinSeleccionado;
                         document.getElementById("notaSpan").innerText = notaSeleccionado;
+                        document.getElementById("title_edit").value = tituloSeleccionado;
+                        document.getElementById("author_edit").value = autorSeleccionado;
+                        document.getElementById("start_date_edit").value = formatoFechaInicio;
+                        document.getElementById("end_date_edit").value = formatoFechaFin;
+                        document.getElementById("note_edit").value = notaSeleccionado;
 
                         // if(confirm('are you sure want to remove it')){
                         //     $.ajax({
