@@ -290,8 +290,9 @@
                         var fechaInicioSeleccionado = event.start;
                         var fechaFinSeleccionado = event.end;
                         var notaSeleccionado = event.note;
+
                         // Convertir las fechas a un formato legible
-                        console.log(tituloSeleccionado);
+                        console.log("Título seleccionado:", tituloSeleccionado);
                         var fechaInicioSeleccionado = new Date(fechaInicioSeleccionado);
                         var formatoFechaInicio = fechaInicioSeleccionado.toISOString().split('T')[0];
                         var fechaFinSeleccionado = new Date(fechaFinSeleccionado);
@@ -301,30 +302,30 @@
 
 
                         // Mostrar los detalles del evento en el modal
-                        // document.getElementById("tituloSpan").innerText = tituloSeleccionado;
-                        // document.getElementById("autorSpan").innerText = autorSeleccionado;
-                        // document.getElementById("fechaInicioSpan").innerText = fechaInicioSeleccionado;
-                        // document.getElementById("fechaFinSpan").innerText = fechaFinSeleccionado;
-                        // document.getElementById("notaSpan").innerText = notaSeleccionado;
-
-                        // // Establecer los valores en el formulario de edición
-                        // document.getElementById("title_edit").value = tituloSeleccionado;
-                        // document.getElementById("author_edit").value = autorSeleccionado;
-                        // document.getElementById("start_date_edit").value = formatoFechaInicio;
-                        // document.getElementById("end_date_edit").value = formatoFechaFin;
-                        // document.getElementById("note_edit").value = notaSeleccionado;
-                        $('#tituloSpan').text(tituloSeleccionado);
-                        $('#autorSpan').text(autorSeleccionado);
-                        $('#fechaInicioSpan').text(formatoFechaInicio);
-                        $('#fechaFinSpan').text(formatoFechaFin);
-                        $('#notaSpan').text(notaSeleccionado);
+                        document.getElementById("tituloSpan").innerText = tituloSeleccionado;
+                        document.getElementById("autorSpan").innerText = autorSeleccionado;
+                        document.getElementById("fechaInicioSpan").innerText = fechaInicioSeleccionado;
+                        document.getElementById("fechaFinSpan").innerText = fechaFinSeleccionado;
+                        document.getElementById("notaSpan").innerText = notaSeleccionado;
 
                         // Establecer los valores en el formulario de edición
-                        $('#title_edit').val(tituloSeleccionado);
-                        $('#author_edit').val(autorSeleccionado);
-                        $('#start_date_edit').val(formatoFechaInicio);
-                        $('#end_date_edit').val(formatoFechaFin);
-                        $('#note_edit').val(notaSeleccionado);
+                        document.getElementById("title_edit").value = tituloSeleccionado;
+                        document.getElementById("author_edit").value = autorSeleccionado;
+                        document.getElementById("start_date_edit").value = formatoFechaInicio;
+                        document.getElementById("end_date_edit").value = formatoFechaFin;
+                        document.getElementById("note_edit").value = notaSeleccionado;
+                        // $('#tituloSpan').text(tituloSeleccionado);
+                        // $('#autorSpan').text(autorSeleccionado);
+                        // $('#fechaInicioSpan').text(formatoFechaInicio);
+                        // $('#fechaFinSpan').text(formatoFechaFin);
+                        // $('#notaSpan').text(notaSeleccionado);
+
+                        // // Establecer los valores en el formulario de edición
+                        // $('#title_edit').val(tituloSeleccionado);
+                        // $('#author_edit').val(autorSeleccionado);
+                        // $('#start_date_edit').val(formatoFechaInicio);
+                        // $('#end_date_edit').val(formatoFechaFin);
+                        // $('#note_edit').val(notaSeleccionado);
 
 
                         // Configurar la función de clic para el botón de actualización
@@ -362,40 +363,38 @@
                         });
 
                         $('#deleteBtn').unbind().click(function() {
-    var id = event.id;
-    swal({
-        title: "¿Estás seguro?",
-        text: "¡No podrás recuperar este evento una vez eliminado!",
-        icon: "warning",
-        buttons: ["Cancelar", "Sí, eliminarlo"],
-        dangerMode: true,
-    })
-    .then((willDelete) => {
-        if (willDelete) {
-            $.ajax({
-                url: "{{ route('calendar.destroy', '') }}" + '/' + id,
-                type: "DELETE",
-                dataType: 'json',
-                success: function(response) {
-                    swal("¡Bien hecho!", "¡Evento Eliminado!", "success").then(() => {
-                        $('#editarModal').modal('hide');
-                        location.reload();
-                    });
-                },
-                error: function(error) {
-                    console.log(error);
-                    swal("¡Error!", "Hubo un error al eliminar el evento.", "error");
-                }
-            });
-        } else {
-            swal("Operación cancelada", {
-                icon: "info",
-            });
-        }
-    });
-});
-
-
+                            var id = event.id;
+                            swal({
+                                title: "¿Estás seguro?",
+                                text: "¡No podrás recuperar este evento una vez eliminado!",
+                                icon: "warning",
+                                buttons: ["Cancelar", "Sí, eliminarlo"],
+                                dangerMode: true,
+                            })
+                            .then((willDelete) => {
+                                if (willDelete) {
+                                    $.ajax({
+                                        url: "{{ route('calendar.destroy', '') }}" + '/' + id,
+                                        type: "DELETE",
+                                        dataType: 'json',
+                                        success: function(response) {
+                                            swal("¡Bien hecho!", "¡Evento Eliminado!", "success").then(() => {
+                                                $('#editarModal').modal('hide');
+                                                location.reload();
+                                            });
+                                        },
+                                        error: function(error) {
+                                            console.log(error);
+                                            swal("¡Error!", "Hubo un error al eliminar el evento.", "error");
+                                        }
+                                    });
+                                } else {
+                                    swal("Operación cancelada", {
+                                        icon: "info",
+                                    });
+                                }
+                            });
+                        });
 
                     },
 
