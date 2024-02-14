@@ -13,13 +13,49 @@ class PaqueteController extends Controller
      */
     public function index(Request $request)
     {
-        $busqueda = $request->busqueda;
-        return view('paquetes.paquetes', [
-            "paquetes" => Paquete::with('user', 'incluye')
-            ->where('num_dias', 'LIKE', '%' . $busqueda . '%')
-            ->where('num_noches','LIKE', '%' . $busqueda . '%')->latest()->paginate(2), 
-            "busqueda" => $busqueda
-        ]);
+        $num_dias = $request->num_dias;
+        $num_noches = $request->num_noches;
+        $precio_min = $request->precio_min;
+        $precio_max = $request->precio_max;
+        $afiliadoBool = ($request->socio == "socio") ? "precio_afiliado" : "precio_no_afiliado";
+        $caracteristica = $request->caracteristica;
+        if ($caracteristica == "") {
+            return view('paquetes.paquetes', [
+                "paquetes" => Paquete::with('user', 'incluye')
+                    ->where('num_dias', 'LIKE', '%' . $num_dias . '%')
+                    ->where('num_noches', 'LIKE', '%' . $num_noches . '%')
+                    ->where($afiliadoBool, '>', ($precio_min != "") ? (float)$precio_min : 0)
+                    ->where($afiliadoBool, '<', ($precio_max != "") ? (float)$precio_max : 999999999)
+                    ->latest()
+                    ->paginate(5),
+                "num_dias" => $num_dias,
+                "num_noches" => $num_noches,
+                "precio_min" => $precio_min,
+                "precio_max" => $precio_max,
+                "caracteristica" => "",
+            ]);
+        } else {
+            return view('paquetes.paquetes', [
+                "paquetes" => Paquete::with('user', 'incluye')
+                    ->where('num_dias', 'LIKE', '%' . $num_dias . '%')
+                    ->where('num_noches', 'LIKE', '%' . $num_noches . '%')
+                    ->where($afiliadoBool, '>', ($precio_min != "") ? (float)$precio_min : 0)
+                    ->where($afiliadoBool, '<', ($precio_max != "") ? (float)$precio_max : 999999999)
+                    ->whereHas('incluye', function ($query) use ($caracteristica) {
+                        $query->where('lugar', 'LIKE', '%' . $caracteristica . '%')
+                            ->orWhere('descripcion', 'LIKE', '%' . $caracteristica . '%');
+                        $sql = $query->toSql();
+                        file_put_contents("queryFiltroCaracteristica.txt", "El query: " . $sql);
+                    })
+                    ->latest()
+                    ->paginate(5),
+                "num_dias" => $num_dias,
+                "num_noches" => $num_noches,
+                "precio_min" => $precio_min,
+                "precio_max" => $precio_max,
+                "caracteristica" => $caracteristica,
+            ]);
+        }
     }
 
     /**
