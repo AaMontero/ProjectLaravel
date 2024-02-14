@@ -322,26 +322,7 @@
         var author = $('#author').val();
         var note = $('#note').val();
 
-        $.ajax({
-            url: "{{ route('calendar.show', '') }}" + '/' + id,
-            type: "PATCH",
-            dataType: 'json',
-            data: {
-                title: title,
-                author: author,
-                note: note,
-                start_date: start_date,
-                end_date: end_date,
-            },
-            success: function(response) {
-                swal("¡Buen trabajo!", "¡Evento actualizado!", "success");
-                $('#editarModal').modal('hide');
-                location.reload();
-            },
-            error: function(error) {
-                console.log(error);
-            },
-        });
+
     });
 },
 
