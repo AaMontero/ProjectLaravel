@@ -10,8 +10,7 @@ use Illuminate\Http\Request;
 class CalendarController extends Controller
 {
     //
-    public function index()
-    {
+    public function index(){
         $events = array();
         $eventos = Eventos::all();
         foreach($eventos as $evento){
@@ -54,11 +53,8 @@ class CalendarController extends Controller
     public function update(Request $request ,$id){
 
         $eventos = Eventos::find($id);
-            if(! $eventos){
-                return response()->json([
-                    'error'=>'No se pudo encontrar el evento'
-                ],404);
-
+            if(!$eventos){
+                return response()->json(['error'=>'No se pudo encontrar el evento'],404);
             }
 
             $eventos->update([
@@ -69,17 +65,18 @@ class CalendarController extends Controller
                 'end_date' => $request->end_date,
 
             ]);
-            return response()->json('Event updated');
+            return response()->json(['message' => 'Evento actualizado correctamente', 'event' => $eventos]);
     }
+
     public function destroy($id){
         $eventos = Eventos::find($id);
         if(! $eventos){
-            return response()->json([
-                'error'=>'unable to locate the event'
-            ],404);}
-            $eventos->delete();
-            return $id;
+            return response()->json(['error' => 'No se pudo encontrar el evento'], 404);
         }
+            $eventos->delete();
+            return response()->json(['message' => 'Evento eliminado correctamente', 'id' => $id]);
+        }
+
     public function show(){
 
     }
