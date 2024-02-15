@@ -20,49 +20,77 @@
         </h2>
     </x-slot>
     <style>
-        /* Estilo del contenedor del calendario */
-        .fc {
-            background-color: #f0f0f0;
-            border: 1px solid #ccc;
-        }
+/* Estilo para el contenedor del calendario */
+#calendar {
+  max-width: 800px;
+  margin: 0 auto;
+}
 
-        /* Estilo del encabezado del calendario */
-        .fc-header {
-            background-color: #333;
-            color: #fff;
-        }
+/* Estilo para el encabezado del calendario */
+.fc-toolbar {
+  margin-bottom: 20px;
+}
 
-        /* Estilo de la barra de herramientas */
-        .fc-toolbar {
-            background-color: #444;
-            color: #fff;
-        }
+/* Estilo para los botones del encabezado del calendario */
+.fc-button {
+  background-color: #a6b8c3; /* Azul */
+  color: #000000; /* Blanco */
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 10px;
+}
 
-        /* Estilo del área del calendario */
-        .fc-view {
-            background-color: #fff;
-            border: 1px solid #ccc;
-        }
+.fc-button:hover {
+  background-color: #7f8183; /* Azul más oscuro al pasar el cursor */
+}
 
-        /* Estilo de los eventos del calendario */
-        .fc-event {
-            background-color: #007bff;
-            color: #fff;
-            border: 1px solid #007bff;
-        }
+/* Estilo para las vistas del calendario (día, semana, mes) */
+.fc-view {
+  border: 1px solid #dddddd;
+  border-radius: 5px;
+}
 
-        /* Estilo para cuando se pasa el ratón por encima de un evento */
-        .fc-event:hover {
-            background-color: #0056b3;
-            border-color: #0056b3;
-        }
+/* Estilo para los eventos del calendario */
+.fc-event {
+  background-color: #3e5046; /* Verde */
+  color: #ffffff; /* Blanco */
+  border: none;
+  border-radius: 10px;
+  padding: 2px 10px;
+  cursor: pointer;
+  margin-bottom: 5px;
+}
 
-        #event-details {
-            background-color: #f9f9f9;
-            border: 1px solid #ddd;
-            padding: 10px;
-            margin-top: 20px;
-        }
+.fc-event:hover {
+  background-color: #717e76; /* Verde más oscuro al pasar el cursor */
+}
+
+/* Estilo para el título del evento */
+.fc-title {
+  font-size: 14px;
+}
+
+/* Estilo para la descripción del evento */
+.fc-time {
+  font-size: 12px;
+}
+
+/* Estilo para el botón de "más" (cuando hay demasiados eventos para mostrar) */
+.fc-more {
+  background-color: #e74c3c; /* Rojo */
+  color: #ffffff; /* Blanco */
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.fc-more:hover {
+  background-color: #c0392b; /* Rojo más oscuro al pasar el cursor */
+}
+
     </style>
 
     <body>
@@ -103,6 +131,7 @@
             </div>
         </div>
 
+
         <!-- editar Modal -->
         <div class="modal fade" id="editarModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -111,15 +140,15 @@
                         <h5 class="modal-title" id="exampleModalLabel">Editar Evento</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
 
+                    <div class="modal-body">
                         <label for="estado">Estado</label>
                         <select class="form-select" id="title_edit">
                             <option value="Prereservado">Pre-reservado</option>
                             <option value="Reservado">Reservado</option>
                             <option value="Disponible">Disponible</option>
                         </select>
-                        <label for="">Autor</label>
+                        <label for="text">Autor</label>
                         <input type="text" class="form-control" id="author_edit">
                         <label for="">Descripcion</label>
                         <input type="text" class="form-control" id="note_edit">
@@ -127,13 +156,14 @@
                         <input type="date" class="form-control" id="start_date_edit">
                         <label for="">Fecha salida</label>
                         <input type="date" class="form-control" id="end_date_edit">
-
                         <span id="titleError" class="text-danger"></span>
                     </div>
+
                     <div class="modal-footer">
                         <button type="button" class="btn btn-success" id="updateBtn">Editar</button>
                         <button type="button" class="btn btn-danger" id="deleteBtn">Eliminar</button>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -266,7 +296,7 @@
                                         'start': response.start_date,
                                         'end': response.end_date,
                                    });
-                                   swal("¡Exito!", "¡Evento Actualizado!", "success")
+                                   swal("¡Exito!", "¡Evento Guardado Correctamente!", "success")
 
                                 },
                                 error: function(error) {
@@ -282,9 +312,15 @@
 
                     eventClick: function(event) {
                         $('#editarModal').modal('show');
+                        $('#title_edit').val(tituloSeleccionado);
+
+                        $('#editarModal').on('shown.bs.modal', function () {
+                        $('#title_edit').val(tituloSeleccionado);
+                         });
+                         $('#title_edit option[value="' + tituloSeleccionado + '"]').prop('selected', true);
+
 
                         var id = event.id;
-                        console.log("Esta apretando el boton");
                         var tituloSeleccionado = event.title;
                         var autorSeleccionado = event.author;
                         var fechaInicioSeleccionado = event.start;
@@ -292,7 +328,7 @@
                         var notaSeleccionado = event.note;
 
                         // Convertir las fechas a un formato legible
-                        console.log("Título seleccionado:", tituloSeleccionado);
+
                         var fechaInicioSeleccionado = new Date(fechaInicioSeleccionado);
                         var formatoFechaInicio = fechaInicioSeleccionado.toISOString().split('T')[0];
                         var fechaFinSeleccionado = new Date(fechaFinSeleccionado);
@@ -301,7 +337,7 @@
                         var formatoFechaFin = moment(fechaFinSeleccionado).format('YYYY-MM-DD');
 
 
-                        // Mostrar los detalles del evento en el modal
+                        //Mostrar los detalles del evento en el modal
                         document.getElementById("tituloSpan").innerText = tituloSeleccionado;
                         document.getElementById("autorSpan").innerText = autorSeleccionado;
                         document.getElementById("fechaInicioSpan").innerText = fechaInicioSeleccionado;
@@ -309,23 +345,15 @@
                         document.getElementById("notaSpan").innerText = notaSeleccionado;
 
                         // Establecer los valores en el formulario de edición
+                        console.log("Valor del título seleccionado:", tituloSeleccionado);
                         document.getElementById("title_edit").value = tituloSeleccionado;
                         document.getElementById("author_edit").value = autorSeleccionado;
                         document.getElementById("start_date_edit").value = formatoFechaInicio;
                         document.getElementById("end_date_edit").value = formatoFechaFin;
                         document.getElementById("note_edit").value = notaSeleccionado;
-                        // $('#tituloSpan').text(tituloSeleccionado);
-                        // $('#autorSpan').text(autorSeleccionado);
-                        // $('#fechaInicioSpan').text(formatoFechaInicio);
-                        // $('#fechaFinSpan').text(formatoFechaFin);
-                        // $('#notaSpan').text(notaSeleccionado);
 
-                        // // Establecer los valores en el formulario de edición
-                        // $('#title_edit').val(tituloSeleccionado);
-                        // $('#author_edit').val(autorSeleccionado);
-                        // $('#start_date_edit').val(formatoFechaInicio);
-                        // $('#end_date_edit').val(formatoFechaFin);
-                        // $('#note_edit').val(notaSeleccionado);
+
+
 
 
                         // Configurar la función de clic para el botón de actualización

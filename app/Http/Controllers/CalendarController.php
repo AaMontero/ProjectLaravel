@@ -77,7 +77,5 @@ class CalendarController extends Controller
             return response()->json(['message' => 'Evento eliminado correctamente', 'id' => $id]);
         }
 
-    public function show(){
 
-    }
 }
