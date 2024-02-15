@@ -142,7 +142,7 @@
                 text-align: center;
             }
         </style>
-        <div class="flex items-center w-full ml-4">
+        <div class="flex items-center w-full ml-10">
             <form action="{{ route('paquetes.paquetes') }}" method="GET" class="flex space-x-4 w-full">
                 <div class = "w-1/4 flex">
                     <div class ="w-1/2 mr-4">
@@ -297,7 +297,13 @@
         </div>
         <div class = "ml-20 mr-20">
             <p class="ml-5 flex justify-center items-center list-none space-x-2">
-                {{ $paquetes->appends(['busqueda' => $busqueda]) }}
+                {{ $paquetes->appends(['num_dias' => $num_dias, 
+                'num_noches' => $num_noches,
+                'precio_min' => $precio_min,
+                'precio_max' => $precio_max, 
+
+                
+                ]) }}
             </p>
         </div>
 
