@@ -22,7 +22,7 @@
     <style>
 /* Estilo para el contenedor del calendario */
 #calendar {
-  max-width: 800px;
+  max-width: 1000px;
   margin: 0 auto;
 }
 
@@ -312,13 +312,6 @@
 
                     eventClick: function(event) {
                         $('#editarModal').modal('show');
-                        $('#title_edit').val(tituloSeleccionado);
-
-                        $('#editarModal').on('shown.bs.modal', function () {
-                        $('#title_edit').val(tituloSeleccionado);
-                         });
-                         $('#title_edit option[value="' + tituloSeleccionado + '"]').prop('selected', true);
-
 
                         var id = event.id;
                         var tituloSeleccionado = event.title;
@@ -326,17 +319,13 @@
                         var fechaInicioSeleccionado = event.start;
                         var fechaFinSeleccionado = event.end;
                         var notaSeleccionado = event.note;
-
                         // Convertir las fechas a un formato legible
-
-                        var fechaInicioSeleccionado = new Date(fechaInicioSeleccionado);
-                        var formatoFechaInicio = fechaInicioSeleccionado.toISOString().split('T')[0];
-                        var fechaFinSeleccionado = new Date(fechaFinSeleccionado);
-                        var formatoFechaFin = fechaFinSeleccionado.toISOString().split('T')[0];
+                        // var fechaInicioSeleccionado = new Date(fechaInicioSeleccionado);
+                        // var formatoFechaInicio = fechaInicioSeleccionado.toISOString().split('T')[0];
+                        // var fechaFinSeleccionado = new Date(fechaFinSeleccionado);
+                        // var formatoFechaFin = fechaFinSeleccionado.toISOString().split('T')[0];
                         var formatoFechaInicio = moment(fechaInicioSeleccionado).format('YYYY-MM-DD');
                         var formatoFechaFin = moment(fechaFinSeleccionado).format('YYYY-MM-DD');
-
-
                         //Mostrar los detalles del evento en el modal
                         document.getElementById("tituloSpan").innerText = tituloSeleccionado;
                         document.getElementById("autorSpan").innerText = autorSeleccionado;
@@ -352,13 +341,9 @@
                         document.getElementById("end_date_edit").value = formatoFechaFin;
                         document.getElementById("note_edit").value = notaSeleccionado;
 
-
-
-
-
                         // Configurar la función de clic para el botón de actualización
                         $('#updateBtn').unbind().click(function() {
-                            console.log('prueba01');
+                            console.log('Editado Correctamente');
                             var id = event.id;
                             var start_date = $('#start_date_edit').val();
                             var end_date = $('#end_date_edit').val();
