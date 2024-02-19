@@ -21,7 +21,7 @@
     <div class="py-12">
         <div id="idAgregarPaquete" class="max-w-7xl mx-auto sm:px lg:px-8" style="display: none;">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div id = " "class="p-6 text-gray-900 dark:text-gray-100">
+                <div class="p-6 text-gray-900 dark:text-gray-100">
                     <form method="POST" action = "{{ route('paquetes.store') }} " enctype="multipart/form-data">
                         @csrf
                         <p class="mt-1 p-1 ml-4">Nombre del paquete:</p>

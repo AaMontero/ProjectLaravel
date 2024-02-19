@@ -76,7 +76,7 @@ class PaqueteController extends Controller
      */
     public function store(Request $request)
     {
-        file_put_contents("text1.txt", "Esta entrando en el metodo store ");
+
         $validated = $request->validate([
             'message' => ['required', 'min:3', 'max:255'],
             'nombre_paquete' => ['required', 'min:5', 'max:255'],

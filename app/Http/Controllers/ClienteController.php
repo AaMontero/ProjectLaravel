@@ -11,17 +11,9 @@ class ClienteController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('clientes.index',["clientes" => "Cliente::"]);
-        /*return view('paquetes.paquetes', [
-            "paquetes" => Paquete::with('user', 'incluye')
-                ->where('num_dias', 'LIKE', '%' . 5 . '%')
-                ->where('num_noches', 'LIKE', '%' . 5 . '%')
-                ->where(5, '>', (5 != "") ? (float)5: 0)
-                ->where(5, '<', (5 != "") ? (float)5: 999999999)
-                ->latest()->paginate(5),
-        ]);*/
+        return view('clientes.index',["clientes" => Cliente::with('user')->get()]);
     }
 
     /**
@@ -37,7 +29,17 @@ class ClienteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+        $validated = $request->validate([
+            'cedula' => ['required', 'min:10', 'max:10'],
+            'nombres' => ['required', 'min:5', 'max:255'],
+            'apellidos' => ['required', 'integer', 'min:1'],
+            'numTelefonico' => ['required', 'integer', 'min:1'],
+            'email' => ['required', 'numeric', 'min:0.01', 'max:9999.99'],
+            'ciudad' => ['required', 'numeric', 'min:0.01', 'max:9999.99'],
+            'provincia' => ['required', 'numeric', 'min:0.01', 'max:9999.99'],
+            
+        ]);
     }
 
     /**
