@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CalendarController;
+use App\Http\Controllers\ContratoController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PaqueteController;
@@ -65,6 +66,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/calendar', [CalendarController::class, 'store'])->name('calendar.store');
     Route::patch('calendar/update/{id}', [CalendarController::class, 'update'])->name('calendar.update');
     Route::delete('calendar/destroy/{id}', [CalendarController::class, 'destroy'])->name('calendar.destroy');
+
+    //Rutas para los contratos y clientes
+    Route::get('contrato/index',[ContratoController::class, 'index'])->name('contrato.index');
+    //Route::post('/contrato/index', [ContratoController::class, 'store'])->name('contrato.store');
 
 
 
