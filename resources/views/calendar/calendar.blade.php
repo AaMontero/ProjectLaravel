@@ -19,80 +19,83 @@
             {{ __('Calendar') }}
         </h2>
     </x-slot>
+
     <style>
-/* Estilo para el contenedor del calendario */
+/* Estilos generales */
+body {
+    background-color: #ffffff;
+    color: #000000;
+    font-family: Arial, sans-serif;
+}
+
+/* Estilos para la parte de Event Details */
+#event-details {
+    background-color: #cecece;
+    padding: 20px;
+    border-radius: 10px;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Animación para Event Details */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Estilos para el calendario */
 #calendar {
-  max-width: 1000px;
-  margin: 0 auto;
+    background-color:#bcbcbc;
+    padding: 20px;
+    border-radius: 10px;
+
 }
 
-/* Estilo para el encabezado del calendario */
-.fc-toolbar {
-  margin-bottom: 20px;
+/* Animación para el calendario */
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
 }
 
-/* Estilo para los botones del encabezado del calendario */
+/* Estilos para los botones del calendario */
 .fc-button {
-  background-color: #a6b8c3; /* Azul */
-  color: #000000; /* Blanco */
-  border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-right: 10px;
+
+    color: #000000;
+    border-color: #000000; /* Red */
+    border-radius: 5px;
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-.fc-button:hover {
-  background-color: #7f8183; /* Azul más oscuro al pasar el cursor */
-}
 
-/* Estilo para las vistas del calendario (día, semana, mes) */
-.fc-view {
-  border: 1px solid #dddddd;
-  border-radius: 5px;
-}
-
-/* Estilo para los eventos del calendario */
+/* Estilos para los eventos agregados */
 .fc-event {
-  background-color: #3e5046; /* Verde */
-  color: #ffffff; /* Blanco */
-  border: none;
-  border-radius: 10px;
-  padding: 2px 10px;
-  cursor: pointer;
-  margin-bottom: 5px;
+    background-color: #4dff40; /* Orange */
+    border-color: #40ff69; /* Orange */
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 14px;
+    cursor: pointer;
 }
 
-.fc-event:hover {
-  background-color: #717e76; /* Verde más oscuro al pasar el cursor */
-}
-
-/* Estilo para el título del evento */
-.fc-title {
-  font-size: 14px;
-}
-
-/* Estilo para la descripción del evento */
-.fc-time {
-  font-size: 12px;
-}
-
-/* Estilo para el botón de "más" (cuando hay demasiados eventos para mostrar) */
-.fc-more {
-  background-color: #e74c3c; /* Rojo */
-  color: #ffffff; /* Blanco */
-  border: none;
-  border-radius: 5px;
-  padding: 5px 10px;
-  cursor: pointer;
-}
-
-.fc-more:hover {
-  background-color: #c0392b; /* Rojo más oscuro al pasar el cursor */
+/* Estilos para eventos del mismo día */
+.fc-day-grid-event {
+    background-color: #00227f; /* Blue */
+    border-color: #081844; /* Blue */
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 14px;
+    cursor: pointer;
 }
 
     </style>
-
     <body>
         <!-- Button trigger modal -->
 
@@ -200,24 +203,7 @@
 
 
 
-        <footer class="footer py-4  ">
-            <div class="container-fluid">
-                <div class="row align-items-center justify-content-lg-between">
-                    <div class="col-lg-6 mb-lg-0 mb-4">
-                        <div class="copyright text-center text-sm text-muted text-lg-start">
-                            ©
-                            <script>
-                                document.write(new Date().getFullYear())
-                            </script>,
-                            made with <i class="fa fa-heart"></i> by
-                            <a href="#" class="font-weight-bold" target="_blank">QORI TRAVEL</a>
-                            for a better web.
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </footer>
+        @include('layouts.footer')
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
             integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
@@ -296,8 +282,11 @@
                                         'start': response.start_date,
                                         'end': response.end_date,
                                    });
-                                   swal("¡Exito!", "¡Evento Guardado Correctamente!", "success")
 
+                                   swal("¡Éxito!", "¡Evento Guardado Correctamente!", "success")
+                                        .then(function() {
+                                            location.reload(); // Recargar la página después del mensaje de éxito
+                                        });
                                 },
                                 error: function(error) {
                                     if (error.responseJSON.errors) {

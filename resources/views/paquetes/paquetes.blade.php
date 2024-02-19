@@ -1,4 +1,5 @@
 <x-app-layout>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css' rel='stylesheet'>
 
     <x-slot name="header">
         <div class="flex justify-between items-center">
@@ -297,12 +298,12 @@
         </div>
         <div class = "ml-20 mr-20">
             <p class="ml-5 flex justify-center items-center list-none space-x-2">
-                {{ $paquetes->appends(['num_dias' => $num_dias, 
+                {{ $paquetes->appends(['num_dias' => $num_dias,
                 'num_noches' => $num_noches,
                 'precio_min' => $precio_min,
-                'precio_max' => $precio_max, 
+                'precio_max' => $precio_max,
 
-                
+
                 ]) }}
             </p>
         </div>
@@ -312,4 +313,5 @@
 
     </div>
     </div>
+    @include('layouts.footer')
 </x-app-layout>
