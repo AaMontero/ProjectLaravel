@@ -27,6 +27,9 @@
                     <x-nav-link :href="route('clientes.index')" :active="request()->routeIs('clientes.*')">
                         {{ __('Clients') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('contrato.index')" :active="request()->routeIs('contrato.*')">
+                        {{ __('Contracts') }}
+                    </x-nav-link>
 
                 </div>
             </div>
@@ -97,6 +100,13 @@
             <x-responsive-nav-link :href="route('calendar.index')" :active="request()->routeIs('Calendar.*')">
                 {{ __('Calendar') }}
             </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('clientes.index')" :active="request()->routeIs('Clientes.*')">
+                {{ __('Clients') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('contrato.index')" :active="request()->routeIs('Contrato.*')">
+                {{ __('Contracts') }}
+            </x-responsive-nav-link>
+
         </div>
 
         <!-- Responsive Settings Options -->
