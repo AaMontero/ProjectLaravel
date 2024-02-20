@@ -541,6 +541,12 @@ class ContratoController extends Controller
                     return response()->json(['errors' => $errores], 400);
                     return redirect()->back()->withErrors('No se pudieron validar los datos del contrato. Por favor, revise la información proporcionada.');
                 }
+                function test_input($data) {
+                    $data = trim($data);
+                    $data = stripslashes($data);
+                    $data = htmlspecialchars($data);
+                    return $data;
+                }
 
         }
 
