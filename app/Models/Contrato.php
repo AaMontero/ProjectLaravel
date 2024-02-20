@@ -8,4 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Contrato extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['ubicacion_sala', 'anos_contrato', 'bono_hospedaje_qori_loyalty', 
+    'bono_hospedaje_internacional', 'valor_total_credito_directo', 'meses_credito_directo', 
+    'abono_credito_directo', 'valor_pagare', 'fecha_fin_pagare', 'comentario', 'otro_comentario', 
+    'otro_valor'];
+
+    public function Cliente(){
+        return $this->belongsTo(Cliente::class); 
+    }
+
+    
 }

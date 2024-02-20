@@ -4,16 +4,25 @@ namespace App\Http\Controllers;
 
 use App\Models\Cliente;
 use Illuminate\Http\Request;
-use App\Models\Paquete;
 
 class ClienteController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+
     public function index(Request $request)
     {
-        return view('clientes.index',["clientes" => Cliente::with('user')->get()]);
+        $provinciasEcuador = [
+            'Azuay', 'Bolívar', 'Cañar', 'Carchi', 'Chimborazo', 'Cotopaxi', 'El Oro', 'Esmeraldas', 'Galápagos',
+            'Guayas', 'Imbabura', 'Loja', 'Los Ríos', 'Manabí', 'Morona Santiago', 'Napo', 'Orellana', 'Pastaza', 'Pichincha',
+            'Santa Elena', 'Santo Domingo de los Tsáchilas', 'Sucumbíos', 'Tungurahua', 'Zamora-Chinchipe'
+        ];
+
+        return view('clientes.index', [
+            "clientes" => Cliente::with('user')->get(),
+            "provincias" => $provinciasEcuador,
+        ]);
     }
 
     /**
@@ -27,19 +36,24 @@ class ClienteController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+
     public function store(Request $request)
     {
-        
         $validated = $request->validate([
-            'cedula' => ['required', 'min:10', 'max:10'],
+            'cedula' => ['required', 'min:8', 'max:20'],
             'nombres' => ['required', 'min:5', 'max:255'],
-            'apellidos' => ['required', 'integer', 'min:1'],
-            'numTelefonico' => ['required', 'integer', 'min:1'],
-            'email' => ['required', 'numeric', 'min:0.01', 'max:9999.99'],
-            'ciudad' => ['required', 'numeric', 'min:0.01', 'max:9999.99'],
-            'provincia' => ['required', 'numeric', 'min:0.01', 'max:9999.99'],
-            
+            'apellidos' => ['required', 'min:5', 'max:255'],
+            'numTelefonico' => ['required', 'min:7', 'max:12'],
+            'email' => ['required', 'email', 'min:5', 'max:255'],
+            'ciudad' => ['required', 'min:5', 'max:255'],
+            'provincia' => ['required', 'min:5', 'max:255'],
+            'activo' => ['nullable', 'boolean', 'in:0,1', 'default' => 1],
         ]);
+        $clienteUser = $this -> obtenerNick($request->nombres, $request->apellidos); 
+        $validated['cliente_user'] = $clienteUser;
+        $request->user()->clientes()->create($validated);
+        return redirect()->route('clientes.index')
+            ->with('status', __('Inserción realizada exitosamente'));
     }
 
     /**
@@ -72,5 +86,15 @@ class ClienteController extends Controller
     public function destroy(Cliente $cliente)
     {
         //
+    }
+
+    public function obtenerNick($nombres, $apellidos){
+        $apellidosArray = explode(' ', $apellidos);
+        $primerApellido = $apellidosArray[0];
+        $segundoApellido = count($apellidosArray) > 1 ? substr($apellidosArray[1], 0, 1) : '';
+        $primeraLetraNombre = substr($nombres, 0, 1);
+        $usuario = strtolower( $primeraLetraNombre. $primerApellido . $segundoApellido );
+        return $usuario; 
+
     }
 }
