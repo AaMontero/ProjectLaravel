@@ -347,18 +347,6 @@ class ContratoController extends Controller
         $fechaActual = $fechaVencimiento = $fechaInicioCredDir = date("Y-m-d");
         // Variable para rastrear errores
         $errorNombres = $errorCedula = $errorApellidos = $errorUbicacionSala = $errorCiudad = $errorCorreo = $erroraniosContrato = $errorMontoContrato = $errorProvincia = "";
-        
-        // $nombres = test_input($_POST["nombres"]);
-        // $email = test_input($_POST["email"]);
-        // $apellidos = test_input($_POST["apellidos"]);
-        // $ciudad = test_input($_POST["ciudad"]);
-        // $numCedula = test_input($_POST["cedula"]);
-        // $provincia = test_input($_POST["provincia"]);
-        // $ubicacionSala = test_input($_POST["ubicacion_sala"]);
-        // $aniosContrato = test_input($_POST["anios_contrato"]);
-        // $montoContrato = test_input($_POST["monto_contrato"]);
-        // $contienePagare = (json_decode($_POST["contiene_pagare"]) == "true");
-        // $contieneCreditoDirecto = (json_decode($_POST["contiene_credito_directo"]) == "true");
 
 
         $formasPago = $request->input('formas_pago');
@@ -369,15 +357,16 @@ class ContratoController extends Controller
         $email = $request->email; 
         $apellidos = $request->apellidos; 
         $ciudad = $request->ciudad; 
-        $numCedula = $request->numCedula; 
+        $numCedula = $request->cedula; 
         $provincia = $request->provincia; 
-        $ubicacionSala = $request->nombres; 
-        $aniosContrato = $request->aniosContrato; 
-        $montoContrato = $request->montoContrato; 
-        $contienePagare = $request->contienePagare; 
-        $contieneCreditoDirecto = $request->contieneCreditoDirecto; 
+        $ubicacionSala = $request->ubicacion_sala; 
+        $aniosContrato = $request->anios_contrato; 
+        $montoContrato = $request->monto_contrato; 
+        $contienePagare = $request->contiene_pagare; 
+        $contieneCreditoDirecto = $request->contiene_credito_directo; 
 
-
+        $infoString = "Nombres: $nombres, Email: $email, Apellidos: $apellidos, Ciudad: $ciudad, Número de Cédula: $numCedula, Provincia: $provincia, Ubicación de Sala: $ubicacionSala, Años de Contrato: $aniosContrato, Monto de Contrato: $montoContrato, Contiene Pagaré: $contienePagare, Contiene Crédito Directo: $contieneCreditoDirecto";
+        file_put_contents('archivoContrato.txt', $infoString);
           // Validación de datos
           $valida = (
             strlen($numCedula) == 10 &&
