@@ -144,7 +144,7 @@
                             <label for="fechaPago" class="mr-2">Fecha de Pago:</label>
                             <input type="date" id="fecha_pago_pagare" name="fechaPago" class="border rounded-md px-3 py-2 mr-2">
                             <button onclick="functionAgregarPagare()"
-                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">+</button>
+                                class="bg-gray-800 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">+</button>
                         </div>
 
                         <div class="mt-2">
@@ -169,7 +169,7 @@
                             <input type="date" id="fecha_inicio_cred_dir" name="fechaInicioCredDir"
                                 class="border rounded-md px-3 py-2 mr-2">
                             <button onclick="functionAgregarCreditoDirecto()"
-                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">+</button>
+                                class="bg-gray-800 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">+</button>
                         </div>
 
                         <div class="mt-2">
@@ -182,7 +182,7 @@
                             <label for="formaPago" class="mr-2">Forma:</label>
                             <input type="text" id="forma_pago" name="formaPago" class="border rounded-md px-3 py-2 mr-2">
                             <button onclick="functionAgregar()"
-                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">+</button>
+                                class="bg-gray-800 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">+</button>
                         </div>
                     </div>
                     <ul id="listaFormasPagoUl"></ul>
@@ -201,7 +201,8 @@
                     </div>
 
                     <!-- Aquí está el botón para ejecutar el código -->
-                    <button type="submit" class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Generar Contrato</button>
+                    <button type="submit" class="mt-4 bg-gray-800 hover:bg-gray-500 text-white font-semibold py-2 px-4 rounded shadow-md transition duration-300 ease-in-out">Generar Contrato</button>
+
                 </form>
             </div>
         </div>
