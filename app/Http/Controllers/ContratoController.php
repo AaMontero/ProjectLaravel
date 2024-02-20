@@ -186,7 +186,6 @@ class ContratoController extends Controller
         $pathToSave = $rutaSaveContrato . '\\' . $nombreArchivo;
         $templateWord->saveAs($pathToSave);
     }
-
     public function generarContrato($contrato, $nombre_cliente, $numero_sucesivo, $numCedula, $montoContrato, $aniosContrato, $formasPago, $email, $fechaActual, $ciudad, $rutaSaveContrato)
     {
         $formasPagoS = "";
@@ -227,7 +226,6 @@ class ContratoController extends Controller
         $pathToSave = $rutaSaveContrato . '\\' . $nombreArchivo;
         $templateWord->saveAs($pathToSave);
     }
-
     public function generarContratoCreditoDirecto($contrato, $nombre_cliente, $numero_sucesivo, $numCedula, $montoContrato, $aniosContrato, $formasPago, $email, $fechaActual, $ciudad, $rutaSaveContrato, $abonoCD, $numCuotasCD, $valorCuotaCD)
     {
         global $meses;
@@ -296,7 +294,6 @@ class ContratoController extends Controller
         $pathToSave = $rutaSaveContrato . '\\' . $nombreArchivo;
         $templateWord->saveAs($pathToSave);
     }
-
     public function generarCheckList($contrato, $numero_sucesivo, $ciudad, $provincia,  $numCedula, $email, $fechaActual, $nombre_cliente, $ubicacionSala, $rutaSaveContrato, $credDirBoolean)
     {
         global $meses;
@@ -350,20 +347,35 @@ class ContratoController extends Controller
         $fechaActual = $fechaVencimiento = $fechaInicioCredDir = date("Y-m-d");
         // Variable para rastrear errores
         $errorNombres = $errorCedula = $errorApellidos = $errorUbicacionSala = $errorCiudad = $errorCorreo = $erroraniosContrato = $errorMontoContrato = $errorProvincia = "";
+        
+        // $nombres = test_input($_POST["nombres"]);
+        // $email = test_input($_POST["email"]);
+        // $apellidos = test_input($_POST["apellidos"]);
+        // $ciudad = test_input($_POST["ciudad"]);
+        // $numCedula = test_input($_POST["cedula"]);
+        // $provincia = test_input($_POST["provincia"]);
+        // $ubicacionSala = test_input($_POST["ubicacion_sala"]);
+        // $aniosContrato = test_input($_POST["anios_contrato"]);
+        // $montoContrato = test_input($_POST["monto_contrato"]);
+        // $contienePagare = (json_decode($_POST["contiene_pagare"]) == "true");
+        // $contieneCreditoDirecto = (json_decode($_POST["contiene_credito_directo"]) == "true");
 
-        $nombres = test_input($_POST["nombres"]);
-        $email = test_input($_POST["email"]);
-        $apellidos = test_input($_POST["apellidos"]);
-        $ciudad = test_input($_POST["ciudad"]);
-        $numCedula = test_input($_POST["cedula"]);
-        $provincia = test_input($_POST["provincia"]);
-        $ubicacionSala = test_input($_POST["ubicacion_sala"]);
-        $aniosContrato = test_input($_POST["anios_contrato"]);
-        $montoContrato = test_input($_POST["monto_contrato"]);
-        $contienePagare = (json_decode($_POST["contiene_pagare"]) == "true");
-        $contieneCreditoDirecto = (json_decode($_POST["contiene_credito_directo"]) == "true");
+
         $formasPago = $request->input('formas_pago');
         $numero_sucesivo=$request->input('numero_sucesivo');
+
+
+        $nombres = $request->nombres; 
+        $email = $request->email; 
+        $apellidos = $request->apellidos; 
+        $ciudad = $request->ciudad; 
+        $numCedula = $request->numCedula; 
+        $provincia = $request->provincia; 
+        $ubicacionSala = $request->nombres; 
+        $aniosContrato = $request->aniosContrato; 
+        $montoContrato = $request->montoContrato; 
+        $contienePagare = $request->contienePagare; 
+        $contieneCreditoDirecto = $request->contieneCreditoDirecto; 
 
 
           // Validación de datos
