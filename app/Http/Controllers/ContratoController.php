@@ -25,10 +25,27 @@ $meses = array(
     12 => 'Diciembre'
 );
 
+
 class DocumentGenerator
 {
+
     public function crearCarpetaCliente($nombre_cliente, $fechaActual)
     {
+        global $meses;
+        $meses = array(
+            1 => 'Enero',
+            2 => 'Febrero',
+            3 => 'Marzo',
+            4 => 'Abril',
+            5 => 'Mayo',
+            6 => 'Junio',
+            7 => 'Julio',
+            8 => 'Agosto',
+            9 => 'Septiembre',
+            10 => 'Octubre',
+            11 => 'Noviembre',
+            12 => 'Diciembre'
+        );
         $nombreUsuario = getenv("USERNAME"); //Obtiene el nombre del usuario desde la EV
         $nombreCarpeta = $nombre_cliente . " " . $fechaActual;
         $rutaCarpeta = "C:\\Users\\$nombreUsuario\\Documents\\Contratos\\$nombreCarpeta";
@@ -44,21 +61,10 @@ class DocumentGenerator
     public function generarDiferimiento($contrato, $numero_sucesivo, $ciudad, $numCedula, $fechaActual, $nombre_cliente, $rutaSaveContrato)
     {
         global $meses;
+
+
         list($ano, $mes, $dia) = explode('-', $fechaActual);
-        if (!is_array($meses)) {
-            // Manejar el caso en que $meses no está inicializado correctamente
-            // Por ejemplo, asignar un array vacío o mostrar un mensaje de error
-            $meses = [];
-        }
-        if ($mes >= 1 && $mes <= count($meses)) {
-            // Acceder al nombre del mes usando $mes como índice
-            $nombreMes = $meses[intval($mes) - 1];
-            $fechaFormateada = $dia . " de " . $nombreMes . " del " . $ano;
-        } else {
-            // Manejar el caso en que $mes no es válido
-            // Por ejemplo, asignar un valor predeterminado o mostrar un mensaje de error
-            $fechaFormateada = null;
-        }
+        $fechaFormateada = $dia . " de " . $meses[intval($mes)]  . " del " . $ano;
         $templateWord = new TemplateProcessor(resource_path("docs/DIFERIMIENTO QORIT.docx"));
         $nombre_cliente = strtoupper($nombre_cliente);
         $ciudad = strtoupper($ciudad);
@@ -79,13 +85,8 @@ class DocumentGenerator
         $templateWord->setValue('edit_nombres_apellidos', $nombre_cliente);
         $templateWord->setValue('edit_numero_cedula', $numCedula);
         $nombreArchivo = 'QTVerificacion' . $numero_sucesivo . " " . $nombre_cliente . '.docx';
-        $pathToSave = $rutaSaveContrato . DIRECTORY_SEPARATOR . $nombreArchivo;
+        $pathToSave = $rutaSaveContrato . '\\' . $nombreArchivo;
 
-        $stringDatos = "Nombre del cliente: " . strtoupper($nombre_cliente) . "\n" .
-        "Número de cédula: " . $numCedula . "\n" .
-        "Nombre del archivo: " . 'QTVerificacion' . $numero_sucesivo . " " . $nombre_cliente . '.docx' . "\n" .
-        "Ruta de guardado: " . $rutaSaveContrato . '\\' . 'QTVerificacion' . $numero_sucesivo . " " . $nombre_cliente . '.docx';
-        file_put_contents('archivoGenerarVer.txt', $stringDatos);
 
         $templateWord->saveAs($pathToSave);
     }
@@ -206,23 +207,13 @@ class DocumentGenerator
 
         global $meses;
         list($ano, $mes, $dia) = explode('-', $fechaActual);
-        if (!is_array($meses)) {
-            $meses = [];
-        }
-        if ($mes >= 1 && $mes <= count($meses)) {
-            // Acceder al nombre del mes usando $mes como índice
-            $nombreMes = $meses[intval($mes) - 1];
-            $fechaFormateada = $dia . " de " . $nombreMes . " del " . $ano;
-        } else {
-            $fechaFormateada = null;
-        }
+            $fechaFormateada = $dia . " de " . $meses[intval($mes)]  . " del " . $ano;
         $nombre_cliente = strtoupper($nombre_cliente);
         $fmt = new NumberFormatter('es', NumberFormatter::SPELLOUT);
         $montoContratoText = $fmt->format($montoContrato);
         $aniosContratoText = $fmt->format($aniosContrato);
         $aniosContratoText = strtoupper($aniosContratoText);
         $montoContratoText = strtoupper($montoContratoText);
-
         $templateWord = new TemplateProcessor(resource_path("docs/Contrato de agencia de viajes_QORIT.docx"));
         $templateWord->setValue('edit_nombres_apellidos', $nombre_cliente);
         $templateWord->setValue('edit_contrato_id', $contrato);
@@ -249,16 +240,7 @@ class DocumentGenerator
     {
         global $meses;
         list($ano, $mes, $dia) = explode('-', $fechaActual);
-        if (!is_array($meses)) {
-             $meses = [];
-        }
-        if ($mes >= 1 && $mes <= count($meses)) {
-            // Acceder al nombre del mes usando $mes como índice
-            $nombreMes = $meses[intval($mes) - 1];
-            $fechaFormateada = $dia . " de " . $nombreMes . " del " . $ano;
-        } else {
-            $fechaFormateada = null;
-        }
+        $fechaFormateada = $dia . " de " . $meses[intval($mes)]  . " del " . $ano;
         $nombre_cliente = strtoupper($nombre_cliente);
         $fmt = new NumberFormatter('es', NumberFormatter::SPELLOUT);
         $montoContratoText = $fmt->format($montoContrato);
@@ -300,20 +282,7 @@ class DocumentGenerator
         global $meses;
         list($ano, $mes, $dia) = explode('-', $fechaActual);
         list($ano2, $mes2, $dia2) = explode('-', $fechaVencimiento);
-        if (!is_array($meses)) {
-            // Manejar el caso en que $meses no está inicializado correctamente
-            // Por ejemplo, asignar un array vacío o mostrar un mensaje de error
-            $meses = [];
-        }
-        if ($mes >= 1 && $mes <= count($meses)) {
-            // Acceder al nombre del mes usando $mes como índice
-            $nombreMes = $meses[intval($mes) - 1];
-            $fechaFormateada = $dia . " de " . $nombreMes . " del " . $ano;
-        } else {
-            // Manejar el caso en que $mes no es válido
-            // Por ejemplo, asignar un valor predeterminado o mostrar un mensaje de error
-            $fechaFormateada = null;
-        }
+            $fechaFormateada = $dia . " de " . $meses[intval($mes)]  . " del " . $ano;
         $fechaFormatVencimiento = $dia2 . ' DE ' . strtoupper($meses[intval($mes2)]) . ' DEL ' . $ano2;
         $nombre_cliente = strtoupper($nombre_cliente);
         $fmt = new NumberFormatter('es', NumberFormatter::SPELLOUT);
@@ -349,20 +318,7 @@ class DocumentGenerator
         }
         $textoAnexo2 = strtoupper($textoAnexo2);
         list($ano, $mes, $dia) = explode('-', $fechaActual);
-        if (!is_array($meses)) {
-            // Manejar el caso en que $meses no está inicializado correctamente
-            // Por ejemplo, asignar un array vacío o mostrar un mensaje de error
-            $meses = [];
-        }
-        if ($mes >= 1 && $mes <= count($meses)) {
-            // Acceder al nombre del mes usando $mes como índice
-            $nombreMes = $meses[intval($mes) - 1];
-            $fechaFormateada = $dia . " de " . $nombreMes . " del " . $ano;
-        } else {
-            // Manejar el caso en que $mes no es válido
-            // Por ejemplo, asignar un valor predeterminado o mostrar un mensaje de error
-            $fechaFormateada = null;
-        }
+             $fechaFormateada = $dia . " de " . $meses[intval($mes)]  . " del " . $ano;
         $templateWord = new TemplateProcessor(resource_path("docs/CHECK LIST QORIT.docx"));
         $templateWord->setValue('edit_contrato_id', $contrato);
         $templateWord->setValue('edit_num_cliente', $numero_sucesivo);
@@ -388,13 +344,6 @@ class ContratoController extends Controller
     {
         return view('contratos.contrato');
     }
-    /**
-     * CODIGO EXTRAIDO DE CONTRATOS/METODOS.PHP
-     */
-
-
-    //--------------------------------------------------------------------------------
-
     public function create(Request $request)
     {
     }
@@ -410,11 +359,8 @@ class ContratoController extends Controller
         $fechaActual = $fechaVencimiento = $fechaInicioCredDir = date("Y-m-d");
         // Variable para rastrear errores
         $errorNombres = $errorCedula = $errorApellidos = $errorUbicacionSala = $errorCiudad = $errorCorreo = $erroraniosContrato = $errorMontoContrato = $errorProvincia = "";
-
-
         $formasPago = $request->input('formas_pago');
         $numero_sucesivo = $request->input('numero_sucesivo');
-
 
         $nombres = $request->nombres;
         $email = $request->email;
@@ -428,8 +374,7 @@ class ContratoController extends Controller
         $contienePagare = $request->contiene_pagare;
         $contieneCreditoDirecto = $request->contiene_credito_directo;
 
-        $infoString = "Nombres: $nombres, Email: $email, Apellidos: $apellidos, Ciudad: $ciudad, Número de Cédula: $numCedula, Provincia: $provincia, Ubicación de Sala: $ubicacionSala, Años de Contrato: $aniosContrato, Monto de Contrato: $montoContrato, Contiene Pagaré: $contienePagare, Contiene Crédito Directo: $contieneCreditoDirecto";
-        file_put_contents('archivoContrato.txt', $infoString);
+
         // Validación de datos
         $valida = (
             strlen($numCedula) == 10 &&
@@ -512,14 +457,16 @@ class ContratoController extends Controller
                 $rutaCarpetaSave = $funciones->crearCarpetaCliente($nombre_cliente, $fechaActual);
                 $funciones->generarVerificacion($nombre_cliente, $numero_sucesivo, $numCedula, $rutaCarpetaSave);
                 $funciones->generarDiferimiento($contrato, $numero_sucesivo, $ciudad, $numCedula, $fechaActual, $nombre_cliente, $rutaCarpetaSave);
-                if ($contieneCreditoDirecto != 1 && $contienePagare != 1) {
+                if ($contieneCreditoDirecto != true&& $contienePagare != true) {
+
                     $funciones->generarContrato($contrato, $nombre_cliente, $numero_sucesivo, $numCedula, $montoContrato, $aniosContrato, $formasPagoString, $email, $fechaActual, $ciudad, $rutaCarpetaSave);
                     $funciones->generarBeneficiosAlcance($contrato, $numero_sucesivo, $nombre_cliente, $numCedula, $bonoQory, $bonoQoryInt, $rutaCarpetaSave, false);
                     $funciones->generarCheckList($contrato, $numero_sucesivo, $ciudad, $provincia,  $numCedula, $email, $fechaActual, $nombre_cliente, $ubicacionSala, $rutaCarpetaSave, "Descuento para pagos con tarjeta");
             //         $insercion2 = "INSERT INTO contratos (contrato_id, codigo, cedula, titular, valor_contrato, valor_pagado, pagare_valor, usuario, email, comentario)
             // VALUES ($numero_sucesivo, '$contrato', '$cedula', '$nombre_cliente', " . floatval($montoContrato) . ", " . floatval($montoPagado) . ", " . floatval($valorPagare) . ", '$email', '');";
                 }
-                if ($contieneCreditoDirecto == 1) {
+                if ($contieneCreditoDirecto == true) {
+
                     $valorPendiente = ($montoCredDir - $abonoCredDir);
                     $resultado =  $valorPendiente / $numCuotasCredDir;
                     $valorCuota = ceil($resultado * 100) / 100;
@@ -531,7 +478,7 @@ class ContratoController extends Controller
             //         $insercionCredDir = "INSERT INTO contratos (contrato_id, codigo, cedula, titular, valor_contrato, valor_pagado, pagare_valor, usuario, email, comentario)
             // VALUES ($numero_sucesivo, '$contrato', '$cedula', '$nombre_cliente', " . floatval($montoContrato) . ", " . floatval($abonoCredDir) . ", " . floatval($valorPendiente) . ", '$email', ' Fecha del pagare  $fechaInicioCredDir');";
                }
-                if ($contienePagare == 1) {
+                if ($contienePagare == true) {
 
                     $funciones->generarContrato($contrato, $nombre_cliente, $numero_sucesivo, $numCedula, $montoContrato, $aniosContrato, $formasPagoString, $email, $fechaActual, $ciudad, $rutaCarpetaSave);
                     $funciones->generarBeneficiosAlcance($contrato, $numero_sucesivo, $nombre_cliente, $numCedula, $bonoQory, $bonoQoryInt, $rutaCarpetaSave, false);
@@ -600,7 +547,7 @@ class ContratoController extends Controller
             if (!empty($errores)) {
                 // Manejar los errores aquí, como devolver una respuesta con los errores
                 return response()->json(['errors' => $errores], 400);
-                return redirect()->back()->withErrors('No se pudieron validar los datos del contrato. Por favor, revise la información proporcionada.');
+
             }
             function test_input($data)
             {

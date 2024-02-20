@@ -13,144 +13,201 @@
     date_default_timezone_set('America/Guayaquil');
     $fechaActual = $fechaVencimiento = $fechaInicioCredDir = date('Y-m-d');
     $errorNombres = $errorCedula = $errorApellidos = $errorUbicacionSala = $errorCiudad = $errorCorreo = $erroraniosContrato = $errorMontoContrato = $errorProvincia = '';
-    
     ?>
 
-    <form action="{{ route ('contrato.store')}}" method="POST">
-        <h2 class="tituloH2">Formulario para Contratos</h2>
-        @csrf
-        <!-- Hidden -->
-        <input type="hidden" id="formas_pago" name="formas_pago">
-        <input type="hidden" id="pagare_monto_info" name="pagare_monto_info">
-        <input type="hidden" id="pagare_fecha_info" name="pagare_fecha_info">
-        <input type="hidden" id="contiene_pagare" name="contiene_pagare">
-        <input type="hidden" id="contiene_credito_directo" name="contiene_credito_directo">
-        <input type="hidden" id="cred_dir_fecha_inicio" name="cred_dir_fecha_inicio">
-        <input type="hidden" id="cred_dir_num_cuotas" name="cred_dir_num_cuotas">
-        <input type="hidden" id="cred_dir_valor" name="cred_dir_valor">
-        <input type="hidden" id="cred_dir_abono" name="cred_dir_abono">
 
-        <!-- Nombres -->
-        Nombres: <input type="text" name="nombres" value="<?php echo $nombres; ?>">
-        <?php if (!empty($errorNombres)) {
-            echo "<span style='color: red;'>$errorNombres</span>";
-        } ?>
-        <br><br>
-        <!-- Apellidos -->
-        Apellidos: <input type="text" name="apellidos" value="<?php echo $apellidos; ?>">
-        <?php if (!empty($errorApellidos)) {
-            echo "<span style='color: red;'>$errorApellidos</span>";
-        } ?>
-        <br><br>
-        <!-- Cédula -->
-        Cedula: <input type="text" name="cedula" value="<?php echo $cedula; ?>">
-        <?php if (!empty($errorCedula)) {
-            echo "<span style='color: red;'>$errorCedula</span>";
-        } ?>
-        <br>
-        <br>
-        <!-- Email -->
-        Correo Electrónico: <input type="text" name="email" value="<?php echo $email; ?>">
-        <?php if (!empty($errorCorreo)) {
-            echo "<span style='color: red;'>$errorCorreo</span>";
-        } ?>
-        <br><br>
-        <!-- Ciudad -->
-        Ciudad: <input type="text" name="ciudad" value="<?php echo $ciudad; ?>">
-        <?php if (!empty($errorCiudad)) {
-            echo "<span style='color: red;'>$errorCiudad</span>";
-        } ?>
-        <br><br>
-        <!-- Provincia -->
-        Provincia: <select class="select-provincia" name="provincia">
-            <?php
-            $provincias = ['Azuay', 'Bolívar', 'Cañar', 'Carchi', 'Chimborazo', 'Cotopaxi', 'El Oro', 'Esmeraldas', 'Galápagos', 'Guayas', 'Imbabura', 'Loja', 'Los Ríos', 'Manabí', 'Morona Santiago', 'Napo', 'Orellana', 'Pastaza', 'Pichincha', 'Santa Elena', 'Santo Domingo', 'Sucumbíos', 'Tungurahua', 'Zamora Chinchipe'];
-            
-            foreach ($provincias as $p) {
-                $selected = $p === $provincia ? 'selected' : '';
-                echo "<option value='$p' $selected>$p</option>";
-            }
-            ?>
-        </select>
+<div class="py-12">
+    <div id="idAgregarCliente" class="max-w-7xl mx-auto sm:px-6 lg:px-8 mb-4">
+        <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="p-6 text-gray-900 dark:text-gray-100">
+                <form action="{{ route ('contrato.store')}}" method="POST" class="p-4">
 
-        <?php if (!empty($errorProvincia)) {
-            echo "<span style='color: red;'>$errorProvincia</span>";
-        } ?>
-        <br><br>
-        <!-- Ubicacion de la sala -->
-        Ubicación de la sala: <input type="text" name="ubicacion_sala" value="<?php echo $ubicacionSala; ?>">
-        <?php if (!empty($errorUbicacionSala)) {
-            echo "<span style='color: red;'>$errorUbicacionSala</span>";
-        } ?>
-        <br><br>
+                    @csrf
+                    <!-- Hidden -->
+                    <input type="hidden" id="formas_pago" name="formas_pago">
+                    <input type="hidden" id="pagare_monto_info" name="pagare_monto_info">
+                    <input type="hidden" id="pagare_fecha_info" name="pagare_fecha_info">
+                    <input type="hidden" id="contiene_pagare" name="contiene_pagare">
+                    <input type="hidden" id="contiene_credito_directo" name="contiene_credito_directo">
+                    <input type="hidden" id="cred_dir_fecha_inicio" name="cred_dir_fecha_inicio">
+                    <input type="hidden" id="cred_dir_num_cuotas" name="cred_dir_num_cuotas">
+                    <input type="hidden" id="cred_dir_valor" name="cred_dir_valor">
+                    <input type="hidden" id="cred_dir_abono" name="cred_dir_abono">
 
-        <!-- Años del contrato -->
-        Años del contrato: <input type="number" name="anios_contrato" value="<?php echo $aniosContrato; ?>">
-        <?php if (!empty($erroraniosContrato)) {
-            echo "<span style='color: red;'>$erroraniosContrato</span>";
-        } ?>
-        <br><br>
-        <!-- Monto del contrato -->
-        Monto del contrato: <input type="number" name="monto_contrato" value="<?php echo $montoContrato; ?>">
-        <?php if (!empty($errorMontoContrato)) {
-            echo "<span style='color: red;'>$errorMontoContrato</span>";
-        } ?>
-        <br><br>
+                    <!-- Nombres -->
+                    <div class="mb-4">
+                        <label for="nombres" class="block">Nombres</label>
+                        <input type="text" id="nombres" name="nombres" value="{{ $nombres }}"
+                            class="border rounded-md px-3 py-2 w-full">
+                        @if (!empty($errorNombres))
+                        <span class="text-red-500">{{ $errorNombres }}</span>
+                        @endif
+                    </div>
 
-        <!-- Forma de pago (añadir más de una) -->
-        Forma de pago:
-        <br>
-        <input type="checkbox" name="forma_pago" value="<?php echo $pagareBoolean; ?>" id="pagareCheckbox"> Pagaré <br>
-        <div id="divPagareCheckbox" style="display:none ; margin-top:10px ; margin-bottom: 5px">
-            <label for="valor" style="margin-right:10px">Valor:</label>
-            <input type="number" id="valor_pagare" name="valor_pagare" placeholder="Ingrese el valor"
-                style="margin-right:10px">
-            <label for="fechaPago" style="margin-right:10px">Fecha de Pago:</label>
-            <input type="date" id="fecha_pago_pagare" name="fechaPago" style="margin-right:10px">
-            <button onclick="functionAgregarPagare()">+</button>
+                    <!-- Apellidos -->
+                    <div class="mb-4">
+                        <label for="apellidos" class="block">Apellidos</label>
+                        <input type="text" id="apellidos" name="apellidos" value="{{ $apellidos }}"
+                            class="border rounded-md px-3 py-2 w-full">
+                        @if (!empty($errorApellidos))
+                        <span class="text-red-500">{{ $errorApellidos }}</span>
+                        @endif
+                    </div>
+
+                    <!-- Cédula -->
+                    <div class="mb-4">
+                        <label for="cedula" class="block">Cédula</label>
+                        <input type="text" id="cedula" name="cedula" value="{{ $cedula }}"
+                            class="border rounded-md px-3 py-2 w-full">
+                        @if (!empty($errorCedula))
+                        <span class="text-red-500">{{ $errorCedula }}</span>
+                        @endif
+                    </div>
+
+                    <!-- Email -->
+                    <div class="mb-4">
+                        <label for="email" class="block">Email</label>
+                        <input type="text" id="email" name="email" value="{{ $email }}"
+                            class="border rounded-md px-3 py-2 w-full">
+                        @if (!empty($errorCorreo))
+                        <span class="text-red-500">{{ $errorCorreo }}</span>
+                        @endif
+                    </div>
+
+                    <!-- Ciudad -->
+                    <div class="mb-4">
+                        <label for="ciudad" class="block">Ciudad</label>
+                        <input type="text" id="ciudad" name="ciudad" value="{{ $ciudad }}"
+                            class="border rounded-md px-3 py-2 w-full">
+                        @if (!empty($errorCiudad))
+                        <span class="text-red-500">{{ $errorCiudad }}</span>
+                        @endif
+                    </div>
+
+                    <!-- Provincia -->
+                    <?php
+                        $provincias = ['Azuay', 'Bolívar', 'Cañar', 'Carchi', 'Chimborazo', 'Cotopaxi', 'El Oro', 'Esmeraldas', 'Galápagos', 'Guayas', 'Imbabura', 'Loja', 'Los Ríos', 'Manabí', 'Morona Santiago', 'Napo', 'Orellana', 'Pastaza', 'Pichincha', 'Santa Elena', 'Santo Domingo', 'Sucumbíos', 'Tungurahua', 'Zamora Chinchipe'];
+                    ?>
+                   <div class="mb-4">
+                        <label for="provincia" class="block">Provincia</label>
+                        <select id="provincia" name="provincia" class="border rounded-md px-3 py-2 w-full">
+                            @foreach ($provincias as $p)
+                            <option value="{{ $p }}" {{ $p === $provincia ? 'selected' : '' }}>{{ $p }}</option>
+                            @endforeach
+                        </select>
+                        @if (!empty($errorProvincia))
+                        <span class="text-red-500">{{ $errorProvincia }}</span>
+                        @endif
+                    </div>
+
+                    <!-- Ubicacion de la sala -->
+                    <div class="mb-4">
+                        <label for="ubicacion_sala" class="block">Ubicación de la sala</label>
+                        <input type="text" id="ubicacion_sala" name="ubicacion_sala" value="{{ $ubicacionSala }}"
+                            class="border rounded-md px-3 py-2 w-full">
+                        @if (!empty($errorUbicacionSala))
+                        <span class="text-red-500">{{ $errorUbicacionSala }}</span>
+                        @endif
+                    </div>
+
+                    <!-- Años del contrato -->
+                    <div class="mb-4">
+                        <label for="anios_contrato" class="block">Años del contrato</label>
+                        <input type="number" id="anios_contrato" name="anios_contrato" value="{{ $aniosContrato }}"
+                            class="border rounded-md px-3 py-2 w-full">
+                        @if (!empty($erroraniosContrato))
+                        <span class="text-red-500">{{ $erroraniosContrato }}</span>
+                        @endif
+                    </div>
+
+                    <!-- Monto del contrato -->
+                    <div class="mb-4">
+                        <label for="monto_contrato" class="block">Monto del contrato</label>
+                        <input type="number" id="monto_contrato" name="monto_contrato" value="{{ $montoContrato }}"
+                            class="border rounded-md px-3 py-2 w-full">
+                        @if (!empty($errorMontoContrato))
+                        <span class="text-red-500">{{ $errorMontoContrato }}</span>
+                        @endif
+                    </div>
+
+                    <!-- Forma de pago (añadir más de una) -->
+                    <div class="mb-4">
+                        <label class="block">Forma de pago:</label>
+                        <div class="mt-2">
+                            <input type="checkbox" name="forma_pago" value="{{ $pagareBoolean }}" id="pagareCheckbox" class="mr-2"> Pagaré
+                        </div>
+
+                        <div id="divPagareCheckbox" class="hidden mt-2">
+                            <label for="valor" class="mr-2">Valor:</label>
+                            <input type="number" id="valor_pagare" name="valor_pagare" placeholder="Ingrese el valor"
+                                class="border rounded-md px-3 py-2 mr-2">
+                            <label for="fechaPago" class="mr-2">Fecha de Pago:</label>
+                            <input type="date" id="fecha_pago_pagare" name="fechaPago" class="border rounded-md px-3 py-2 mr-2">
+                            <button onclick="functionAgregarPagare()"
+                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">+</button>
+                        </div>
+
+                        <div class="mt-2">
+                            <input type="checkbox" value="{{ $pagareBoolean }}" id="creditoDirectoCheckbox" class="mr-2">
+                            Crédito Directo
+                        </div>
+                        <div id="divCreditoDirectoCheckBox" class="hidden mt-2">
+                            <label for="montoCredDir" class="mr-2">Valor:</label>
+                            <input type="number" id="monto_credito_directo" name="montoCredDir" placeholder="Valor"
+                                class="border rounded-md px-3 py-2 mr-2 w-15">
+                            <label for="abonoCredDir" class="mr-2">Abono:</label>
+                            <input type="number" id="abono_credito_directo" name="abonoCredDir" placeholder="Abono"
+                                class="border rounded-md px-3 py-2 mr-2 w-15">
+                            <label for="mesesCredDir" class="mr-2 py-2"># Meses: </label>
+                            <select id="meses_credito_directo" name="mesesCredDir"
+                                class="border rounded-md px-3 py-2 mr-2 w-20">
+                                <option value="12">12</option>
+                                <option value="24">24</option>
+                                <option value="36">36</option>
+                            </select>
+                            <label for="fechaInicioCredDir" class="mr-2">Fecha de Inicio:</label>
+                            <input type="date" id="fecha_inicio_cred_dir" name="fechaInicioCredDir"
+                                class="border rounded-md px-3 py-2 mr-2">
+                            <button onclick="functionAgregarCreditoDirecto()"
+                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">+</button>
+                        </div>
+
+                        <div class="mt-2">
+                            <input type="checkbox" value="{{ $otroFormaPagoBoolean }}" id="otroCheckbox" class="mr-2"> Otro
+                        </div>
+                        <div id="divOtrosCheckbox" class="hidden mt-2">
+                            <label for="monto" class="mr-2">Valor:</label>
+                            <input type="number" id="monto_forma_pago" name="montoPago" placeholder="Ingrese el valor"
+                                class="border rounded-md px-3 py-2 mr-2 w-15">
+                            <label for="formaPago" class="mr-2">Forma:</label>
+                            <input type="text" id="forma_pago" name="formaPago" class="border rounded-md px-3 py-2 mr-2">
+                            <button onclick="functionAgregar()"
+                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">+</button>
+                        </div>
+                    </div>
+                    <ul id="listaFormasPagoUl"></ul>
+
+                    <!-- Bono hospedaje Qory Loyalty -->
+                    <div class="mt-4">
+                        <label class="inline-flex items-center">Bono hospedaje Qory Loyalty</label>
+                        <input type="checkbox" name="bono_hospedaje" id="bono_hospedaje_checkbox" value="1" class="ml-2">
+                    </div>
+
+                    <!-- Bono de hospedaje internacional Qory Loyalty -->
+                    <div class="mt-4">
+                        <label class="inline-flex items-center">Bono de hospedaje internacional Qory Loyalty</label>
+                        <input type="checkbox" name="bono_hospedaje_internacional" id="bono_hospedaje_internacional_checkbox"
+                            value="{{ $bonoQoryInt }}" class="ml-2">
+                    </div>
+
+                    <!-- Aquí está el botón para ejecutar el código -->
+                    <button type="submit" class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Generar Contrato</button>
+                </form>
+            </div>
         </div>
-        <input type="checkbox" value="<?php echo $pagareBoolean; ?>" id="creditoDirectoCheckbox"> Crédito Directo <br>
-        <div id="divCreditoDirectoCheckBox" style="display:none; margin-top:10px; margin-bottom: 5px">
-            <label for="montoCredDir" style="margin-right:10px">Valor:</label>
-            <input type="number" id="monto_credito_directo" name="montoCredDir" placeholder="Valor: "
-                style="margin-right:10px; width : 80px">
-            <label for="abonoCredDir" style="margin-right:10px">Abono:</label>
-            <input type="number" id="abono_credito_directo" name="abonoCredDir" placeholder="Abono: "
-                style="margin-right:10px; width : 80px">
-            <label for="mesesCredDir" style="margin-right:10px"># Meses: </label>
-            <select id="meses_credito_directo" name="mesesCredDir" style="margin-right:10px">
-                <option value="12">12</option>
-                <option value="24">24</option>
-                <option value="36">36</option>
-            </select>
-            <label for="fechaInicioCredDir" style="margin-right:10px">Fecha de Inicio:</label>
-            <input type="date" id="fecha_inicio_cred_dir" name="fechaInicioCredDir" style="margin-right:10px">
-            <button onclick="functionAgregarCreditoDirecto()">+</button>
-        </div>
+    </div>
+</div>
 
-        <input type="checkbox" value="<?php echo $otroFormaPagoBoolean; ?>" id="otroCheckbox"> Otro <br>
-        <div id="divOtrosCheckbox" style="display:none; margin-top:10px; margin-bottom: 5px">
-            <label for="valor" style="margin-right:10px">Valor:</label>
-            <input type="number" id="monto_forma_pago" name="montoPago" placeholder="Ingrese el valor"
-                style="margin-right:10px">
-            <label for="formaPago" style="margin-right:10px">Forma:</label>
-            <input type="text" id="forma_pago" name="formaPago" style="margin-right:10px">
-            <button onclick="functionAgregar()">+</button>
-        </div>
-        <br>
-        <ul id="listaFormasPagoUl"></ul>
-
-        <!-- Bono hospedaje Qory Loyalty -->
-        Bono hospedaje Qory Loyalty: <input type="checkbox" name="bono_hospedaje" id="bono_hospedaje_checkbox"
-            value="1">
-        <br><br>
-        <!-- Bono de hospedaje internacional Qory Loyalty -->
-        Bono de hospedaje internacional Qory Loyalty: <input type="checkbox" name="bono_hospedaje_internacional"
-            id="bono_hospedaje_internacional_checkbox" value="<?php echo $bonoQoryInt; ?>">
-        <br><br>
-        <!-- Aquí está el botón para ejecutar el código -->
-        <button type="submit">Generar Contrato</button>
-    </form>
     @include('layouts.footer')
 
 
