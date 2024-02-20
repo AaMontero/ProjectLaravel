@@ -11,22 +11,22 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('contratos', function (Blueprint $table) {
-            $table->id('contrato_id');
-            $table->string('ubicacion_sala');
-            $table->integer('anos_contrato');
-            $table->boolean('bono_hospedaje_qori_loyalty')->default(false);
-            $table->boolean('bono_hospedaje_internacional')->default(false);
-            $table->decimal('valor_total_credito_directo', 10, 2);
-            $table->integer('meses_credito_directo');
-            $table->decimal('abono_credito_directo', 10, 2);
-            $table->decimal('valor_pagare', 10, 2);
-            $table->date('fecha_fin_pagare');
-            $table->string('comentario')->nullable();
-            $table->string('otro_comentario')->nullable();
-            $table->decimal('otro_valor', 10, 2)->nullable();
-            $table->timestamps();
-        });
+            Schema::create('contratos', function (Blueprint $table) {
+                $table->id('contrato_id');
+                $table->string('ubicacion_sala');
+                $table->integer('anos_contrato');
+                $table->boolean('bono_hospedaje_qori_loyalty')->default(false);
+                $table->boolean('bono_hospedaje_internacional')->default(false);
+                $table->decimal('valor_total_credito_directo', 10, 2);
+                $table->integer('meses_credito_directo');
+                $table->decimal('abono_credito_directo', 10, 2);
+                $table->decimal('valor_pagare', 10, 2);
+                $table->date('fecha_fin_pagare');
+                $table->string('comentario')->nullable();
+                $table->string('otro_comentario')->nullable();
+                $table->decimal('otro_valor', 10, 2)->nullable();
+                $table->timestamps();
+            });
     }
 
     /**

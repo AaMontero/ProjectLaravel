@@ -14,8 +14,7 @@ return new class extends Migration
         Schema::create('clientes', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('usuario'); 
-            $table->string('password'); 
+            $table->string('cliente_user'); 
             $table->string('cedula');
             $table->string('nombres');
             $table->string('apellidos');
@@ -23,7 +22,7 @@ return new class extends Migration
             $table->string('email');
             $table->string('provincia');
             $table->string('ciudad'); 
-            $table->boolean('activo');
+            $table->boolean('activo')->default(true);
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
         });
     }

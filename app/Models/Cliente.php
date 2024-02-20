@@ -11,12 +11,12 @@ class Cliente extends Model
     use HasFactory;
 
     protected $fillable = [
-        'cedula', 'nombres', 'apellidos', 'numTelefonico', 'email', 'provincia' , 'ciudad', 'activo'
+        'cedula','cliente_user','nombres', 'apellidos', 'numTelefonico', 'email', 'provincia' , 'ciudad', 'activo'
     ]; 
     public function user(): BelongsTo{
         return $this ->belongsTo(User::class); 
     }
-
-    //$table->string('usuario'); 
-    //$table->foreignId('user_id')->constrained()->cascadeOnDelete();
+    public function contratos(){
+        return $this->hasMany(Contrato::class); 
+    }
 }
