@@ -79,7 +79,7 @@ class DocumentGenerator
         $templateWord->setValue('edit_nombres_apellidos', $nombre_cliente);
         $templateWord->setValue('edit_numero_cedula', $numCedula);
         $nombreArchivo = 'QTVerificacion' . $numero_sucesivo . " " . $nombre_cliente . '.docx';
-        $pathToSave = $rutaSaveContrato . '\\' . $nombreArchivo;
+        $pathToSave = $rutaSaveContrato . DIRECTORY_SEPARATOR . $nombreArchivo;
 
         $stringDatos = "Nombre del cliente: " . strtoupper($nombre_cliente) . "\n" .
         "Número de cédula: " . $numCedula . "\n" .
@@ -556,7 +556,7 @@ class ContratoController extends Controller
             // Asigna los demás campos según sea necesario
 
 
-            return redirect()->route('contrato.index')->swal('success', 'Contrato creado exitosamente.');
+            return redirect()->route('contrato.index')->with('success', 'Contrato creado exitosamente.');
         } else {
             $errores = [];
             if (strlen($nombres) <= 3) {
