@@ -6,7 +6,6 @@ use Exception;
 use App\Models\Contrato;
 use Illuminate\Http\Request;
 use PhpOffice\PhpWord\TemplateProcessor;
-use App\DocumentGenerator;
 use DateTime;
 use DateInterval;
 use NumberFormatter;
@@ -28,17 +27,8 @@ $meses = array(
     11 => 'Noviembre',
     12 => 'Diciembre'
 );
-
-class ContratoController extends Controller
+class DocumentGenerator
 {
-
-    public function index()
-    {
-        return view('contratos.contrato');
-    }
-    /**
-     * CODIGO EXTRAIDO DE CONTRATOS/METODOS.PHP
-    */
     public function crearCarpetaCliente($nombre_cliente, $fechaActual)
     {
         $nombreUsuario = getenv("USERNAME"); //Obtiene el nombre del usuario desde la EV
@@ -52,6 +42,7 @@ class ContratoController extends Controller
             return $rutaCarpeta;
         }
     }
+
     public function generarDiferimiento($contrato, $numero_sucesivo, $ciudad, $numCedula, $fechaActual, $nombre_cliente, $rutaSaveContrato)
     {
         global $meses;
@@ -78,13 +69,20 @@ class ContratoController extends Controller
         $templateWord->setValue('edit_numero_cedula', $numCedula);
         $nombreArchivo = 'QTVerificacion' . $numero_sucesivo . " " . $nombre_cliente . '.docx';
         $pathToSave = $rutaSaveContrato . '\\' . $nombreArchivo;
+
+        $stringDatos = "Nombre del cliente: " . strtoupper($nombre_cliente) . "\n" .
+        "Número de cédula: " . $numCedula . "\n" .
+        "Nombre del archivo: " . 'QTVerificacion' . $numero_sucesivo . " " . $nombre_cliente . '.docx' . "\n" .
+        "Ruta de guardado: " . $rutaSaveContrato . '\\' . 'QTVerificacion' . $numero_sucesivo . " " . $nombre_cliente . '.docx';
+        file_put_contents('archivoGenerarVer.txt', $stringDatos, FILE_APPEND);
+
         $templateWord->saveAs($pathToSave);
     }
-    public function generarFechasPagare($fecha_inicial, $valor,$abono, $numCuotas)
+    public function generarFechasPagare($fecha_inicial, $valor, $abono, $numCuotas)
     {
         $fecha = new DateTime($fecha_inicial);
 
-        $valor = $valor-$abono;
+        $valor = $valor - $abono;
         $monto_cuota = number_format(($valor) / $numCuotas, 2);
         $resultados = array();
         for ($i = 0; $i < $numCuotas; $i++) {
@@ -98,13 +96,13 @@ class ContratoController extends Controller
             );
             $fecha->add(new DateInterval('P1M'));
         }
-        if($resultados[$numCuotas-1]['saldo_post_pago']!=0){
-            $resultados[$numCuotas-1]['saldo_post_pago'] = 0 ;
-            $resultados[$numCuotas-1]['monto'] = number_format($valor-(($numCuotas-1)*$monto_cuota), 2) ;
+        if ($resultados[$numCuotas - 1]['saldo_post_pago'] != 0) {
+            $resultados[$numCuotas - 1]['saldo_post_pago'] = 0;
+            $resultados[$numCuotas - 1]['monto'] = number_format($valor - (($numCuotas - 1) * $monto_cuota), 2);
         }
         return $resultados;
     }
-    public function generarPagaresCredito($fechaInicio, $monto,$abono, $numCuotas, $rutaSaveContrato, $numero_sucesivo, $nombre_cliente, $ciudad, $numCedula, $fechaActual, $email)
+    public function generarPagaresCredito($fechaInicio, $monto, $abono, $numCuotas, $rutaSaveContrato, $numero_sucesivo, $nombre_cliente, $ciudad, $numCedula, $fechaActual, $email)
     {
         global $meses;
         list($ano, $mes, $dia) = explode('-', $fechaActual);
@@ -118,15 +116,15 @@ class ContratoController extends Controller
         $fechaFormateada = $dia . " días del mes de " . $meses[intval($mes)] . " de " . $ano;
         if ($numCuotas == 12) {
             $templateWord = new TemplateProcessor(resource_path("docs/PAGARÉ CREDITO DIRECTO 12.docx"));
-            $listaFechasPagare = $this->generarFechasPagare($fechaInicio, $monto,$abono, $numCuotas);
+            $listaFechasPagare = $this->generarFechasPagare($fechaInicio, $monto, $abono, $numCuotas);
         }
         if ($numCuotas == 24) {
             $templateWord = new TemplateProcessor(resource_path("docs/PAGARÉ CREDITO DIRECTO 24.docx"));
-            $listaFechasPagare = $this->generarFechasPagare($fechaInicio, $monto,$abono, $numCuotas);
+            $listaFechasPagare = $this->generarFechasPagare($fechaInicio, $monto, $abono, $numCuotas);
         }
         if ($numCuotas == 36) {
             $templateWord = new TemplateProcessor(resource_path("docs/PAGARÉ CREDITO DIRECTO 36.docx"));
-            $listaFechasPagare = $this->generarFechasPagare($fechaInicio, $monto,$abono, $numCuotas);
+            $listaFechasPagare = $this->generarFechasPagare($fechaInicio, $monto, $abono, $numCuotas);
         }
         for ($i = 1; $i <= $numCuotas; $i++) {
             $templateWord->setValue("edit_saldo_prev_{$i}", $listaFechasPagare[$i - 1]["saldo_restante"]);
@@ -326,11 +324,23 @@ class ContratoController extends Controller
         $pathToSave = $rutaSaveContrato . '\\' . $nombreArchivo;
         $templateWord->saveAs($pathToSave);
     }
+}
+class ContratoController extends Controller
+{
+
+    public function index()
+    {
+        return view('contratos.contrato');
+    }
+    /**
+     * CODIGO EXTRAIDO DE CONTRATOS/METODOS.PHP
+     */
+
 
     //--------------------------------------------------------------------------------
 
-    public function create(Request $request){
-
+    public function create(Request $request)
+    {
     }
 
 
@@ -350,25 +360,25 @@ class ContratoController extends Controller
 
 
         $formasPago = $request->input('formas_pago');
-        $numero_sucesivo=$request->input('numero_sucesivo');
+        $numero_sucesivo = $request->input('numero_sucesivo');
 
 
-        $nombres = $request->nombres; 
-        $email = $request->email; 
-        $apellidos = $request->apellidos; 
-        $ciudad = $request->ciudad; 
-        $numCedula = $request->cedula; 
-        $provincia = $request->provincia; 
-        $ubicacionSala = $request->ubicacion_sala; 
-        $aniosContrato = $request->anios_contrato; 
-        $montoContrato = $request->monto_contrato; 
-        $contienePagare = $request->contiene_pagare; 
-        $contieneCreditoDirecto = $request->contiene_credito_directo; 
+        $nombres = $request->nombres;
+        $email = $request->email;
+        $apellidos = $request->apellidos;
+        $ciudad = $request->ciudad;
+        $numCedula = $request->cedula;
+        $provincia = $request->provincia;
+        $ubicacionSala = $request->ubicacion_sala;
+        $aniosContrato = $request->anios_contrato;
+        $montoContrato = $request->monto_contrato;
+        $contienePagare = $request->contiene_pagare;
+        $contieneCreditoDirecto = $request->contiene_credito_directo;
 
         $infoString = "Nombres: $nombres, Email: $email, Apellidos: $apellidos, Ciudad: $ciudad, Número de Cédula: $numCedula, Provincia: $provincia, Ubicación de Sala: $ubicacionSala, Años de Contrato: $aniosContrato, Monto de Contrato: $montoContrato, Contiene Pagaré: $contienePagare, Contiene Crédito Directo: $contieneCreditoDirecto";
         file_put_contents('archivoContrato.txt', $infoString);
-          // Validación de datos
-          $valida = (
+        // Validación de datos
+        $valida = (
             strlen($numCedula) == 10 &&
             strlen($nombres) > 3 &&
             strlen($apellidos) > 3 &&
@@ -455,7 +465,6 @@ class ContratoController extends Controller
                     $funciones->generarCheckList($contrato, $numero_sucesivo, $ciudad, $provincia,  $numCedula, $email, $fechaActual, $nombre_cliente, $ubicacionSala, $rutaCarpetaSave, "Descuento para pagos con tarjeta");
                     $insercion2 = "INSERT INTO contratos (contrato_id, codigo, cedula, titular, valor_contrato, valor_pagado, pagare_valor, usuario, email, comentario)
             VALUES ($numero_sucesivo, '$contrato', '$cedula', '$nombre_cliente', " . floatval($montoContrato) . ", " . floatval($montoPagado) . ", " . floatval($valorPagare) . ", '$email', '');";
-
                 }
                 if ($contieneCreditoDirecto == 1) {
                     $valorPendiente = ($montoCredDir - $abonoCredDir);
@@ -468,7 +477,6 @@ class ContratoController extends Controller
                     $funciones->generarPagaresCredito($fechaInicioCredDir, $montoCredDir, $abonoCredDir, $numCuotasCredDir, $rutaCarpetaSave, $numero_sucesivo, $nombre_cliente, $ciudad, $numCedula, $fechaActual, $email);
                     $insercionCredDir = "INSERT INTO contratos (contrato_id, codigo, cedula, titular, valor_contrato, valor_pagado, pagare_valor, usuario, email, comentario)
             VALUES ($numero_sucesivo, '$contrato', '$cedula', '$nombre_cliente', " . floatval($montoContrato) . ", " . floatval($abonoCredDir) . ", " . floatval($valorPendiente) . ", '$email', ' Fecha del pagare  $fechaInicioCredDir');";
-
                 }
                 if ($contienePagare == 1) {
 
@@ -478,7 +486,6 @@ class ContratoController extends Controller
                     $funciones->generarPagare($nombre_cliente, $numCedula, $numero_sucesivo, $fechaVencimiento, $ciudad, $email, $valorPagare, $fechaActual, 1, $montoCuotaPagare, $pagareText, $rutaCarpetaSave);
                     $insercionPagare = "INSERT INTO contratos (contrato_id, codigo, cedula, titular, valor_contrato, valor_pagado, pagare_valor, usuario, email, comentario)
             VALUES ($numero_sucesivo, '$contrato', '$cedula', '$nombre_cliente', " . floatval($montoContrato) . ", " . floatval($montoPagado) . ", " . floatval($valorPagare) . ", '$email', ' Fecha del pagare  $fechaVencimiento');";
-
                 }
                 $nombres = $email = $cedula = $apellidos = $ciudad = $numCedula = $provincia = $ubicacionSala = $aniosContrato = $montoContrato = "";
                 echo ("Los documentos se generaron correctamente. \n");
@@ -497,60 +504,59 @@ class ContratoController extends Controller
             $contrato->save();
 
             return redirect()->route('contrato.index')->with('success', 'Contrato creado exitosamente.');
-        }else {
+        } else {
             $errores = [];
-                if (strlen($nombres) <= 3) {
-                    $errorNombres = "El nombre debe tener al menos 3 caracteres";
-                    $errores[] = $errorNombres;
-                }
-                if (strlen($apellidos) <= 3) {
-                    $errorApellidos = "El apellido debe tener al menos 3 caracteres";
-                    $errores[] = $errorApellidos;
-                }
-                if (strlen($ciudad) <= 3) {
-                    $errorCiudad = "La ciudad debe contener al menos 3 caracteres";
-                    $errores[] = $errorCiudad;
-                }
-                if (strpos($email, "@") === false) {
-                    $errorCorreo = "El formato del correo ingresado no es válido";
-                    $errores[] = $errorCorreo;
-                }
-                if (strlen($cedula) !== 10) {
-                    $errorCedula = "El formato del correo ingresado no es válido";
-                    $errores[] = $errorCedula;
-                }
-                if (strlen($ubicacionSala) <= 3) {
-                    $errorUbicacionSala = "La ubicación debe contener al menos 3 caracteres";
-                    $errores[] = $errorUbicacionSala;
-                }
-                if ($aniosContrato == 0) {
-                    $erroraniosContrato = "Ingrese la cantidad de años del contrato";
-                    $errores[] = $erroraniosContrato;
-                }
-                if ($montoContrato == 0) {
-                    $errorMontoContrato = "Ingrese el monto del contrato";
-                    $errores[] = $errorMontoContrato;
-                }
-                if (strlen($provincia) <= 3) {
-                    $errorProvincia = "La provincia debe contener al menos 3 caracteres";
-                    $errores[] = $errorProvincia;
-                }
+            if (strlen($nombres) <= 3) {
+                $errorNombres = "El nombre debe tener al menos 3 caracteres";
+                $errores[] = $errorNombres;
+            }
+            if (strlen($apellidos) <= 3) {
+                $errorApellidos = "El apellido debe tener al menos 3 caracteres";
+                $errores[] = $errorApellidos;
+            }
+            if (strlen($ciudad) <= 3) {
+                $errorCiudad = "La ciudad debe contener al menos 3 caracteres";
+                $errores[] = $errorCiudad;
+            }
+            if (strpos($email, "@") === false) {
+                $errorCorreo = "El formato del correo ingresado no es válido";
+                $errores[] = $errorCorreo;
+            }
+            if (strlen($cedula) !== 10) {
+                $errorCedula = "El formato del correo ingresado no es válido";
+                $errores[] = $errorCedula;
+            }
+            if (strlen($ubicacionSala) <= 3) {
+                $errorUbicacionSala = "La ubicación debe contener al menos 3 caracteres";
+                $errores[] = $errorUbicacionSala;
+            }
+            if ($aniosContrato == 0) {
+                $erroraniosContrato = "Ingrese la cantidad de años del contrato";
+                $errores[] = $erroraniosContrato;
+            }
+            if ($montoContrato == 0) {
+                $errorMontoContrato = "Ingrese el monto del contrato";
+                $errores[] = $errorMontoContrato;
+            }
+            if (strlen($provincia) <= 3) {
+                $errorProvincia = "La provincia debe contener al menos 3 caracteres";
+                $errores[] = $errorProvincia;
+            }
 
-                // Si hay errores, manejarlos aquí
-                if (!empty($errores)) {
-                    // Manejar los errores aquí, como devolver una respuesta con los errores
-                    return response()->json(['errors' => $errores], 400);
-                    return redirect()->back()->withErrors('No se pudieron validar los datos del contrato. Por favor, revise la información proporcionada.');
-                }
-                function test_input($data) {
-                    $data = trim($data);
-                    $data = stripslashes($data);
-                    $data = htmlspecialchars($data);
-                    return $data;
-                }
-
+            // Si hay errores, manejarlos aquí
+            if (!empty($errores)) {
+                // Manejar los errores aquí, como devolver una respuesta con los errores
+                return response()->json(['errors' => $errores], 400);
+                return redirect()->back()->withErrors('No se pudieron validar los datos del contrato. Por favor, revise la información proporcionada.');
+            }
+            function test_input($data)
+            {
+                $data = trim($data);
+                $data = stripslashes($data);
+                $data = htmlspecialchars($data);
+                return $data;
+            }
         }
-
     }
 
     /**
