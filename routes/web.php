@@ -83,7 +83,7 @@ Route::middleware('auth')->group(function () {
 
     //Rutas para los contratos y clientes
     Route::get('contrato/index',[ContratoController::class, 'index'])->name('contrato.index');
-    //Route::post('/contrato/index', [ContratoController::class, 'store'])->name('contrato.store');
+    Route::post('/contrato', [ContratoController::class, 'store'])->name('contrato.store');
 
 });
 
