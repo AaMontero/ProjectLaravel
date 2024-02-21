@@ -26,8 +26,8 @@
 
 
 <div class="py-8">
-    <div id="idAgregarContrato" class="max-w-7xl mx-auto sm:px-6 lg:px-8 mb-4" style="display: none;">
-        <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+    <div id="idAgregarContrato" class="max-w mx-auto sm:px-6 lg:px-20 mb-4" style="display: none;">
+        <div class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg">
             <div class="p-6 text-gray-900 dark:text-gray-100">
                 <form action="{{ route ('contrato.store')}}" method="POST" class="p-4">
 
@@ -219,7 +219,7 @@
         </div>
     </div>
 </div>
-<div class="py-8  relative z-50">
+<div class="py-8">
     <div class="max-w mx-auto px-2 lg:px-20 mb-4">
         <div class="bg-white dark:bg-gray-900 bg-opacity-50 shadow-lg rounded-lg ">
             <div class="p-6 text-gray-900 dark:text-gray-100">
