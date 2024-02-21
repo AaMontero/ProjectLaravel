@@ -29,7 +29,7 @@ use App\Http\Controllers\ClienteController;
 
 Route::middleware('auth')->group(function () {
     Route::view('/dashboard', 'dashboard')->name('dashboard');
-    
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -41,7 +41,7 @@ Route::middleware('auth')->group(function () {
     });
 
     //Rutas para paquetes
-    Route::get('/paquetes/{paquete}/edit',[PaqueteController::class, 'edit'])
+    Route::get('/paquetes/{paquete}/edit', [PaqueteController::class, 'edit'])
         ->name('paquetes.edit'); // Acceder al formulario edit
     Route::get('/paquetes', [PaqueteController::class,  'index'])
         ->name('paquetes.paquetes'); //Mostrar Paquetes 
@@ -54,7 +54,7 @@ Route::middleware('auth')->group(function () {
 
     //Ruta para clientes
 
-    Route::get('/clientes/{cliente}/edit',[ClienteController::class, 'edit'])
+    Route::get('/clientes/{cliente}/edit', [ClienteController::class, 'edit'])
         ->name('clientes.edit'); //Acceder a la página de editar
     Route::get('/clientes',        [ClienteController::class, 'index'])
         ->name('clientes.index'); //Mostrar Clientes
@@ -79,6 +79,8 @@ Route::middleware('auth')->group(function () {
     //Rutas para los contratos y clientes
     Route::get('contrato/index', [ContratoController::class, 'index'])
         ->name('contrato.index');
+    Route::get('contrato/agregar/{cliente}', [ContratoController::class, 'add_contrato'])
+        ->name('contrato.agregar');
     Route::post('/contrato', [ContratoController::class, 'store'])
         ->name('contrato.store');
 });
