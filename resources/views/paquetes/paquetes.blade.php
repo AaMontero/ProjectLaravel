@@ -287,11 +287,6 @@
                     </x-dropdown>
                 </div>
 
-
-
-
-
-
                 <!-- Separador entre paquetes -->
                 <hr class="my-4 border-gray-300 dark:border-gray-700">
             @endforeach
@@ -313,5 +308,6 @@
 
     </div>
     </div>
+
     @include('layouts.footer')
 </x-app-layout>

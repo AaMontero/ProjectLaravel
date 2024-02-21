@@ -44,7 +44,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/paquetes/{paquete}/edit', [PaqueteController::class, 'edit'])
         ->name('paquetes.edit'); // Acceder al formulario edit
     Route::get('/paquetes', [PaqueteController::class,  'index'])
-        ->name('paquetes.paquetes'); //Mostrar Paquetes 
+        ->name('paquetes.paquetes'); //Mostrar Paquetes
     Route::post('/paquetes', [PaqueteController::class, 'store'])
         ->name('paquetes.store'); //Agregar Paquetes
     Route::put('paquetes/{paquete}',  [PaqueteController::class, 'update'])
@@ -53,7 +53,6 @@ Route::middleware('auth')->group(function () {
         ->name('paquetes.destroy'); //Eliminar Paquetes
 
     //Ruta para clientes
-
     Route::get('/clientes/{cliente}/edit', [ClienteController::class, 'edit'])
         ->name('clientes.edit'); //Acceder a la página de editar
     Route::get('/clientes',        [ClienteController::class, 'index'])
