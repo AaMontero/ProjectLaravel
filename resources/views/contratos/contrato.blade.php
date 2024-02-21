@@ -1,9 +1,18 @@
 <x-app-layout>
     <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css' rel='stylesheet'>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Contracts') }}
-        </h2>
+        <div class="flex justify-between items-center">
+            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+                {{ __('Contracts') }}
+            </h2>
+            <div onclick="abrirVentanaAgregarContrato()" class="cursor-pointer flex items-center">
+                <span class="mr-2">Agregar un nuevo contrato</span>
+                <svg class="h-6 w-6 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" stroke-width="2"
+                    viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16m-7 6h7"></path>
+                </svg>
+            </div>
+        </div>
     </x-slot>
 
     <?php
@@ -16,8 +25,8 @@
     ?>
 
 
-<div class="py-12">
-    <div id="idAgregarCliente" class="max-w-7xl mx-auto sm:px-6 lg:px-8 mb-4">
+<div class="py-8">
+    <div id="idAgregarContrato" class="max-w-7xl mx-auto sm:px-6 lg:px-8 mb-4" style="display: none;">
         <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
             <div class="p-6 text-gray-900 dark:text-gray-100">
                 <form action="{{ route ('contrato.store')}}" method="POST" class="p-4">
@@ -86,7 +95,9 @@
 
                     <!-- Provincia -->
                     <?php
-                        $provincias = ['Azuay', 'Bolívar', 'Cañar', 'Carchi', 'Chimborazo', 'Cotopaxi', 'El Oro', 'Esmeraldas', 'Galápagos', 'Guayas', 'Imbabura', 'Loja', 'Los Ríos', 'Manabí', 'Morona Santiago', 'Napo', 'Orellana', 'Pastaza', 'Pichincha', 'Santa Elena', 'Santo Domingo', 'Sucumbíos', 'Tungurahua', 'Zamora Chinchipe'];
+                        $provincias = ['Azuay', 'Bolívar', 'Cañar', 'Carchi', 'Chimborazo', 'Cotopaxi', 'El Oro', 'Esmeraldas', 'Galápagos',
+                        'Guayas', 'Imbabura', 'Loja', 'Los Ríos', 'Manabí', 'Morona Santiago', 'Napo', 'Orellana', 'Pastaza', 'Pichincha',
+                        'Santa Elena', 'Santo Domingo', 'Sucumbíos', 'Tungurahua', 'Zamora Chinchipe'];
                     ?>
                    <div class="mb-4">
                         <label for="provincia" class="block">Provincia</label>
@@ -208,6 +219,70 @@
         </div>
     </div>
 </div>
+<div class="py-8">
+    <div class="max-w-7xl mx-auto px-4 lg:px-8 mb-4">
+        <div class="bg-white dark:bg-gray-900 overflow-hidden shadow-lg rounded-lg">
+            <div class="p-6 text-gray-900 dark:text-gray-100">
+                <table class="w-full bg-white dark:bg-gray-800 border border-gray-300 shadow-md rounded-lg">
+
+                    <thead>
+                        <tr>
+                            <th class="py-2 px-4 border-b">Ubicacion Sala</th>
+                            <th class="py-2 px-4 border-b">Años Contrato</th>
+
+                           <!-- Credito Directo-->
+                            <th class="py-2 px-4 border-b">Valor del Credito </th>
+                            <th class="py-2 px-4 border-b">Abono</th>
+                            <th class="py-2 px-4 border-b">Meses diferidos</th>
+
+                            <!-- Valor Pagare-->
+                            <th class="py-2 px-4 border-b">Valor del Pagare</th>
+                            <th class="py-2 px-4 border-b">Fecha Fin</th>
+
+                            <!-- Otros metodos de Pago-->
+                            <th class="py-2 px-4 border-b">Otro Pago</th>
+                            <th class="py-2 px-4 border-b">Tipo de Tarjeta</th>
+
+                            <th class="py-2 px-4 border-b">Estado</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($contratos as $contrato)
+                            <tr>
+                                <td class="py-2 px-4 border-b text-center">{{ $contrato->ubicacion_sala}}</td>
+                                <td class="py-2 px-4 border-b text-center">{{ $contrato->anios_contrato }}</td>
+                                <!-- Credito Directo-->
+                                <td class="py-2 px-4 border-b text-center">${{ $contrato->valor_total_credito_directo }}</td>
+                                <td class="py-2 px-4 border-b text-center">${{ $contrato->abono_credito_directo }}</td>
+                                <td class="py-2 px-4 border-b text-center">{{ $contrato->meses_credito_directo }}</td>
+
+                                <!-- Valor Pagare-->
+                                <td class="py-2 px-4 border-b text-center">${{ $contrato->valor_pagare }}</td>
+                                <td class="py-2 px-4 border-b text-center">{{ $contrato->fecha_fin_pagare }}</td>
+
+                                <!-- Otros metodos de Pago-->
+                                <td class="py-2 px-4 border-b text-center">${{ $contrato->otro_valor}}</td>
+                                <td class="py-2 px-4 border-b text-center">{{ $contrato->otro_comentario }}</td>
+
+                                <td class="py-2 px-4 border-b text-center">
+                                    @if ($contrato->activo == 1)
+                                        Activo
+                                    @else
+                                        Inactivo
+                                    @endif
+                                </td>
+
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+       {{-- Tabla para visualizar los contratos hechos  --}}
+
 
     @include('layouts.footer')
 
@@ -308,6 +383,21 @@
 
 
         }
+        function abrirVentanaAgregarContrato() {
+
+            var VentanaAgregarContrato = document.getElementById("idAgregarContrato");
+            console.log(VentanaAgregarContrato.style.display);
+            if (VentanaAgregarContrato.style.display === 'none') {
+                VentanaAgregarContrato.style.display = 'block';
+            } else {
+                VentanaAgregarContrato.style.display = 'none';
+            }
+
+            console.log("esta dando click en el boton para ocultar");
+
+            }
+
+
         document.addEventListener("DOMContentLoaded", function() {
             const pagareCheckbox = document.getElementById("pagareCheckbox");
             const otroCheckbox = document.getElementById("otroCheckbox");

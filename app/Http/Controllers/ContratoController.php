@@ -342,7 +342,10 @@ class ContratoController extends Controller
 
     public function index()
     {
-        return view('contratos.contrato');
+        return view('contratos.contrato',[
+            "contratos" => Contrato::with('Cliente')->get(),
+            "contratos"=> Contrato::orderBy('created_at', 'desc')->get(),
+        ]);
     }
     public function create(Request $request)
     {

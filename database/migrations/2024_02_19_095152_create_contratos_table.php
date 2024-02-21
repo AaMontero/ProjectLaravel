@@ -14,7 +14,7 @@ return new class extends Migration
             Schema::create('contratos', function (Blueprint $table) {
                 $table->id('contrato_id');
                 $table->string('ubicacion_sala');
-                $table->integer('anos_contrato');
+                $table->integer('anios_contrato');
                 $table->boolean('bono_hospedaje_qori_loyalty')->default(false);
                 $table->boolean('bono_hospedaje_internacional')->default(false);
                 $table->decimal('valor_total_credito_directo', 10, 2);
@@ -25,6 +25,7 @@ return new class extends Migration
                 $table->string('comentario')->nullable();
                 $table->string('otro_comentario')->nullable();
                 $table->decimal('otro_valor', 10, 2)->nullable();
+                $table->foreignId('user_id')->constrained()->cascadeOnDelete();
                 $table->timestamps();
             });
     }
