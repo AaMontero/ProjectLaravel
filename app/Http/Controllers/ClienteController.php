@@ -73,6 +73,7 @@ class ClienteController extends Controller
             'Guayas', 'Imbabura', 'Loja', 'Los Ríos', 'Manabí', 'Morona Santiago', 'Napo', 'Orellana', 'Pastaza', 'Pichincha',
             'Santa Elena', 'Santo Domingo de los Tsáchilas', 'Sucumbíos', 'Tungurahua', 'Zamora-Chinchipe'
         ];
+        file_put_contents("archivoEditarCliente", $cliente);
         return view('clientes.edit', [
             'cliente' => $cliente,
             'provincias' => $provinciasEcuador

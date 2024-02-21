@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cliente;
 use Exception;
 use App\Models\Contrato;
 use Illuminate\Http\Request;
@@ -207,7 +208,7 @@ class DocumentGenerator
 
         global $meses;
         list($ano, $mes, $dia) = explode('-', $fechaActual);
-            $fechaFormateada = $dia . " de " . $meses[intval($mes)]  . " del " . $ano;
+        $fechaFormateada = $dia . " de " . $meses[intval($mes)]  . " del " . $ano;
         $nombre_cliente = strtoupper($nombre_cliente);
         $fmt = new NumberFormatter('es', NumberFormatter::SPELLOUT);
         $montoContratoText = $fmt->format($montoContrato);
@@ -282,7 +283,7 @@ class DocumentGenerator
         global $meses;
         list($ano, $mes, $dia) = explode('-', $fechaActual);
         list($ano2, $mes2, $dia2) = explode('-', $fechaVencimiento);
-            $fechaFormateada = $dia . " de " . $meses[intval($mes)]  . " del " . $ano;
+        $fechaFormateada = $dia . " de " . $meses[intval($mes)]  . " del " . $ano;
         $fechaFormatVencimiento = $dia2 . ' DE ' . strtoupper($meses[intval($mes2)]) . ' DEL ' . $ano2;
         $nombre_cliente = strtoupper($nombre_cliente);
         $fmt = new NumberFormatter('es', NumberFormatter::SPELLOUT);
@@ -318,7 +319,7 @@ class DocumentGenerator
         }
         $textoAnexo2 = strtoupper($textoAnexo2);
         list($ano, $mes, $dia) = explode('-', $fechaActual);
-             $fechaFormateada = $dia . " de " . $meses[intval($mes)]  . " del " . $ano;
+        $fechaFormateada = $dia . " de " . $meses[intval($mes)]  . " del " . $ano;
         $templateWord = new TemplateProcessor(resource_path("docs/CHECK LIST QORIT.docx"));
         $templateWord->setValue('edit_contrato_id', $contrato);
         $templateWord->setValue('edit_num_cliente', $numero_sucesivo);
@@ -342,11 +343,20 @@ class ContratoController extends Controller
 
     public function index()
     {
-        return view('contratos.contrato',[
+        return view('contratos.contrato', [
             "contratos" => Contrato::with('Cliente')->get(),
-            "contratos"=> Contrato::orderBy('created_at', 'desc')->get(),
+            "contratos" => Contrato::orderBy('created_at', 'desc')->get(),
         ]);
     }
+
+    public function add_contrato(Cliente $cliente)
+    {
+        file_put_contents("archivoAgregarContrato.txt", $cliente);
+        return view('contratos.addNew',[
+                "cliente" => $cliente 
+            ]);
+    }
+
     public function create(Request $request)
     {
     }
@@ -460,13 +470,13 @@ class ContratoController extends Controller
                 $rutaCarpetaSave = $funciones->crearCarpetaCliente($nombre_cliente, $fechaActual);
                 $funciones->generarVerificacion($nombre_cliente, $numero_sucesivo, $numCedula, $rutaCarpetaSave);
                 $funciones->generarDiferimiento($contrato, $numero_sucesivo, $ciudad, $numCedula, $fechaActual, $nombre_cliente, $rutaCarpetaSave);
-                if ($contieneCreditoDirecto != true&& $contienePagare != true) {
+                if ($contieneCreditoDirecto != true && $contienePagare != true) {
 
                     $funciones->generarContrato($contrato, $nombre_cliente, $numero_sucesivo, $numCedula, $montoContrato, $aniosContrato, $formasPagoString, $email, $fechaActual, $ciudad, $rutaCarpetaSave);
                     $funciones->generarBeneficiosAlcance($contrato, $numero_sucesivo, $nombre_cliente, $numCedula, $bonoQory, $bonoQoryInt, $rutaCarpetaSave, false);
                     $funciones->generarCheckList($contrato, $numero_sucesivo, $ciudad, $provincia,  $numCedula, $email, $fechaActual, $nombre_cliente, $ubicacionSala, $rutaCarpetaSave, "Descuento para pagos con tarjeta");
-            //         $insercion2 = "INSERT INTO contratos (contrato_id, codigo, cedula, titular, valor_contrato, valor_pagado, pagare_valor, usuario, email, comentario)
-            // VALUES ($numero_sucesivo, '$contrato', '$cedula', '$nombre_cliente', " . floatval($montoContrato) . ", " . floatval($montoPagado) . ", " . floatval($valorPagare) . ", '$email', '');";
+                    //         $insercion2 = "INSERT INTO contratos (contrato_id, codigo, cedula, titular, valor_contrato, valor_pagado, pagare_valor, usuario, email, comentario)
+                    // VALUES ($numero_sucesivo, '$contrato', '$cedula', '$nombre_cliente', " . floatval($montoContrato) . ", " . floatval($montoPagado) . ", " . floatval($valorPagare) . ", '$email', '');";
                 }
                 if ($contieneCreditoDirecto == true) {
 
@@ -478,18 +488,18 @@ class ContratoController extends Controller
                     $funciones->generarBeneficiosAlcance($contrato, $numero_sucesivo, $nombre_cliente, $numCedula, $bonoQory, $bonoQoryInt, $rutaCarpetaSave, true);
                     $funciones->generarContratoCreditoDirecto($contrato, $nombre_cliente, $numero_sucesivo, $numCedula, $montoContrato, $aniosContrato, $formasPagoString, $email, $fechaActual, $ciudad, $rutaCarpetaSave, $abonoCredDir, $numCuotasCredDir, $valorCuota);
                     $funciones->generarPagaresCredito($fechaInicioCredDir, $montoCredDir, $abonoCredDir, $numCuotasCredDir, $rutaCarpetaSave, $numero_sucesivo, $nombre_cliente, $ciudad, $numCedula, $fechaActual, $email);
-            //         $insercionCredDir = "INSERT INTO contratos (contrato_id, codigo, cedula, titular, valor_contrato, valor_pagado, pagare_valor, usuario, email, comentario)
-            // VALUES ($numero_sucesivo, '$contrato', '$cedula', '$nombre_cliente', " . floatval($montoContrato) . ", " . floatval($abonoCredDir) . ", " . floatval($valorPendiente) . ", '$email', ' Fecha del pagare  $fechaInicioCredDir');";
-               }
+                    //         $insercionCredDir = "INSERT INTO contratos (contrato_id, codigo, cedula, titular, valor_contrato, valor_pagado, pagare_valor, usuario, email, comentario)
+                    // VALUES ($numero_sucesivo, '$contrato', '$cedula', '$nombre_cliente', " . floatval($montoContrato) . ", " . floatval($abonoCredDir) . ", " . floatval($valorPendiente) . ", '$email', ' Fecha del pagare  $fechaInicioCredDir');";
+                }
                 if ($contienePagare == true) {
 
                     $funciones->generarContrato($contrato, $nombre_cliente, $numero_sucesivo, $numCedula, $montoContrato, $aniosContrato, $formasPagoString, $email, $fechaActual, $ciudad, $rutaCarpetaSave);
                     $funciones->generarBeneficiosAlcance($contrato, $numero_sucesivo, $nombre_cliente, $numCedula, $bonoQory, $bonoQoryInt, $rutaCarpetaSave, false);
                     $funciones->generarCheckList($contrato, $numero_sucesivo, $ciudad, $provincia,  $numCedula, $email, $fechaActual, $nombre_cliente, $ubicacionSala, $rutaCarpetaSave, "Descuento para pagos con tarjeta");
                     $funciones->generarPagare($nombre_cliente, $numCedula, $numero_sucesivo, $fechaVencimiento, $ciudad, $email, $valorPagare, $fechaActual, 1, $montoCuotaPagare, $pagareText, $rutaCarpetaSave);
-            //         $insercionPagare = "INSERT INTO contratos (contrato_id, codigo, cedula, titular, valor_contrato, valor_pagado, pagare_valor, usuario, email, comentario)
-            // VALUES ($numero_sucesivo, '$contrato', '$cedula', '$nombre_cliente', " . floatval($montoContrato) . ", " . floatval($montoPagado) . ", " . floatval($valorPagare) . ", '$email', ' Fecha del pagare  $fechaVencimiento');";
-            }
+                    //         $insercionPagare = "INSERT INTO contratos (contrato_id, codigo, cedula, titular, valor_contrato, valor_pagado, pagare_valor, usuario, email, comentario)
+                    // VALUES ($numero_sucesivo, '$contrato', '$cedula', '$nombre_cliente', " . floatval($montoContrato) . ", " . floatval($montoPagado) . ", " . floatval($valorPagare) . ", '$email', ' Fecha del pagare  $fechaVencimiento');";
+                }
                 $nombres = $email = $cedula = $apellidos = $ciudad = $numCedula = $provincia = $ubicacionSala = $aniosContrato = $montoContrato = "";
                 echo ("Los documentos se generaron correctamente. \n");
             }
@@ -550,7 +560,6 @@ class ContratoController extends Controller
             if (!empty($errores)) {
                 // Manejar los errores aquí, como devolver una respuesta con los errores
                 return response()->json(['errors' => $errores], 400);
-
             }
             function test_input($data)
             {
