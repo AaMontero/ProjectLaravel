@@ -25,7 +25,7 @@
     ?>
 
 
-<div class="py-12">
+<div class="py-8">
     <div id="idAgregarContrato" class="max-w-7xl mx-auto sm:px-6 lg:px-8 mb-4" style="display: none;">
         <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
             <div class="p-6 text-gray-900 dark:text-gray-100">
@@ -219,64 +219,70 @@
         </div>
     </div>
 </div>
+<div class="py-8">
+    <div class="max-w-7xl mx-auto px-4 lg:px-8 mb-4">
+        <div class="bg-white dark:bg-gray-900 overflow-hidden shadow-lg rounded-lg">
+            <div class="p-6 text-gray-900 dark:text-gray-100">
+                <table class="w-full bg-white dark:bg-gray-800 border border-gray-300 shadow-md rounded-lg">
 
-       {{-- Tabla para visualizar los contratos hechos  --}}
-<div class="mx-auto min-w-full">
+                    <thead>
+                        <tr>
+                            <th class="py-2 px-4 border-b">Ubicacion Sala</th>
+                            <th class="py-2 px-4 border-b">Años Contrato</th>
 
-    <table class=" w-100 mx-auto  bg-white border border-gray-300">
-        <thead>
-            <tr>
-                <th class="py-2 px-4 border-b">Ubicacion Sala</th>
-                <th class="py-2 px-4 border-b">Años Contrato</th>
+                           <!-- Credito Directo-->
+                            <th class="py-2 px-4 border-b">Valor del Credito </th>
+                            <th class="py-2 px-4 border-b">Abono</th>
+                            <th class="py-2 px-4 border-b">Meses diferidos</th>
 
-               <!-- Credito Directo-->
-                <th class="py-2 px-4 border-b">Valor del Credito </th>
-                <th class="py-2 px-4 border-b">Abono</th>
-                <th class="py-2 px-4 border-b">Meses diferidos</th>
+                            <!-- Valor Pagare-->
+                            <th class="py-2 px-4 border-b">Valor del Pagare</th>
+                            <th class="py-2 px-4 border-b">Fecha Fin</th>
 
-                <!-- Valor Pagare-->
-                <th class="py-2 px-4 border-b">Valor del Pagare</th>
-                <th class="py-2 px-4 border-b">Fecha Fin</th>
+                            <!-- Otros metodos de Pago-->
+                            <th class="py-2 px-4 border-b">Otro Pago</th>
+                            <th class="py-2 px-4 border-b">Tipo de Tarjeta</th>
 
-                <!-- Otros metodos de Pago-->
-                <th class="py-2 px-4 border-b">Otro Pago</th>
-                <th class="py-2 px-4 border-b">Tipo de Tarjeta</th>
+                            <th class="py-2 px-4 border-b">Estado</th>
 
-                <th class="py-2 px-4 border-b">Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($contratos as $contrato)
+                            <tr>
+                                <td class="py-2 px-4 border-b text-center">{{ $contrato->ubicacion_sala}}</td>
+                                <td class="py-2 px-4 border-b text-center">{{ $contrato->anios_contrato }}</td>
+                                <!-- Credito Directo-->
+                                <td class="py-2 px-4 border-b text-center">${{ $contrato->valor_total_credito_directo }}</td>
+                                <td class="py-2 px-4 border-b text-center">${{ $contrato->abono_credito_directo }}</td>
+                                <td class="py-2 px-4 border-b text-center">{{ $contrato->meses_credito_directo }}</td>
 
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($contratos as $contrato)
-                <tr>
-                    <td class="py-2 px-4 border-b text-center">{{ $contrato->ubicacion_sala}}</td>
-                    <td class="py-2 px-4 border-b text-center">{{ $contrato->anios_contrato }}</td>
-                    <!-- Credito Directo-->
-                    <td class="py-2 px-4 border-b text-center">${{ $contrato->valor_total_credito_directo }}</td>
-                    <td class="py-2 px-4 border-b text-center">${{ $contrato->abono_credito_directo }}</td>
-                    <td class="py-2 px-4 border-b text-center">{{ $contrato->meses_credito_directo }}</td>
+                                <!-- Valor Pagare-->
+                                <td class="py-2 px-4 border-b text-center">${{ $contrato->valor_pagare }}</td>
+                                <td class="py-2 px-4 border-b text-center">{{ $contrato->fecha_fin_pagare }}</td>
 
-                    <!-- Valor Pagare-->
-                    <td class="py-2 px-4 border-b text-center">${{ $contrato->valor_pagare }}</td>
-                    <td class="py-2 px-4 border-b text-center">{{ $contrato->fecha_fin_pagare }}</td>
+                                <!-- Otros metodos de Pago-->
+                                <td class="py-2 px-4 border-b text-center">${{ $contrato->otro_valor}}</td>
+                                <td class="py-2 px-4 border-b text-center">{{ $contrato->otro_comentario }}</td>
 
-                    <!-- Otros metodos de Pago-->
-                    <td class="py-2 px-4 border-b text-center">${{ $contrato->otro_valor}}</td>
-                    <td class="py-2 px-4 border-b text-center">{{ $contrato->otro_comentario }}</td>
+                                <td class="py-2 px-4 border-b text-center">
+                                    @if ($contrato->activo == 1)
+                                        Activo
+                                    @else
+                                        Inactivo
+                                    @endif
+                                </td>
 
-                    <td class="py-2 px-4 border-b text-center">
-                        @if ($contrato->activo == 1)
-                            Activo
-                        @else
-                            Inactivo
-                        @endif
-                    </td>
-
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
+       {{-- Tabla para visualizar los contratos hechos  --}}
+
 
     @include('layouts.footer')
 
