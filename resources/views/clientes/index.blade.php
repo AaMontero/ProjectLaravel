@@ -78,9 +78,10 @@
             }
         </script>
     </div>
-    <div class="py-8">
+
+    <div class="py-8 relative z-50">
         <div class="max-w mx-auto px-2 lg:px-20 mb-4">
-            <div class="bg-white dark:bg-gray-900 bg-opacity-50 shadow-lg rounded-lg inline-block">
+            <div class="bg-white dark:bg-gray-900 bg-opacity-50 shadow-lg rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <table class="w-100 bg-white dark:bg-gray-800 border border-gray-300 ">
                         <thead>
