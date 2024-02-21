@@ -221,7 +221,7 @@
 </div>
 <div class="py-8">
     <div class="max-w-9xl mx-auto px-4 lg:px-8 mb-4">
-        <div class="bg-white dark:bg-gray-900 overflow-hidden shadow-lg rounded-lg">
+        <div class="bg-white dark:bg-gray-900 bg-opacity-50 shadow-lg rounded-lg ">
             <div class="p-6 text-gray-900 dark:text-gray-100">
                 <table class="w-full bg-white dark:bg-gray-800 border border-gray-300 ">
 
