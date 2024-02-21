@@ -117,11 +117,10 @@ class PaqueteController extends Controller
     {
         // Convertir la propiedad lista_caracteristicas a una cadena JSON
         $listaJson = json_encode($paquete->incluye);
-        file_put_contents("text3.txt", $listaJson);
         return view('paquetes.edit', ['paquete' => $paquete, 'listaJson' => $listaJson]);
     }
 
-    public function update(Request $request)
+    public function update(Request $request, Paquete $paquete)
     {
         $listaModificada = $request->get("lista_caracteristicas_mod");
         $stringVerificacion = "Descripción: " . $request->get("message") . "\n" .
@@ -160,14 +159,14 @@ class PaqueteController extends Controller
                 $tempCar = CaracteristicaPaquete::find($caracteristica->id);
                 $tempCar->descripcion = $caracteristica->descripcion;
                 $tempCar->lugar = $caracteristica->lugar;
-                $tempCar->save();
+                $tempCar->save();   
             }
             file_put_contents("verificacionLista.txt", "La lista no es vacia");
         } else {
             file_put_contents("errorLista.txt", "La lista es vacia");
         }
 
-        $request->user()->paquetes()->update($validated);
+        $paquete->update($validated);
         return to_route('paquetes.paquetes')
             ->with('status', __('Package updated successfully'));
     }

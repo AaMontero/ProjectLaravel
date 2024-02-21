@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('nombres');
             $table->string('apellidos');
             $table->string('numTelefonico');
-            $table->string('email');
+            $table->string('email');    
             $table->string('provincia');
             $table->string('ciudad'); 
             $table->boolean('activo')->default(true);

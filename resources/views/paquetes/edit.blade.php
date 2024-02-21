@@ -76,7 +76,7 @@
                         <div>
                             <p>Imagen actual</p>
                             @if ($paquete->imagen_paquete)
-                                <img src="{{ asset('uploads/paquetes/' . $paquete->imagen_paquete)}}"
+                                <img src="{{ asset('uploads/paquetes/' . $paquete->imagen_paquete) }}"
                                     alt="Imagen actual del paquete" class="mb-2 max-w-64 max-h-64">
                             @endif
                         </div>

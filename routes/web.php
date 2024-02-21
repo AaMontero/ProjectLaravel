@@ -29,7 +29,7 @@ use App\Http\Controllers\ClienteController;
 
 Route::middleware('auth')->group(function () {
     Route::view('/dashboard', 'dashboard')->name('dashboard');
-
+    
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -40,51 +40,47 @@ Route::middleware('auth')->group(function () {
         return ('Este es el paquete: ' . $paquete);
     });
 
-    Route::get(
-        '/paquetes/{paquete}/edit',
-        [PaqueteController::class, 'edit']
-    )
-        ->name('paquetes.edit');
-
-    //Ruta a listar los paquetes
-    Route::get(
-        '/paquetes',
-        [PaqueteController::class,  'index']
-    )
-        ->name('paquetes.paquetes');
-
-    //Ruta a agregar un paquete
-    Route::post(
-        '/paquetes',
-        [PaqueteController::class, 'store']
-    )
-        ->name('paquetes.store');
-
-    //Ruta a actualizar un paquete
+    //Rutas para paquetes
+    Route::get('/paquetes/{paquete}/edit',[PaqueteController::class, 'edit'])
+        ->name('paquetes.edit'); // Acceder al formulario edit
+    Route::get('/paquetes', [PaqueteController::class,  'index'])
+        ->name('paquetes.paquetes'); //Mostrar Paquetes 
+    Route::post('/paquetes', [PaqueteController::class, 'store'])
+        ->name('paquetes.store'); //Agregar Paquetes
     Route::put('paquetes/{paquete}',  [PaqueteController::class, 'update'])
-        ->name("paquetes.update");
-
-    // Ruta a eliminar un paquete
+        ->name("paquetes.update"); //Editar Paquetes
     Route::delete('paquetes/{paquete}', [PaqueteController::class, 'destroy'])
-        ->name('paquetes.destroy');
+        ->name('paquetes.destroy'); //Eliminar Paquetes
 
     //Ruta para clientes
+
+    Route::get('/clientes/{cliente}/edit',[ClienteController::class, 'edit'])
+        ->name('clientes.edit'); //Acceder a la página de editar
     Route::get('/clientes',        [ClienteController::class, 'index'])
         ->name('clientes.index'); //Mostrar Clientes
     Route::post('clientes',        [ClienteController::class, 'store'])
         ->name('clientes.store'); //Agregar Cliente
+    Route::put('clientes/{cliente}', [ClienteController::class, 'update'])
+        ->name('clientes.update'); //Editar Cliente
+    Route::delete('clientes/{cliente}', [ClienteController::class, 'destroy'])
+        ->name('clientes.destroy'); //Eliminar Cliente
 
     //Ruta para el calendario
-    Route::get('calendar/index', [CalendarController::class, 'index'])->name('calendar.index');
-    Route::post('/calendar', [CalendarController::class, 'store'])->name('calendar.store');
-    Route::patch('calendar/update/{id}', [CalendarController::class, 'update'])->name('calendar.update');
-    Route::delete('calendar/destroy/{id}', [CalendarController::class, 'destroy'])->name('calendar.destroy');
+    Route::get('calendar/index', [CalendarController::class, 'index'])
+        ->name('calendar.index');
+    Route::post('/calendar', [CalendarController::class, 'store'])
+        ->name('calendar.store');
+    Route::patch('calendar/update/{id}', [CalendarController::class, 'update'])
+        ->name('calendar.update');
+    Route::delete('calendar/destroy/{id}', [CalendarController::class, 'destroy'])
+        ->name('calendar.destroy');
 
 
     //Rutas para los contratos y clientes
-    Route::get('contrato/index',[ContratoController::class, 'index'])->name('contrato.index');
-    Route::post('/contrato', [ContratoController::class, 'store'])->name('contrato.store');
-
+    Route::get('contrato/index', [ContratoController::class, 'index'])
+        ->name('contrato.index');
+    Route::post('/contrato', [ContratoController::class, 'store'])
+        ->name('contrato.store');
 });
 
 require __DIR__ . '/auth.php';

@@ -11,7 +11,7 @@ class Cliente extends Model
     use HasFactory;
 
     protected $fillable = [
-        'cedula','cliente_user','nombres', 'apellidos', 'numTelefonico', 'email', 'provincia' , 'ciudad', 'activo'
+        'cedula','cliente_user','nombres', 'apellidos', 'numTelefonico', 'email', 'provincia' , 'ciudad', 'activo', 'user_id' 
     ]; 
     public function user(): BelongsTo{
         return $this ->belongsTo(User::class); 
@@ -19,4 +19,4 @@ class Cliente extends Model
     public function contratos(){
         return $this->hasMany(Contrato::class); 
     }
-}
+}   
