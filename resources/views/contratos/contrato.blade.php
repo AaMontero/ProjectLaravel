@@ -220,30 +220,30 @@
     </div>
 </div>
 <div class="py-8">
-    <div class="max-w-7xl mx-auto px-4 lg:px-8 mb-4">
+    <div class="max-w-9xl mx-auto px-4 lg:px-8 mb-4">
         <div class="bg-white dark:bg-gray-900 overflow-hidden shadow-lg rounded-lg">
             <div class="p-6 text-gray-900 dark:text-gray-100">
-                <table class="w-full bg-white dark:bg-gray-800 border border-gray-300 shadow-md rounded-lg">
+                <table class="w-full bg-white dark:bg-gray-800 border border-gray-300 ">
 
                     <thead>
                         <tr>
-                            <th class="py-2 px-4 border-b">Ubicacion Sala</th>
-                            <th class="py-2 px-4 border-b">Años Contrato</th>
+                            <th class="py-2 px-4 border-b text-center whitespace-nowrap">Ubicacion Sala</th>
+                            <th class="py-2 px-4 border-b text-center whitespace-nowrap">Años Contrato</th>
 
                            <!-- Credito Directo-->
-                            <th class="py-2 px-4 border-b">Valor del Credito </th>
-                            <th class="py-2 px-4 border-b">Abono</th>
-                            <th class="py-2 px-4 border-b">Meses diferidos</th>
+                            <th class="py-2 px-4 border-b text-center whitespace-nowrap">Valor del Credito </th>
+                            <th class="py-2 px-4 border-b text-center whitespace-nowrap">Abono</th>
+                            <th class="py-2 px-4 border-b text-center whitespace-nowrap">Meses diferidos</th>
 
                             <!-- Valor Pagare-->
-                            <th class="py-2 px-4 border-b">Valor del Pagare</th>
-                            <th class="py-2 px-4 border-b">Fecha Fin</th>
+                            <th class="py-2 px-4 border-b text-center whitespace-nowrap">Valor del Pagare</th>
+                            <th class="py-2 px-4 border-b text-center whitespace-nowrap">Fecha Fin</th>
 
                             <!-- Otros metodos de Pago-->
-                            <th class="py-2 px-4 border-b">Otro Pago</th>
-                            <th class="py-2 px-4 border-b">Tipo de Tarjeta</th>
+                            <th class="py-2 px-4 border-b text-center whitespace-nowrap">Otro Pago</th>
+                            <th class="py-2 px-4 border-b text-center whitespace-nowrap">Tipo de Tarjeta</th>
 
-                            <th class="py-2 px-4 border-b">Estado</th>
+                            <th class="py-2 px-4 border-b text-center whitespace-nowrap">Estado</th>
 
                         </tr>
                     </thead>

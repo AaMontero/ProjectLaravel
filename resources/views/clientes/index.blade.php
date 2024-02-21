@@ -88,11 +88,11 @@
             }
         </script>
     </div>
-    <div class="py-8">
-        <div class="max-w-7xl mx-auto px-4 lg:px-8 mb-4">
-            <div class="bg-white dark:bg-gray-900 overflow-hidden shadow-lg rounded-lg">
+    <div class="py-8 relative z-50">
+        <div class="max-w-7xl mx-auto px-2 lg:px-20 mb-4">
+            <div class="bg-white dark:bg-gray-900 bg-opacity-50  shadow-lg rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <table class=" w-100 mx-auto  bg-white border border-gray-300">
+                    <table class="w-full bg-white dark:bg-gray-800 border border-gray-300 ">
                         <thead>
                             <tr>
                                 <th class="py-2 px-4 border-b">Cédula</th>
@@ -110,8 +110,8 @@
                             @foreach ($clientes as $cliente)
                                 <tr>
                                     <td class="py-2 px-4 border-b text-center">{{ $cliente->cedula }}</td>
-                                    <td class="py-2 px-4 border-b text-center">{{ $cliente->nombres }}</td>
-                                    <td class="py-2 px-4 border-b text-center">{{ $cliente->apellidos }}</td>
+                                    <td class="py-2 px-4 border-b text-center whitespace-nowrap">{{ $cliente->nombres }}</td>
+                                    <td class="py-2 px-4 border-b text-center whitespace-nowrap">{{ $cliente->apellidos }}</td>
                                     <td class="py-2 px-4 border-b text-center">{{ $cliente->numTelefonico }}</td>
                                     <td class="py-2 px-4 border-b text-center">{{ $cliente->email }}</td>
                                     <td class="py-2 px-4 border-b text-center">{{ $cliente->provincia }}</td>
@@ -124,7 +124,7 @@
                                         @endif
                                     </td>
                                     <td>
-                                        <x-dropdown>
+                                        <x-dropdown class="origin-top absolute z-50">
                                             <x-slot name="trigger">
                                                 <button>
                                                     <svg class="ml-5 w-5 h-5 text-gray-400 dark:text-gray-200"
