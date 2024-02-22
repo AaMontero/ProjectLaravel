@@ -18,6 +18,7 @@
         <div id="idAgregarCliente" class="max-w-7xl mx-auto sm:px-6 lg:px-8 mb-4" style="display: none;">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
+                    <!--Form para introducir un cliente-->
                     <form method="POST" enctype="multipart/form-data" action = "{{ route('clientes.store') }} ">
                         @csrf
                         <p class="mt-1 p-1 ml-4">Cédula:</p>
@@ -66,7 +67,7 @@
             </div>
         </div>
         <script>
-            function abrirVentanaAgregarPaquete() {
+            function abrirVentanaAgregarPaquete() { // Funcion para desplegar el menú
                 var ventanaAgregarPaquete = document.getElementById("idAgregarCliente");
                 console.log(ventanaAgregarPaquete.style.display);
                 if (ventanaAgregarPaquete.style.display === 'none') {
@@ -78,30 +79,33 @@
             }
         </script>
     </div>
+
     <div class="py-8 relative z-50">
         <div class="max-w mx-auto px-2 lg:px-20 mb-4">
             <div class="bg-white dark:bg-gray-900 bg-opacity-50 shadow-lg rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <table class="w-full bg-white dark:bg-gray-800 border border-gray-300 ">
+                    <table class="w-100 bg-white dark:bg-gray-800 border border-gray-300 ">
                         <thead>
-                            <tr>
-                                <th class="py-2 px-4 border-b text-center">Cédula</th>
-                                <th class="py-2 px-4 border-b text-center">Nombres</th>
-                                <th class="py-2 px-4 border-b text-center">Apellidos</th>
-                                <th class="py-2 px-4 border-b text-center">Teléfono</th>
-                                <th class="py-2 px-4 border-b text-center">Email</th>
-                                <th class="py-2 px-4 border-b text-center">Provincia</th>
-                                <th class="py-2 px-4 border-b text-center">Ciudad</th>
-                                <th class="py-2 px-4 border-b text-center">Estado</th>
-                                <th class="py-2 px-4 border-b text-center">Opciones</th>
+                            <tr> <!--Etiquetas de la tabla de clientes-->
+                                <th class="py-2 px-4 border-b text-center text-center">Cédula</th>
+                                <th class="py-2 px-4 border-b text-center text-center">Nombres</th>
+                                <th class="py-2 px-4 border-b text-center text-center">Apellidos</th>
+                                <th class="py-2 px-4 border-b text-center text-center">Teléfono</th>
+                                <th class="py-2 px-4 border-b text-center text-center">Email</th>
+                                <th class="py-2 px-4 border-b text-center text-center">Provincia</th>
+                                <th class="py-2 px-4 border-b text-center text-center">Ciudad</th>
+                                <th class="py-2 px-4 border-b text-center text-center">Estado</th>
+                                <th class="py-2 px-4 border-b text-center text-center">Opciones</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($clientes as $cliente)
-                                <tr>
+                                <tr> <!--Tabla que muestra los clientes-->
                                     <td class="py-2 px-4 border-b text-center">{{ $cliente->cedula }}</td>
-                                    <td class="py-2 px-4 border-b text-center whitespace-nowrap">{{ $cliente->nombres }}</td>
-                                    <td class="py-2 px-4 border-b text-center whitespace-nowrap">{{ $cliente->apellidos }}</td>
+                                    <td class="py-2 px-4 border-b text-center whitespace-nowrap">
+                                        {{ $cliente->nombres }}</td>
+                                    <td class="py-2 px-4 border-b text-center whitespace-nowrap">
+                                        {{ $cliente->apellidos }}</td>
                                     <td class="py-2 px-4 border-b text-center">{{ $cliente->numTelefonico }}</td>
                                     <td class="py-2 px-4 border-b text-center">{{ $cliente->email }}</td>
                                     <td class="py-2 px-4 border-b text-center">{{ $cliente->provincia }}</td>
@@ -114,7 +118,7 @@
                                         @endif
                                     </td>
                                     <td>
-                                        <x-dropdown class="origin-top absolute z-50 text-center">
+                                        <x-dropdown class="origin-top absolute z-50">
                                             <x-slot name="trigger">
                                                 <button>
                                                     <svg class="ml-5 w-5 h-5 text-gray-400 dark:text-gray-200"
@@ -135,7 +139,7 @@
                                                 <x-dropdown-link :href="route('clientes.edit', $cliente)">
                                                     {{ __('Editar Cliente') }}
                                                 </x-dropdown-link>
-                                                
+
                                             </x-slot>
                                         </x-dropdown>
                                     </td>
