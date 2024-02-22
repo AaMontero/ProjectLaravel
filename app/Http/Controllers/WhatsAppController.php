@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Notification;
 use App\Models\WhatsApp;
 use Illuminate\Http\Request;
 
 class WhatsAppController extends Controller
 {
-    public function envia()
+    public function envia(Request $request)
     {
         //token que nos da facebook
         $token ='';
@@ -34,6 +35,13 @@ class WhatsAppController extends Controller
 
         curl_close($curl);
 
+        $notification = new Notification();
+        $notification->sender = 'WhatsApp'; // Cambia esto según el remitente real
+        $notification->message = $request->mensaje; // Esto obtiene el mensaje del formulario
+        $notification->save();
+
+        // Puedes redirigir a donde desees después de enviar la notificación
+        return redirect()->route('dashboard')->with('success', 'Mensaje enviado y notificación almacenada correctamente.');
 
     }
     public function webhook(){
