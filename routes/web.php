@@ -6,7 +6,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PaqueteController;
 use App\Http\Controllers\ClienteController;
-
+use App\Http\Controllers\WhatsAppController;
 
 /*
 |--------------------------------------------------------------------------
@@ -82,6 +82,12 @@ Route::middleware('auth')->group(function () {
         ->name('contrato.agregar');
     Route::post('/contrato', [ContratoController::class, 'store'])
         ->name('contrato.store');
+
+    //Chat WhatsApp
+    Route::get('dashboard/envia', [WhatsAppController::class,'envia']);
+    Route::get('dashboard/webhook', [WhatsAppController::class, 'webhook']);
+    Route::post('dashboard/webhook', [WhatsAppController::class, 'recibe']);
+    // Route::get('/dashboard/reply/{notification}', [WhatsAppController::class, 'reply'])->name('dashboard.reply');
 });
 
 require __DIR__ . '/auth.php';
