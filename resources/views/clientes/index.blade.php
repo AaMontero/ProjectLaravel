@@ -85,15 +85,15 @@
                     <table class="w-full bg-white dark:bg-gray-800 border border-gray-300 ">
                         <thead>
                             <tr>
-                                <th class="py-2 px-4 border-b">Cédula</th>
-                                <th class="py-2 px-4 border-b">Nombres</th>
-                                <th class="py-2 px-4 border-b">Apellidos</th>
-                                <th class="py-2 px-4 border-b">Teléfono</th>
-                                <th class="py-2 px-4 border-b">Email</th>
-                                <th class="py-2 px-4 border-b">Provincia</th>
-                                <th class="py-2 px-4 border-b">Ciudad</th>
-                                <th class="py-2 px-4 border-b">Estado</th>
-                                <th class="py-2 px-4 border-b">Opciones</th>
+                                <th class="py-2 px-4 border-b text-center">Cédula</th>
+                                <th class="py-2 px-4 border-b text-center">Nombres</th>
+                                <th class="py-2 px-4 border-b text-center">Apellidos</th>
+                                <th class="py-2 px-4 border-b text-center">Teléfono</th>
+                                <th class="py-2 px-4 border-b text-center">Email</th>
+                                <th class="py-2 px-4 border-b text-center">Provincia</th>
+                                <th class="py-2 px-4 border-b text-center">Ciudad</th>
+                                <th class="py-2 px-4 border-b text-center">Estado</th>
+                                <th class="py-2 px-4 border-b text-center">Opciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -114,7 +114,7 @@
                                         @endif
                                     </td>
                                     <td>
-                                        <x-dropdown class="origin-top absolute z-50">
+                                        <x-dropdown class="origin-top absolute z-50 text-center">
                                             <x-slot name="trigger">
                                                 <button>
                                                     <svg class="ml-5 w-5 h-5 text-gray-400 dark:text-gray-200"
