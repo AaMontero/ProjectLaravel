@@ -33,6 +33,7 @@
 
                         @csrf
                         <!-- Hidden -->
+                        <input type="hidden" id="usuario_previo" name="usuario_previo" value ={{ $cliente->id }}>
                         <input type="hidden" id="formas_pago" name="formas_pago">
                         <input type="hidden" id="pagare_monto_info" name="pagare_monto_info">
                         <input type="hidden" id="pagare_fecha_info" name="pagare_fecha_info">

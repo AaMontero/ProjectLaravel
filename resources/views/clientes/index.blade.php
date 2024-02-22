@@ -134,7 +134,7 @@
                                                 
                                                 ?>
                                                 <x-dropdown-link :href="route('contrato.agregar', $cliente)">
-                                                    {{ __('Cambiar Estado') }}
+                                                    {{ __('Agregar Contrato') }}
                                                 </x-dropdown-link>
                                                 <x-dropdown-link :href="route('clientes.edit', $cliente)">
                                                     {{ __('Editar Cliente') }}

@@ -63,6 +63,8 @@ class ContratoController extends Controller
         $fechaActual = $fechaVencimiento = $fechaInicioCredDir = date("Y-m-d");
         // Variable para rastrear errores
         $formasPago = $request->input('formas_pago');
+        $tieneUsuario = $request->usuario_previo; 
+        file_put_contents("valorUsuario.txt", $tieneUsuario);
         $numero_sucesivo = $request->input('numero_sucesivo');
         $nombres = $request->nombres;
         $email = $request->email;
@@ -186,19 +188,28 @@ class ContratoController extends Controller
             }
 
             //Creación del cliente
-            $cliente = new Cliente();
-            $cliente->nombres = $nombres;
-            $cliente->email = $email;
-            $cliente->apellidos = $apellidos;
-            $cliente->ciudad = $ciudad;
-            $cliente->cedula = $numCedula;
-            $cliente->provincia = $provincia;
-            $cliente->numTelefonico = "";
-            $cliente->activo = true;
-            $controler = new ClienteController(); 
-            $cliente->cliente_user =  $controler->obtenerNick($nombres, $apellidos);
+            file_put_contents("valorUsuarioPrevio.txt", $tieneUsuario);
+            
+            if ($tieneUsuario == "") {
+                $cliente = new Cliente();
+                $cliente->nombres = $nombres;
+                $cliente->email = $email;
+                $cliente->apellidos = $apellidos;
+                $cliente->ciudad = $ciudad;
+                $cliente->cedula = $numCedula;
+                $cliente->provincia = $provincia;
+                $cliente->numTelefonico = "";
+                $cliente->activo = true;
+                $controler = new ClienteController();
+                $cliente->cliente_user =  $controler->obtenerNick($nombres, $apellidos);
+                $persona = $request->user()->clientes()->create($cliente->toArray());
+            } else {
+                file_put_contents("elseCliente.txt", "Entra al else");
+                $persona = Cliente::where('id', $tieneUsuario)->get();
+                file_put_contents("elseClienteCLIENTE.txt", $persona);
+            }
 
-            $persona = $request->user()->clientes()->create($cliente->toArray());
+
             //Creación del contrato
             $contrato = new Contrato();
             $contrato->ubicacion_sala = $ubicacionSala;
@@ -211,7 +222,7 @@ class ContratoController extends Controller
             $contrato->abono_credito_directo = $abonoCredDir;
             $contrato->valor_pagare = $valorPagare;
             $contrato->fecha_fin_pagare = $fechaVencimiento;
-            $contrato->cliente_id = $persona->id;
+            $contrato->cliente_id = json_decode($persona, true)[0]['id'];
             file_put_contents("datosContrato.txt", $contrato);
             $request->user()->contratos()->create($contrato->toArray());
             return redirect()->route('contrato.index')->with('success', 'Contrato creado exitosamente.');
@@ -325,7 +336,6 @@ class ContratoController extends Controller
         }
         return $errores;
     }
-    
 }
 
 class DocumentGenerator
