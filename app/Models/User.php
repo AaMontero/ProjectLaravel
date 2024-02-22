@@ -54,5 +54,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(Cliente::class); 
     }
+    public function contratos():HasMany{
+        return $this->hasMany(Contrato::class); 
+    }
 
 }

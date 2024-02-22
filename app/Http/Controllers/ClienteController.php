@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 class ClienteController extends Controller
 {
+    
     /**
      * Display a listing of the resource.
      */
@@ -97,7 +98,7 @@ class ClienteController extends Controller
             'activo' => ['nullable', 'boolean', 'in:0,1', 'default' => 1],
         ]);
         //$request->user()->clientes()->update($validated);
-        $cliente->update($validated); 
+        $cliente->update($validated);
         return to_route('clientes.index');
     }
 
