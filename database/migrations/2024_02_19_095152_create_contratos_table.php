@@ -15,6 +15,7 @@ return new class extends Migration
                 $table->id('contrato_id');
                 $table->string('ubicacion_sala');
                 $table->integer('anios_contrato');
+                $table->integer('monto_contrato'); 
                 $table->boolean('bono_hospedaje_qori_loyalty')->default(false);
                 $table->boolean('bono_hospedaje_internacional')->default(false);
                 $table->decimal('valor_total_credito_directo', 10, 2)->nullable();

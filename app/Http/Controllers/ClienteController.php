@@ -48,6 +48,10 @@ class ClienteController extends Controller
             'ciudad' => ['required', 'min:5', 'max:255'],
             'provincia' => ['required', 'min:5', 'max:255'],
             'activo' => ['nullable', 'boolean', 'in:0,1', 'default' => 1],
+            'fecha_nacimiento' => ['required', 'date', 'before_or_equal:' . 
+            now()->subYears(18)->format('Y-m-d')],
+
+            
         ]);
         $clienteUser = $this->obtenerNick($request->nombres, $request->apellidos);
         $validated['cliente_user'] = $clienteUser;
@@ -74,7 +78,6 @@ class ClienteController extends Controller
             'Guayas', 'Imbabura', 'Loja', 'Los Ríos', 'Manabí', 'Morona Santiago', 'Napo', 'Orellana', 'Pastaza', 'Pichincha',
             'Santa Elena', 'Santo Domingo de los Tsáchilas', 'Sucumbíos', 'Tungurahua', 'Zamora-Chinchipe'
         ];
-        file_put_contents("archivoEditarCliente", $cliente);
         return view('clientes.edit', [
             'cliente' => $cliente,
             'provincias' => $provinciasEcuador

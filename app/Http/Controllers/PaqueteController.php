@@ -19,7 +19,6 @@ class PaqueteController extends Controller
         $precio_max = $request->precio_max;
         $afiliadoBool = ($request->socios == "socios") ? "precio_afiliado" : "precio_no_afiliado";
         $caracteristica = $request->caracteristica;
-        file_put_contents("lleganFiltroCaracteristica.txt", "La caracteristica es: " . $caracteristica);
         if ($caracteristica == "") {
             return view('paquetes.paquetes', [
                 "paquetes" => Paquete::with('user', 'incluye')
@@ -49,7 +48,6 @@ class PaqueteController extends Controller
                             $query->where('lugar', 'LIKE', '%' . $caracteristica . '%')
                                 ->orWhere('descripcion', 'LIKE', '%' . $caracteristica . '%');
                             $sql = $query->toSql();
-                            file_put_contents("queryFiltroCaracteristica.txt", "El query: " . $sql);
                         }
                     )
                     ->latest()->paginate(5),
@@ -123,16 +121,6 @@ class PaqueteController extends Controller
     public function update(Request $request, Paquete $paquete)
     {
         $listaModificada = $request->get("lista_caracteristicas_mod");
-        $stringVerificacion = "Descripción: " . $request->get("message") . "\n" .
-            "Nombre del Paquete: " . $request->get("nombre_paquete") . "\n" .
-            "Número de Días: " . $request->get("num_dias") . "\n" .
-            "Número de Noches: " . $request->get("num_noches") . "\n" .
-            "Precio Afiliado: " . $request->get("precio_afiliado") . "\n" .
-            "Precio No Afiliado: " . $request->get("precio_no_afiliado") . "\n" .
-            "Imagen del Paquete: " . $request->get("imagen_paquete");
-
-        file_put_contents("archivoVerEditar.txt", $stringVerificacion);
-        file_put_contents("archivoVerListaCaracteristicas.txt", $listaModificada);
         $validated = $request->validate([
             'message' => ['required', 'min:3', 'max:255'],
             'nombre_paquete' => ['required', 'min:5', 'max:255'],
@@ -143,14 +131,13 @@ class PaqueteController extends Controller
         ]);
 
         if ($request->hasFile('imagen_paquete')) {
-            file_put_contents("verTieneImagen.txt", "Esta entrando en el if que tiene imagen");
             $file = $request->file('imagen_paquete');
             $extension = $file->getClientOriginalExtension();
             $filename = time() . "." . $extension;
             $file->move('uploads/paquetes/', $filename);
             $validated['imagen_paquete'] = $filename;
         } else {
-            file_put_contents("verTieneImagen.txt", "No Esta entrando en el if que tiene imagen");
+            //Manejo de errores cuando no haya una imagen
         }
 
         if ($listaModificada != "") {
@@ -161,9 +148,7 @@ class PaqueteController extends Controller
                 $tempCar->lugar = $caracteristica->lugar;
                 $tempCar->save();   
             }
-            file_put_contents("verificacionLista.txt", "La lista no es vacia");
         } else {
-            file_put_contents("errorLista.txt", "La lista es vacia");
         }
 
         $paquete->update($validated);

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('nombres');
             $table->string('apellidos');
             $table->string('numTelefonico');
+            $table->date('fecha_nacimiento'); 
             $table->string('email');    
             $table->string('provincia');
             $table->string('ciudad'); 

@@ -42,7 +42,6 @@ class ContratoController extends Controller
 
     public function add_contrato(Cliente $cliente)
     {
-        file_put_contents("archivoAgregarContrato.txt", $cliente);
         return view('contratos.addNew', [
             "cliente" => $cliente
         ]);
@@ -63,8 +62,7 @@ class ContratoController extends Controller
         $fechaActual = $fechaVencimiento = $fechaInicioCredDir = date("Y-m-d");
         // Variable para rastrear errores
         $formasPago = $request->input('formas_pago');
-        $tieneUsuario = $request->usuario_previo; 
-        file_put_contents("valorUsuario.txt", $tieneUsuario);
+        $tieneUsuario = $request->usuario_previo;
         $numero_sucesivo = $request->input('numero_sucesivo');
         $nombres = $request->nombres;
         $email = $request->email;
@@ -145,6 +143,9 @@ class ContratoController extends Controller
             $numCuotasCredDir = json_decode($_POST["cred_dir_num_cuotas"]);
             $montoCredDir = json_decode($_POST["cred_dir_valor"]);
             $abonoCredDir = json_decode($_POST["cred_dir_abono"]);
+            $montoFormaPago = $request->monto_forma_pago ; 
+            $formaPago = $request->forma_pago; 
+            file_put_contents("archivoLlega.txt", $montoFormaPago. "          ".  $formaPago); 
 
             if ($abonoCredDir == "") {
                 $abonoCredDir = 0;
@@ -187,9 +188,7 @@ class ContratoController extends Controller
                 echo ("Los documentos se generaron correctamente. \n");
             }
 
-            //Creación del cliente
-            file_put_contents("valorUsuarioPrevio.txt", $tieneUsuario);
-            
+            //Creación del cliente            
             if ($tieneUsuario == "") {
                 $cliente = new Cliente();
                 $cliente->nombres = $nombres;
@@ -204,26 +203,32 @@ class ContratoController extends Controller
                 $cliente->cliente_user =  $controler->obtenerNick($nombres, $apellidos);
                 $persona = $request->user()->clientes()->create($cliente->toArray());
             } else {
-                file_put_contents("elseCliente.txt", "Entra al else");
                 $persona = Cliente::where('id', $tieneUsuario)->get();
-                file_put_contents("elseClienteCLIENTE.txt", $persona);
             }
 
 
             //Creación del contrato
             $contrato = new Contrato();
+            if ($contieneCreditoDirecto) {
+                $contrato->valor_pagare = ($montoCredDir - $abonoCredDir);
+                $fechaFinalCredDir =  new DateTime($fechaInicioCredDir);
+                $fechaFinalCredDirV = $fechaFinalCredDir->modify('+' . $numCuotasCredDir . ' month');
+                $contrato->fecha_fin_pagare =  $fechaFinalCredDirV->format('Y-m-d');
+                $contrato->valor_total_credito_directo = $montoCredDir;
+                $contrato->meses_credito_directo = $numCuotasCredDir;
+                $contrato->abono_credito_directo = $abonoCredDir;
+            } else if ($contienePagare) {
+                $contrato->valor_pagare = $valorPagare;
+                $contrato->fecha_fin_pagare = $fechaVencimiento;
+                $contrato->meses_credito_directo = 1; 
+            }
             $contrato->ubicacion_sala = $ubicacionSala;
             $contrato->anios_contrato = $aniosContrato;
             $contrato->monto_contrato = $montoContrato;
             $contrato->bono_hospedaje_qori_loyalty = $bonoQory;
             $contrato->bono_hospedaje_internacional = $bonoQoryInt;
-            $contrato->valor_total_credito_directo = $montoCredDir;
-            $contrato->meses_credito_directo = $numCuotasCredDir;
-            $contrato->abono_credito_directo = $abonoCredDir;
-            $contrato->valor_pagare = $valorPagare;
-            $contrato->fecha_fin_pagare = $fechaVencimiento;
+            
             $contrato->cliente_id = json_decode($persona, true)[0]['id'];
-            file_put_contents("datosContrato.txt", $contrato);
             $request->user()->contratos()->create($contrato->toArray());
             return redirect()->route('contrato.index')->with('success', 'Contrato creado exitosamente.');
         } else {

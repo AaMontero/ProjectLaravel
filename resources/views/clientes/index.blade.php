@@ -14,34 +14,41 @@
             </div>
         </div>
     </x-slot>
-    <div class="py-12">
-        <div id="idAgregarCliente" class="max-w-7xl mx-auto sm:px-6 lg:px-8 mb-4" style="display: none;">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+    <div class="py-8">
+        <div id="idAgregarCliente" class="max-w-7xl mx-auto sm:px-6 lg:px-8 mb-4" style="display: none;"> <!--"-->
+            <div class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <!--Form para introducir un cliente-->
-                    <form method="POST" enctype="multipart/form-data" action = "{{ route('clientes.store') }} ">
+                    <form method="POST" class ="p-4" enctype="multipart/form-data"
+                        action = "{{ route('clientes.store') }} ">
                         @csrf
-                        <p class="mt-1 p-1 ml-4">Cédula:</p>
+                        <label class="mt-0.5 p-0 ml-4 font-bold">Cédula:</label>
                         <input type="text" name="cedula"
                             class="mb-2 block w-full rounded-md border-gray-300 bg-white shadow-sm transition-colors duration-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:focus:border-indigo-300 dark:focus:ring dark:focus:ring-indigo-200 dark:focus:ring-opacity-50"
                             placeholder="{{ __('Ingrese la cédula') }}" value="{{ old('cedula') }}">
-                        <p class="mt-1 p-1 ml-4">Nombres:</p>
+
+                        <label class="mt-1 p-0 ml-4 font-bold">Nombres:</label>
                         <input type="text" name="nombres"
                             class="mb-2 block w-full rounded-md border-gray-300 bg-white shadow-sm transition-colors duration-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:focus:border-indigo-300 dark:focus:ring dark:focus:ring-indigo-200 dark:focus:ring-opacity-50"
                             placeholder="{{ __('Ingrese los nombres') }}" value="{{ old('nombres') }}">
-                        <p class="mt-1 p-1 ml-4">Apellidos:</p>
+                        <label class="mt-1 p-0 ml-4 font-bold">Apellidos:</label>
                         <input type="text" name="apellidos"
                             class="mb-2 block w-full rounded-md border-gray-300 bg-white shadow-sm transition-colors duration-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:focus:border-indigo-300 dark:focus:ring dark:focus:ring-indigo-200 dark:focus:ring-opacity-50"
                             placeholder="{{ __('Ingrese los apellidos') }}" value="{{ old('apellidos') }}">
-                        <p class="mt-1 p-1 ml-4">Número Telefónico:</p>
+                        <label class="mt-1 p-0 ml-4 font-bold">Número Telefónico:</label>
                         <input type="text" name="numTelefonico"
                             class="mb-2 block w-full rounded-md border-gray-300 bg-white shadow-sm transition-colors duration-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:focus:border-indigo-300 dark:focus:ring dark:focus:ring-indigo-200 dark:focus:ring-opacity-50"
                             placeholder="{{ __('Ingrese el número telefónico') }}" value="{{ old('numTelefonico') }}">
-                        <p class="mt-1 p-1 ml-4">Email:</p>
+                        <label class="mt-1 p-0 ml-4 font-bold">Fecha de Nacimiento:</label>
+                        <input type="date" name="fecha_nacimiento"
+                            class="mb-2 block w-full rounded-md border-gray-300 bg-white shadow-sm transition-colors duration-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:focus:border-indigo-300 dark:focus:ring dark:focus:ring-indigo-200 dark:focus:ring-opacity-50"
+                            placeholder="{{ __('Ingrese su fecha de Nacimiento') }}"
+                            value="{{ old('fecha_nacimiento') }}">
+                        <label class="mt-1 p-0 ml-4 font-bold">Email:</label>
                         <input type="email" name="email"
                             class="mb-2 block w-full rounded-md border-gray-300 bg-white shadow-sm transition-colors duration-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:focus:border-indigo-300 dark:focus:ring dark:focus:ring-indigo-200 dark:focus:ring-opacity-50"
                             placeholder="{{ __('Ingrese el correo electrónico') }}" value="{{ old('email') }}">
-                        <p class="mt-1 p-1 ml-4">Provincia:</p>
+                        <label class="mt-1 p-0 ml-4 font-bold">Provincia:</label>
                         <select name="provincia"
                             class="mb-2 block w-full rounded-md border-gray-300 bg-white shadow-sm transition-colors duration-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:focus:border-indigo-300 dark:focus:ring dark:focus:ring-indigo-200 dark:focus:ring-opacity-50"
                             placeholder="{{ __('Seleccione la provincia') }}">
@@ -54,28 +61,32 @@
                                 </option>
                             @endforeach
                         </select>
-                        <p class="mt-1 p-1 ml-4">Ciudad:</p>
+                        <label class="mt-1 p-0 ml-4 font-bold">Ciudad:</label>
                         <input type="text" name="ciudad"
                             class="mb-2 block w-full rounded-md border-gray-300 bg-white shadow-sm transition-colors duration-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:focus:border-indigo-300 dark:focus:ring dark:focus:ring-indigo-200 dark:focus:ring-opacity-50"
                             placeholder="{{ __('Ingrese la ciudad') }}" value="{{ old('ciudad') }}">
                         <!-- Agrega los demás campos del cliente según tu estructura -->
+
+                        <x-input-error :messages="$errors->get('message')" />
+                        <x-primary-button
+                            class='mt-4 bg-gray-800 hover:bg-gray-500 text-white font-semibold py-2 px-4 rounded shadow-md transition duration-300 ease-in-out'>Agregar
+                            nuevo cliente</x-primary-button>
                         <x-input-error :messages="$errors->get('message')" />
                 </div>
-                <x-primary-button class='mt-4'>Agregar nuevo cliente</x-primary-button>
-                <x-input-error :messages="$errors->get('message')" />
+
                 </form>
             </div>
         </div>
         <script>
             function abrirVentanaAgregarPaquete() { // Funcion para desplegar el menú
                 var ventanaAgregarPaquete = document.getElementById("idAgregarCliente");
-                console.log(ventanaAgregarPaquete.style.display);
+                
                 if (ventanaAgregarPaquete.style.display === 'none') {
                     ventanaAgregarPaquete.style.display = 'block';
                 } else {
                     ventanaAgregarPaquete.style.display = 'none';
                 }
-                console.log("esta dando click en el boton para ocultar");
+                
             }
         </script>
     </div>
@@ -84,18 +95,20 @@
         <div class="max-w mx-auto px-2 lg:px-20 mb-4">
             <div class="bg-white dark:bg-gray-900 bg-opacity-50 shadow-lg rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
+                    <h2>Cliente Registrados</h2>
                     <table class="w-100 bg-white dark:bg-gray-800 border border-gray-300 ">
                         <thead>
                             <tr> <!--Etiquetas de la tabla de clientes-->
-                                <th class="py-2 px-4 border-b text-center text-center">Cédula</th>
-                                <th class="py-2 px-4 border-b text-center text-center">Nombres</th>
-                                <th class="py-2 px-4 border-b text-center text-center">Apellidos</th>
-                                <th class="py-2 px-4 border-b text-center text-center">Teléfono</th>
-                                <th class="py-2 px-4 border-b text-center text-center">Email</th>
-                                <th class="py-2 px-4 border-b text-center text-center">Provincia</th>
-                                <th class="py-2 px-4 border-b text-center text-center">Ciudad</th>
-                                <th class="py-2 px-4 border-b text-center text-center">Estado</th>
-                                <th class="py-2 px-4 border-b text-center text-center">Opciones</th>
+                                <th class="py-2 px-4 border-b text-center ">Cedula</th>
+                                <th class="py-2 px-4 border-b text-center ">Nombres</th>
+                                <th class="py-2 px-4 border-b text-center ">Apellidos</th>
+                                <th class="py-2 px-4 border-b text-center ">Teléfono</th>
+                                <th class="py-2 px-4 border-b text-center whitespace-nowrap">F. Nacimiento</th>
+                                <th class="py-2 px-4 border-b text-center ">Email</th>
+                                <th class="py-2 px-4 border-b text-center ">Provincia</th>
+                                <th class="py-2 px-4 border-b text-center ">Ciudad</th>
+                                <th class="py-2 px-4 border-b text-center ">Estado</th>
+                                <th class="py-2 px-4 border-b text-center ">Opciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -107,6 +120,7 @@
                                     <td class="py-2 px-4 border-b text-center whitespace-nowrap">
                                         {{ $cliente->apellidos }}</td>
                                     <td class="py-2 px-4 border-b text-center">{{ $cliente->numTelefonico }}</td>
+                                    <td class="py-2 px-4 border-b text-center">{{ $cliente->fecha_nacimiento }}</td>
                                     <td class="py-2 px-4 border-b text-center">{{ $cliente->email }}</td>
                                     <td class="py-2 px-4 border-b text-center">{{ $cliente->provincia }}</td>
                                     <td class="py-2 px-4 border-b text-center">{{ $cliente->ciudad }}</td>
@@ -117,8 +131,8 @@
                                             Inactivo
                                         @endif
                                     </td>
-                                    <td>
-                                        <x-dropdown class="origin-top absolute z-50">
+                                    <td class = "text-right pr-6">
+                                        <x-dropdown class="origin-top absolute ">
                                             <x-slot name="trigger">
                                                 <button>
                                                     <svg class="ml-5 w-5 h-5 text-gray-400 dark:text-gray-200"
