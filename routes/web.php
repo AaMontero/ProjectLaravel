@@ -84,7 +84,7 @@ Route::middleware('auth')->group(function () {
         ->name('contrato.store');
 
     //Chat WhatsApp
-    Route::get('dashboard/envia', [WhatsAppController::class,'envia']);
+    Route::post('dashboard/envia', [WhatsAppController::class,'envia'])->name('dashboard.envia');
     Route::get('dashboard/webhook', [WhatsAppController::class, 'webhook']);
     Route::post('dashboard/webhook', [WhatsAppController::class, 'recibe']);
     // Route::get('/dashboard/reply/{notification}', [WhatsAppController::class, 'reply'])->name('dashboard.reply');
