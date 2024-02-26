@@ -52,7 +52,6 @@
                             <span class="text-red-500">{{ $errorNombres }}</span>
                         @endif
 
-
                         <!-- Apellidos -->
 
                         <label for="apellidos" class="mt-1 p-0 ml-4 font-bold">Apellidos</label>
@@ -245,20 +244,20 @@
                         <thead>
                             <tr>
                                 <th class="py-2 px-4 border-b text-center whitespace-nowrap">Ubicacion Sala</th>
-                                <th class="py-2 px-4 border-b text-center whitespace-nowrap">Años Contrato</th>
-                                <th class="py-2 px-4 border-b text-center whitespace-nowrap">Monto Contrato</th>
+                                <th class="py-2 px-4 border-b text-center whitespace-nowrap">Años Cont.</th>
+                                <th class="py-2 px-4 border-b text-center whitespace-nowrap">Monto Cont.</th>
                                 <!-- Credito Directo-->
                                 <th class="py-2 px-4 border-b text-center whitespace-nowrap">Valor del Credito </th>
                                 <th class="py-2 px-4 border-b text-center whitespace-nowrap">Abono</th>
-                                <th class="py-2 px-4 border-b text-center whitespace-nowrap">Meses diferidos</th>
+                                <th class="py-2 px-4 border-b text-center whitespace-nowrap"># Meses</th>
 
                                 <!-- Valor Pagare-->
                                 <th class="py-2 px-4 border-b text-center whitespace-nowrap">Valor del Pagare</th>
                                 <th class="py-2 px-4 border-b text-center whitespace-nowrap">Fecha Fin</th>
 
                                 <!-- Otros metodos de Pago-->
-                                <th class="py-2 px-4 border-b text-center whitespace-nowrap">Otro Pago</th>
-                                <th class="py-2 px-4 border-b text-center whitespace-nowrap">Tipo de Tarjeta</th>
+                                <th class="py-2 px-4 border-b text-center whitespace-nowrap">Otro</th>
+                                <th class="py-2 px-4 border-b text-center whitespace-nowrap">Tipo Otro</th>
                                 <!--Id del Cliente-->
                                 <th class="py-2 px-4 border-b text-center whitespace-nowrap">Cliente ID</th>
 
@@ -272,7 +271,7 @@
                                     <td class="py-2 px-4 border-b text-center whitespace-nowrap">
                                         {{ $contrato->anios_contrato }}</td>
                                     <td class="py-2 px-4 border-b text-center whitespace-nowrap">
-                                        {{ $contrato->monto_contrato}}</td>
+                                        ${{ $contrato->monto_contrato}}</td>
                                     <!-- Credito Directo-->
                                     <td class="py-2 px-4 border-b text-center whitespace-nowrap">
                                         {{ $contrato->valor_total_credito_directo ? "$" . $contrato->valor_total_credito_directo : 'NO' }}
