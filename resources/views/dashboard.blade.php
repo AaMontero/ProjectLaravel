@@ -129,7 +129,7 @@
             <title> @yield('title', config('app.name'))</title>
             @vite(['resources/css/app.css', 'resources/js/app.js'])
         </head>
-        <body data-theme="emerald" >
+        <body >
             @yield('content')
             <div id="messenger">
                 <messenger-component></messenger-component>
