@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PaqueteController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\WhatsAppController;
-
+use App\Models\WhatsApp;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -84,9 +84,8 @@ Route::middleware('auth')->group(function () {
         ->name('contrato.store');
 
     //Chat WhatsApp
-    Route::post('dashboard/envia', [WhatsAppController::class,'envia'])->name('dashboard.envia');
-    Route::get('dashboard/webhook', [WhatsAppController::class, 'webhook']);
-    Route::post('dashboard/webhook', [WhatsAppController::class, 'recibe']);
+
+
     // Route::get('/dashboard/reply/{notification}', [WhatsAppController::class, 'reply'])->name('dashboard.reply');
 });
 

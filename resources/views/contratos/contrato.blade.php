@@ -234,6 +234,7 @@
             </div>
         </div>
     </div>
+
     <div class="py-8">
         <div class="max-w mx-auto px-2 lg:px-20 mb-4">
             <div class="bg-white dark:bg-gray-900 bg-opacity-50 shadow-lg rounded-lg ">

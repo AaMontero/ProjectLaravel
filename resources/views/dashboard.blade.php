@@ -5,7 +5,7 @@
             {{ __('Dashboard') }}
         </h2>
     </x-slot>
-    <style>
+    {{-- <style>
         /* Estilo para las notificaciones clicables */
         .notificacion-clicable {
             cursor: pointer; /* Cambia el cursor al pasar sobre las notificaciones */
@@ -17,6 +17,9 @@
             background-color: rgba(0, 0, 0, 0.1); /* Cambia el color de fondo al pasar el ratón */
         }
     </style>
+     <?php
+   $cantidad=$recibido = $enviado = $idWA = $timestamp= $datos = $telefonoCliente ='';
+     ?>
     <div class="flex">
         <div id="notificaciones" class="w-1/2 bg-white dark:bg-slate-200 rounded-lg px-8 py-6 mt-5 ring-1 ring-slate-900/5 mx-4 shadow-xl ">
             <h3 class="text-xl font-semibold mb-4">Notificaciones</h3>
@@ -26,19 +29,34 @@
                     <div class="flex items-center space-x-2">
                         <img src="https://via.placeholder.com/40" alt="User" class="w-8 h-8 rounded-full">
                         <div>
-                            <strong>Admin</strong>: Bienvenido al sistema.
+                            <tr>
+                                <th class="py-2 px-4 border-b text-center whitespace-nowrap">Usuario:</th>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b text-center whitespace-nowrap">Nuevo Mensaje</td>
+                            </tr>
                         </div>
                     </div>
                 </div>
+
                 <!-- Notificación 2 -->
+
                 <div onclick="abrirVentanaChat()" class="notificacion-clicable flex items-center justify-between px-4 py-2 bg-gray-100 dark:bg-gray-800 rounded-lg transition duration-300 ease-in-out transform hover:scale-105">
                     <div class="flex items-center space-x-2">
                         <img src="https://via.placeholder.com/40" alt="User" class="w-8 h-8 rounded-full">
                         <div>
-                            <strong>Usuario 1</strong>: Tienes un nuevo mensaje.
+                            <tr>
+                                <th class="py-2 px-4 border-b text-center whitespace-nowrap">Usuario:</th>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b text-center whitespace-nowrap">nuevo mensaje
+
+                                </td>
+                            </tr>
                         </div>
                     </div>
                 </div>
+
                 <!-- Notificación 3 -->
                 <div onclick="abrirVentanaChat()" class="notificacion-clicable flex items-center justify-between px-4 py-2 bg-gray-100 dark:bg-gray-800 rounded-lg transition duration-300 ease-in-out transform hover:scale-105">
                     <div class="flex items-center space-x-2">
@@ -99,8 +117,25 @@
             </div>
 
         </div>
-    </div>
+    </div> --}}
 
+    <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+        <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+
+            <title>Laravel Messenger</title>
+
+            <title> @yield('title', config('app.name'))</title>
+            @vite(['resources/css/app.css', 'resources/js/app.js'])
+        </head>
+        <body data-theme="emerald" >
+            @yield('content')
+            <div id="messenger">
+                <messenger-component></messenger-component>
+            </div>
+        </body>
+    </html>
     <!-- Notificaciones-->
 
 
